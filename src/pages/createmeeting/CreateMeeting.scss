@@ -1,0 +1,341 @@
+.Create-meeting-page-container {
+    display: flex;
+    flex-direction: column;
+    .title-paragraph-button-container {
+        padding: 3rem;
+    }
+    .paragraph-container {
+        padding: 1rem 3rem 1rem;
+        background: #F0FFED;
+        .get-report-text {
+            color: #434544;
+            text-align: justify;
+            // font-size: var(--font-xs);
+            font-size: clamp(1rem, 5vw + 1.3rem, 1.4rem);
+            font-family: 'Roboto';
+        }
+    }   
+    .get-full-report {
+        border: 1px solid #EFA69B;
+        background-color: transparent;
+        color: #E4746A;
+        text-align: center;
+        font-family: Arial;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 15px 20px;
+    } 
+    .content-desktop-design {
+        width: 55%;
+    }
+    .content-mobile-design {
+        width: 100%;
+    }
+
+    .form-mobile-design {
+        width: 100%;
+    }
+    .form-desktop-design {
+        width: 45%;
+        right: 0;
+        position: absolute;
+    }
+    .title-h2, .title-h3 {
+        color: #75BA75;
+        font-family: 'Bebas Neue';
+        text-transform: uppercase;
+    }
+    .title-h2 {
+        font-size: var(--font-xl);
+        margin: 0;
+    }
+    .title-h3 {
+        font-size: var(--font-md);
+        margin: 0;
+    }
+    .content {
+        text-align: justify;
+        p {
+            font-size: clamp(0.8rem, 5vw + 0rem, 1.25rem);;
+        }
+    }
+    .form-mobile-design, .form-desktop-design {
+        .label {
+            color: #565C59;
+            font-family: Montserrat;
+            font-weight: 400;
+            padding: 4px 0px;
+        }
+        .meeting-type-label {
+            padding: 0 10px;
+        }
+        .form-container {
+            padding: 1rem 2rem;
+            margin: 1rem 2rem 1rem 3rem;
+            border-radius: 5px;
+            box-shadow: 0px 14px 27px 0px rgba(0, 0, 0, 0.05);
+            background: #fff;
+            form {
+                font-size: clamp(0.8rem, 5vw + 0.9rem, 1.15rem);;
+                .form-field {
+                    // padding-bottom: 5px;
+                    .form-input {
+                        height: 42px;
+                        text-indent: 15px;
+                        width: 100%;
+                        border: 1px solid #C0C0C0;
+                    }
+                    .input {
+                        color: #000;
+                        font-family: Montserrat;
+                        font-weight: 400;
+                        line-height: 32px;
+                    }
+                    
+                }
+            }
+           
+            .error-message {
+                color: red;
+                padding: 0;
+                margin-bottom: 0;
+                font-size: var(--font-xxs);
+            }
+
+            .interested-area-field-container {
+                border: 1px solid #C0C0C0;
+                padding: 15px 10px;
+                .interested-area-field {
+                    width: 100%;
+                    border: none;
+                    margin: 5px 0px;
+                    text-indent: 10px;
+                }
+            }
+            .meeting-type-container {
+                margin-top: 10px;
+                justify-content: space-between;
+                display: flex;
+
+                .meeting-type-item {
+                    display: flex;
+                    align-items: center;
+
+                    .meeting-type-radio-button {
+                        box-sizing: border-box;
+                        appearance: none;
+                        width: 25px;
+                        height: 25px;
+                        border: 1px solid #000;
+                        background: rgba(249, 247, 247, 0.56);
+                      }
+                      
+                    .meeting-type-radio-button:checked {
+                        background: #75BA75;
+                    }
+                }
+            }
+            .prefered-date-time-container {
+                padding: 6px 0px;
+                .time-slots-picker-item {
+                    padding: 5px 0px;
+                    display: flex;
+                    .time-slot-label {
+                        padding-right: 25px;
+                        color: #565C59 !important;
+                        font-family: 'Roboto';
+                    }
+                }
+            }
+            .button-submit {
+                color: #75BA75;
+                text-align: center;
+                font-family: Arial;
+                font-style: normal;
+                font-weight: 700;
+                line-height: normal;
+                text-transform: uppercase;
+                border: 1px solid #75BA75;
+                background-color: transparent;
+                padding: 10px 30px;
+            }
+        }
+    }
+}
+
+.react-datepicker-wrapper {
+    width: 83%;
+}
+.react-datepicker__input-container input {
+    border: none !important;
+    border-bottom: 1px solid #C0C0C0 !important;
+    color: #565C59 !important;
+    width: 100% !important;
+}
+.button-submit {
+    color: #75BA75;
+    text-align: center;
+    font-family: Arial;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
+    border: 1px solid #75BA75;
+    background-color: transparent;
+    padding: 10px 30px;
+}
+
+@media screen and (min-width: 820px) {
+    .paragraph-container {
+        padding: 4rem 3rem !important;
+    }
+    
+}
+
+@media screen and (min-width:541px) and (max-width: 820px) {
+    .Create-meeting-page-container {
+        .form-container {
+            padding: 1rem 2rem !important;
+            margin: 1rem 2rem 1rem !important;
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .Create-meeting-page-container {
+        .title-paragraph-button-container {
+            padding: 2rem;
+        }
+        .paragraph-container {
+            padding: 1rem 2rem 1rem;
+            .get-report-text {
+                font-size: clamp(1rem, 5vw + 0.1rem, 1.4rem);
+            }
+        }
+        .get-full-report {
+            padding: 10px 15px;
+            font-size: 0.85rem;
+        }
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .Create-meeting-page-container {
+        .title-paragraph-button-container {
+            padding: 1rem;
+        }
+        .paragraph-container {
+            padding: 1rem;
+        }
+
+        .form-container { 
+            padding: 1rem !important;
+            margin: 1rem 0.5rem !important;
+        }
+
+        .prefered-date-time-container {
+            .time-slots-picker-item {
+                .time-slot-label {
+                    padding-right: 10px !important;
+                }
+            }
+        }
+        .react-datepicker-wrapper {
+            width: 78%;
+        }
+
+    }
+}
+
+
+// @media screen and (min-width: 821px) and (max-width: 1200px) {
+//     .paragraph-container {
+//         padding: 1rem 3rem 7rem !important;
+//     }
+//     .Create-meeting-page-container .form-mobile-design .form-container .form-field, 
+//     .Create-meeting-page-container .form-desktop-design .form-container .form-field {
+//         padding-bottom: 0;
+//     }
+//     .Create-meeting-page-container .form-mobile-design .form-container .button-submit, 
+//     .Create-meeting-page-container .form-desktop-design .form-container .button-submit {
+//         padding: 10px 30px;
+//     }
+//     .Create-meeting-page-container .form-mobile-design .form-container .prefered-date-time-container .time-slots-picker-item .time-slot-label, 
+//     .Create-meeting-page-container .form-desktop-design .form-container .prefered-date-time-container .time-slots-picker-item .time-slot-label {
+//         padding-right: 15px;
+//     }
+//     .react-datepicker-wrapper {
+//         width: 80%;
+//     }
+//     .Create-meeting-page-container .form-mobile-design .form-container .meeting-type-container .meeting-type-item .meeting-type-radio-button, 
+//     .Create-meeting-page-container .form-desktop-design .form-container .meeting-type-container .meeting-type-item .meeting-type-radio-button {
+//         width: 20px;
+//         height: 20px;
+//     }
+//     .Create-meeting-page-container .form-mobile-design .meeting-type-label, 
+//     .Create-meeting-page-container .form-desktop-design .meeting-type-label {
+//         padding: 0 6px;
+//     }
+//     .Create-meeting-page-container .form-mobile-design .form-container .meeting-type-container, 
+//     .Create-meeting-page-container .form-desktop-design .form-container .meeting-type-container {
+//         margin-top: 0;
+//     }
+//     .Create-meeting-page-container .get-full-report {
+//         padding: 10px 20px;
+//     }   
+// }
+
+
+// @media screen and (min-width: 820px) and (max-width: 920px) {
+//     .paragraph-container {
+//         padding: 1rem 3rem 20rem !important;
+//     }
+// }
+
+
+// @media screen and (min-width: 1201px) and (max-width: 1800px) {
+//     .paragraph-container {
+//         padding: 1rem 3rem 20rem !important;
+//     }
+// }
+
+
+// .class2 {
+//     padding: 1rem 3rem 12rem !important
+// }
+// .class3 {
+//     padding: 1rem 3rem 6rem !important;
+// }
+// .class4 {
+//     padding: 1rem 3rem 9rem !important;
+// }
+// .class5 {
+//     padding: 1rem 3rem 17rem !important; 
+// }
+// .class6 {
+//     padding: 1rem 3rem 35rem !important; 
+// }
+
+// .class1 {
+//     padding: 1rem 3rem 12rem !important
+// }
+// .class1-1 {
+//     padding: 1rem 3rem 24rem !important
+// }
+
+// .class2 {
+//     padding: 1rem 3rem 18rem !important
+// }
+
+// .class2-2 {
+//     padding: 1rem 3rem 31rem !important
+// }
+
+// .class3 {
+//     padding: 1rem 3rem 21rem !important
+// }
+
+// .class3-3 {
+//     padding: 1rem 3rem 34rem !important
+// }
+

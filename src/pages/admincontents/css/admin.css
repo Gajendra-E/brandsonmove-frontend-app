@@ -1,0 +1,157 @@
+.page-loading-spinner-style {
+    text-align: center;
+    margin: 3rem;
+}
+
+.admin-nav {
+    text-align: center;
+    padding: 1rem 2rem;
+    background: #F5F5F5;
+    font-family: 'Bebas Neue';
+}
+
+.admin-menu-active {
+    border-bottom: 5px solid #75BA75;
+    padding-bottom: 15px !important;
+}
+
+.admin-nav a {
+    color: #D78E52;
+    font-size: var(--step-2);
+    font-size: 24px;
+    padding: 0 1rem;
+    text-decoration: none;
+    position: relative;
+}
+
+/* .admin-nav a::after{
+    content: '';
+    position: absolute;
+    width: 0; 
+    height: 4px;
+    display: block;
+    margin-top: 12px;
+    right: 0;
+    background: #75BA75;
+    transition: width .2s ease-in-out;
+    -webkit-transition: width .2s ease-in-out;
+    box-shadow: 0 0 5px #75BA75, 0 0 25px #75BA75, 0 0 50px #75BA75, 0 0 100px #75BA75;;
+}
+  
+.admin-nav a:hover:after{
+    width: 100%;
+    left: 0;
+    background: #75BA75;
+} */
+
+.dynamic-content-form {
+    padding: 1rem 5rem;
+}
+
+.switch-content-block {
+    padding: 0rem 5rem;
+    text-align: right;
+}
+
+.list-icon, .add-icon {
+    font-size: 2rem;
+}
+
+.meetings-table {
+    /* border: 1px solid #e5e5e5; */
+    margin: 2rem 3rem;
+    font-size: 1.5rem;
+    overflow-wrap: break-word;
+}
+
+.meetings-content {
+    border: 1px solid #e5e5e5;
+    padding: 10px;
+    font-size: 17px;
+}
+
+.dynamic-content-form {
+    padding: 1rem 5rem;
+}
+
+.switch-content-block {
+    padding: 0rem 5rem;
+    text-align: right;
+}
+
+.list-icon, .add-icon {
+    font-size: 2rem;
+}
+
+.meetings-table {
+    /* border: 1px solid #e5e5e5; */
+    margin: 2rem 3rem;
+    font-size: 1.5rem;
+    overflow-wrap: break-word;
+}
+
+.meetings-content {
+    border: 1px solid #e5e5e5;
+    padding: 10px;
+}
+
+.button-approve, .button-complete {
+    margin: 5px;
+    color: green;
+    border: 1px solid green;
+    background: none;
+    border-radius: 5px;
+    width: 100px;
+}
+
+.button-approved, .button-completed {
+    margin: 5px;
+    color: white;
+    border: 1px solid green;
+    background: green;
+    border-radius: 5px;
+    width: 100px;
+}
+
+.button-decline {
+    margin: 5px;
+    color: red;
+    border: 1px solid red;
+    background: none;
+    border-radius: 5px;
+    width: 100px;
+}
+
+.button-declined {
+    margin: 5px;
+    color: white;
+    border: 1px solid red;
+    background: red;
+    border-radius: 5px;
+    width: 100px;
+}
+
+
+.admin-login-container {
+    margin: 5rem;
+}
+
+.login-form {
+    width: 40%;
+    margin: 0 auto;
+}
+
+.icon-delete, .icon-edit {
+    font-size: 1.7rem;
+    padding: 0px 25px;
+}
+
+.syndicateroom-container {
+    text-align: center;
+    margin: 2rem;
+}
+
+
+.filter-options-container {
+    margin: 2rem 3rem;
+}

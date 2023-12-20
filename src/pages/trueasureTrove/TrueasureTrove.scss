@@ -1,0 +1,287 @@
+.Trueasure-page-container1 {
+    .storied-categories-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+.trueasure-page-container {
+    padding: max(4vh, 1rem) 10rem 0rem 10rem
+}
+.-mr-5 {
+    margin-right: -5px;
+}
+.trueasure-title {
+    color: #FA9B93;
+    font-size: 50px;
+    font-family: Bebas Neue;
+    margin-bottom: 0;
+}
+.trueasure-content {
+    color: #434544;
+    text-align: justify;
+    font-size: 26px;
+    font-family: 'Roboto';
+    font-weight: 400;
+    line-height: 36px;
+    margin-bottom: 0;
+}
+.t-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+.t-grid-container-2 {
+    gap: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18%, 1fr));
+}
+.left {
+    background: #8F8F8F;
+}
+.left h1 {
+    color: #FFF;
+    font-size: 43px;
+    font-family: 'Bebas Neue';
+    line-height: 46px;
+}
+.right {
+    background: #EFEFEF;
+}
+.categories div img {
+    width: 5rem;
+}
+.categories div a {
+    color: #434544;
+    text-align: center;
+    font-size: 16px;
+    font-family: Roboto;
+    font-weight: 600;
+    line-height: 20px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding-top: 10px;
+}
+
+.trueasure-container-2 {
+    background-image: linear-gradient(to bottom, #FFFBF9 79%, #FEEFE8 21%);
+    padding: max(5vh, 3rem) 3rem 0.6rem 3rem;
+}
+.trueasure-container-2 h1 {
+    color: #75BA75;
+    font-size: 44px;
+    font-family: 'Bebas Neue';
+    text-transform: uppercase;
+}
+
+.trueasure-link {
+    left: 62%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+}
+
+.trueasure-link a {
+    font-size: 30px;
+    font-family: 'Bebas Neue';
+    line-height: 18px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.usecase-image {
+    padding: 20px 0px;
+    width: 5rem;
+}
+
+.growth {
+    color: #52C652;
+}
+.promotion {
+    color: #E79757;
+}
+.customer {
+    color: #4CBAC1;
+}
+.ready {
+    color: #FF7367;
+}
+.trend {
+    color: #F06AFF;
+}
+
+.growth-items {
+    padding-bottom: 3rem;
+    background-image: linear-gradient(to bottom, #FFFBF9 74.8%, #FEEFE8 20%);
+}
+.growth-items > img {
+    width: 100%;
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1399px) {
+    .trueasure-page-container {
+        padding: max(0vh, 0rem) 4rem 0rem 4rem;
+    }
+    .trueasure-title {
+        font-size: 34px;
+    }
+    .trueasure-content {
+        font-size: 20px;
+        line-height: 32px;
+    }
+    .trueasure-title.py-4 {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+    .left h1 {
+        font-size: 34px;
+        line-height: 40px;
+    }
+    .categories div img {
+        width: 4rem;
+    }
+    .categories div a {
+        font-size: 14px;
+    }
+    .categories > div.p-3 {
+        padding: 1rem 0.5rem !important;
+    }
+    .trueasure-container-2 h1 {
+        font-size: 34px;
+    }
+    .growth-items {
+        padding-bottom: 2rem;
+        background-image: linear-gradient(to bottom, #FFFBF9 76.8%, #FEEFE8 20%);
+    }
+    .trueasure-container-2 {
+        background-image: linear-gradient(to bottom, #FFFBF9 81%, #FEEFE8 21%);
+        padding: max(4vh, 2rem) 2rem 0.6rem 2rem;
+    }
+    .trueasure-link a {
+        font-size: 22px;
+        line-height: 12px;
+    }
+    .usecase-image {
+        width: 4rem;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .trueasure-page-container {
+        padding: max(0vh, 0rem) 3rem 0rem 3rem;
+    }
+    .trueasure-title {
+        font-size: 26px;
+        margin-bottom: 0;
+    }
+    .trueasure-content {
+        font-size: 16px;
+        line-height: 26px;
+    }
+    .trueasure-title.py-4 {
+        padding: 0.8rem 0 !important;
+    }
+    .trueasure-page-container .row.py-4 {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+    .left h1 {
+        font-size: 26px;
+        line-height: 30px;
+    }
+    .right {
+        padding: 0;
+    }
+    .categories div img {
+        width: 3rem;
+    }
+    .categories > div.p-3 {
+        padding: 1rem 0.15rem !important;
+    } 
+    .categories div a {
+        font-size: 12px;
+        padding-top: 8px;
+    }
+    .trueasure-container-2 h1 {
+        font-size: 26px;
+        margin-bottom: 0;
+        padding-bottom: 0.5rem !important;
+    }
+    .trueasure-container-2 {
+        background-image: linear-gradient(to bottom, #FFFBF9 81.8%, #FEEFE8 21%);
+        padding: max(1vh, 1.5rem) 2rem 0.6rem 2rem;
+    }
+    .trueasure-link a {
+        font-size: 17px;
+        line-height: 10px;
+    }
+    .usecase-image {
+        width: 3rem;
+        padding: 15px 0px;
+    }
+    .growth-items {
+        padding-bottom: 1rem;
+        background-image: linear-gradient(to bottom, #FFFBF9 77.8%, #FEEFE8 20%);
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .trueasure-page-container {
+        padding: max(0vh, 0rem) 1.5rem 0rem 1.5rem;
+    }
+    .trueasure-title {
+        font-size: 20px;
+    }
+    .trueasure-title.py-4 {
+        padding: 1rem 0 0.5rem!important;
+        margin-bottom: 0;
+    }
+    .trueasure-content {
+        font-size: 15px;
+        line-height: 22px;
+    }
+    .trueasure-page-container > .row {
+        flex-direction: column;
+    }
+    .left, .right {
+        width: 100%;
+    }
+    .left h1 {
+        font-size: 24px;
+        line-height: 30px;
+        margin: 0.6rem auto;
+    }
+    .categories div img {
+        width: 2.8rem;
+    }
+    .categories div a {
+        font-size: 11px;
+        line-height: 16px;
+        padding-top: 6px;
+    }
+
+    .categories > div.p-3 {
+        padding: 0.65rem 0.5rem !important;
+    }
+    .trueasure-container-2 {
+        padding: max(0vh, 1rem) 1.5rem 0.6rem 1.5rem;
+        background-image: linear-gradient(to bottom, #FFFBF9 93%, #FEEFE8 17%);
+    }
+    .trueasure-container-2 h1 {
+        font-size: 22px;
+    }
+    .t-grid-container-2 {
+        grid-template-columns: repeat(auto-fit, minmax(45%, 1fr));
+    }
+    .usecase-image {
+        padding: 12px 0px;
+        width: 2.5rem;
+    }
+    .trueasure-link a {
+        font-size: 16px;
+        line-height: 9px;
+    }
+    .growth-items {
+        padding-bottom: 1rem;
+        background-image: linear-gradient(to bottom, #FFFBF9 77.8%, #FEEFE8 20%);
+    }
+}
