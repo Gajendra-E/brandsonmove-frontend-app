@@ -12,6 +12,7 @@ import IconMailbox from "../../../assets/icons/msailbox.svg";
 import IconLocation from "../../../assets/icons/location.svg";
 import { isObjIsEmpty } from "../../../utils/utils";
 import LoadingSpinner from "../loadingspinner/LoadingSpinner";
+import api from "../../../api/"
 
 export default function Footer() {
 
@@ -36,7 +37,15 @@ export default function Footer() {
     //     },
     // });
 
+    const listContactInfo = async() =>{
+            const result = await api.get('/contact-info' )
+                 if(result.data.status==="success"){
+                    setContactInfo(result?.data?.payload)
+                 }
+    
+    }
     useEffect(() => {
+        listContactInfo()
     }, []);
 
     return (
