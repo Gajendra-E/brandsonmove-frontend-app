@@ -22,21 +22,21 @@ const CreateMeeting: React.FC<any> = () => {
   const { errors } = formState;
   // const [ insertMeetingDetails, { loading: addingMeetingDetails } ] = useMutation(INSERT_ONE("meetings"));
   const [ scheduledTimings, setScheduledTimings ] = useState<any>([]);
-
-  const [content, setContent] = useState<any>(null);
-  const [meetingLinks, setMeetingLinks] = useState<any>({});
   const formElement = useRef<any>();
   const [formHeight, setFromHeight] = useState<number>(0);
-
   const [queryVariables, setQueryVariables] = useState<any>(
     {
       today: convetToTimeStamp(new Date(getToday()), "today"),
       endDate: convetToTimeStamp(new Date(getOneMonthFromToday()), "month"),
     }
   );
-
   const [selectedDate, setSelectedDate] = useState<any>(null);
   const [bookedTimeslots, setBookedTimeslots] = useState<any>([]);
+
+
+
+  const [content, setContent] = useState<any>(null);
+  const [meetingLinks, setMeetingLinks] = useState<any>([]);
 
 
   useEffect(() => {
@@ -47,60 +47,66 @@ const CreateMeeting: React.FC<any> = () => {
           setContent(result?.data?.payload[0]);
       }
     };
+
+    const getMeetingLinks = async () => {
+      const result = await api.get('/meeting-link');
+      console.log("Meeting links", result);
+      console.log(result);
+      if(result.data.status==="success"){
+        setMeetingLinks(result?.data?.payload);
+      }
+    };
+
+    console.log("Links", meetingLinks);
+
     getContentInfo();
+    getMeetingLinks();
     
     return () => {};
   }, []);
 
-
-
-  // const { data: meetingsLink, loading: meetingsLinkLoading } = useQuery(GET_MEETING_LINKS, {
-  //   variables: {
-  //     where: {},
-  //     limit: 20,
-  //     order_by: {created_at: "desc" },
-  //     offset: 0
-  //   },
-  //   onCompleted: (result: any) => {
-  //     setMeetingLinks(result?.objects);
-  //   },
-  //   onError: (error: any) => {
-  //     console.log("Error while getting id", error);
-  //     setMeetingLinks({});
-  //   },
-  // });
-
   const getMeetingLink = (meetingtype: any) => {
-    return meetingLinks.find((meetinglink: any) => meetinglink?.link_type == meetingtype);
+    return meetingLinks.find((meetinglink: any) => meetinglink?.meeting_type == meetingtype);
   }
 
   const onSubmit = async (data: any) => {
     let link = getMeetingLink(data?.meetingtye)?.link;
-    let passcode = getMeetingLink(data?.meetingtye)?.passcode;
-    
-    // insertMeetingDetails({
-    //   variables: {
-    //     object: {
-    //       name: data?.name,
-    //       email: data?.email,
-    //       company_name: data?.company,
-    //       interested_areas: [data?.interestedarea1, data?.interestedarea2],
-    //       meeting_type: data?.meetingtye,
-    //       timeslot1: data?.preferreddatetime1,
-    //       timeslot2: data?.preferreddatetime2,
-    //       timeslot3: data?.preferreddatetime3,
-    //       inivitation_link: link,
-    //       passcode: passcode
-    //     },
-    //   },
-    // }).then((result: any) => {
-    //   console.log("result for updating", result);
-    //   reset();
-    //   sendAdminNotificationEmail(data);
-    // }).catch((error: any) => {
-    //   console.log(error);
-    //   showToast(error?.message || "Error.", false);
-    // });
+    let passcode = getMeetingLink(data?.meetingtye)?.pass_code;
+    let preferedDateAndTimeslots = [];
+    if(data?.preferreddatetime1) {
+      preferedDateAndTimeslots.push({
+        date: new Date(data?.preferreddatetime1).toLocaleDateString(),
+        time: new Date(data?.preferreddatetime1).toLocaleTimeString()
+      });
+    }
+    if(data?.preferreddatetime2) {
+      preferedDateAndTimeslots.push({
+        date: new Date(data?.preferreddatetime2).toLocaleDateString(),
+        time: new Date(data?.preferreddatetime2).toLocaleTimeString()
+      });
+    }
+    if(data?.preferreddatetime3) {
+      preferedDateAndTimeslots.push({
+        date: new Date(data?.preferreddatetime3).toLocaleDateString(),
+        time: new Date(data?.preferreddatetime3).toLocaleTimeString()
+      });
+    }
+    let payload = {
+      name: data?.name,
+      email: data?.email,
+      company: data?.company,
+      interested_areas: [data?.interestedarea1, data?.interestedarea2],
+      type: data?.meetingtype,
+      preferedDateAndTimeslots: preferedDateAndTimeslots
+    };
+
+    // const result = await api.post('/meeting-requested-user', payload);
+    // console.log("RESULT", result);
+    // console.log(result);
+    // if(result.data.status==="success"){
+    //   setMeetingLinks(result?.data?.payload);
+    // }
+
   }
 
   const sendAdminNotificationEmail = (meetinginfo: any) => {

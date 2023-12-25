@@ -141,6 +141,11 @@
     margin: 0 auto;
 }
 
+.login-form .form-input {
+    width: 100%;
+    padding: 6px;
+}
+
 .icon-delete, .icon-edit {
     font-size: 1.7rem;
     padding: 0px 25px;
