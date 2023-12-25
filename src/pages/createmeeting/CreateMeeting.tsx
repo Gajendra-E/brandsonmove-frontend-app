@@ -10,6 +10,7 @@ import LoadingSpinner from "../../components/common/loadingspinner/LoadingSpinne
 import { convetToTimeStamp, getFormatedDate, getOneMonthFromToday, getToday, isObjIsEmpty, showToast } from "../../utils/utils";
 import { sendMail } from "../../services/EmailService";
 import { CC_MAILS, MAX_IPAD_WIDTH, TO_MAILS } from "../../constants/constants";
+import api from "../../api";
 // import { createGoogleMeet } from "../../services/MeetingService";
 
 const CreateMeeting: React.FC<any> = () => {
@@ -38,6 +39,21 @@ const CreateMeeting: React.FC<any> = () => {
   const [bookedTimeslots, setBookedTimeslots] = useState<any>([]);
 
 
+  useEffect(() => {
+    const getContentInfo = async () => {
+      const result = await api.get('/content');
+      console.log(result);
+      if(result.data.status==="success"){
+          setContent(result?.data?.payload[0]);
+      }
+    };
+    getContentInfo();
+    
+    return () => {};
+  }, []);
+
+
+
   // const { data: meetingsLink, loading: meetingsLinkLoading } = useQuery(GET_MEETING_LINKS, {
   //   variables: {
   //     where: {},
@@ -54,25 +70,6 @@ const CreateMeeting: React.FC<any> = () => {
   //   },
   // });
 
-  // const {
-  //   data: contents,
-  //   error: errorContent,
-  //   loading: loadingcontent,
-  // } = useSubscription(GET_CONTENT, {
-  //   variables: {
-  //     where: {},
-  //     limit: 5,
-  //     order_by: {created_at: "desc" },
-  //     offset: 0
-  //   },
-  //   onData: ({ data }) => {
-  //     setContent(data?.data?.content?.[0]);
-  //   },
-  //   onError(error: any) {
-  //     console.log("Error while subscription>>>>", error);
-  //   },
-  // });
-  
   const getMeetingLink = (meetingtype: any) => {
     return meetingLinks.find((meetinglink: any) => meetinglink?.link_type == meetingtype);
   }
@@ -407,7 +404,7 @@ const CreateMeeting: React.FC<any> = () => {
             </div>
             <div className="content">
               <p>
-                {content?.paragraph}
+                {content?.paragraph_content}
               </p>
             </div>
             <button
