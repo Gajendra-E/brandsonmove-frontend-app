@@ -60,14 +60,14 @@ function App() {
 
   return (
     
-        // <AdminDashboard />
+        <AdminDashboard />
     
-        <div className="App">
-          <ToastContainer />
-          <Header />
-          <Content />
-          <Footer />
-        </div>
+        // <div className="App">
+        //   <ToastContainer />
+        //   <Header />
+        //   <Content />
+        //   <Footer />
+        // </div>
   
   );
 }

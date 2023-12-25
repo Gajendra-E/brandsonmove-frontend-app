@@ -1,43 +1,21 @@
-import React, { useState } from "react";
-// import { useSubscription } from "@apollo/client";
-// import { GET_CONTENT } from "../../../../graphql";
-import LoadingSpinner from "../../../../components/common/loadingspinner/LoadingSpinner";
 import "../../css/admin.css";
+import React, { useEffect, useState } from "react";
+import api from "../../../../api";
 
 export default function ContentList() {
 
     const [contents, setContents] = useState<any>([]);
-    // const {
-    //     data,
-    //     error,
-    //     loading,
-    // } = useSubscription(GET_CONTENT, {
-    //     variables: {
-    //       where: {},
-    //       limit: 50,
-    //       order_by: {created_at: "desc" },
-    //       offset: 0
-    //     },
-    //     onData: ({ data }) => {
-    //       setContents(data?.data?.content);
-    //     },
-    //     onError(error: any) {
-    //       console.log("Error while subscription>>>>", error);
-    //     },
-    // });
-    
 
-    // if (loading) {
-    //     return (
-    //         <div className="page-loading-spinner-style">
-    //             <LoadingSpinner />
-    //         </div>
-    //     );
-    // }
+    useEffect(() => {
+        const getContentInfo = async () => {
+            const result = await api.get('/content');
+            if(result.data.status==="success"){
+                setContents(result?.data?.payload);
+            }
+        };
+        getContentInfo();
+    }, []);
 
-    // if (error) {
-    //     return <p>Error: {error?.message || "Something went wrong."}</p>;
-    // }
 
     if (!contents || contents?.length <= 0) {
         return <p>No Contents available.</p>;

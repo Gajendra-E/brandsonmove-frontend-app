@@ -1,32 +1,29 @@
 import "../css/admin.css";
 import React, { useState } from "react";
-// import { useMutation } from "@apollo/client";
-// import { INSERT_ONE } from "../../../graphql";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
-import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpinner";
 import ContentList from "./component/ContentList";
 import { showToast } from "../../../utils/utils";
+import api from "../../../api";
+import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpinner";
 
 export default function ManageContents() {
 
+    const [loading, setLoading] = useState<boolean>(false);
     const [showForm, setShowForm] = useState<boolean>(false);
     const { register, handleSubmit, watch, formState, control, setError, setValue, reset} = useForm({});
     const { errors } = formState;
-    // const [addContent, { loading: addingContents }] = useMutation(INSERT_ONE("contents"));
 
     const onSubmit = async (data: any) => {
-        // addContent({
-        //     variables: {
-        //         object: data
-        //     },
-        // }).then((resut) => {
-        //     reset();
-        //     showToast("Successfully saved.", true);
-        // }).catch((error: any) => {
-        //     console.log(error);
-        //     showToast(error?.message || "Error.", false);
-        // });
+        setLoading(true);
+        const result = await api.post('/content', data);
+        if(result?.data?.status==="success"){
+            setLoading(false);
+            showToast("Successfully added.", true);
+        } else {
+            setLoading(false);
+            showToast("Error.", false);
+        }
     }
 
     return (
@@ -97,13 +94,13 @@ export default function ManageContents() {
                                 className="form-input input"
                                 type="text"
                                 {
-                                    ...register("paragraph", 
+                                    ...register("paragraph_content", 
                                     { 
                                         required: true,
                                     })
                                 }
                             />
-                            {errors?.paragraph && <p className="error-message">This is required.</p>}
+                            {errors?.paragraph_content && <p className="error-message">This is required.</p>}
                         </div>
 
                         <div className="form-field">
@@ -122,13 +119,13 @@ export default function ManageContents() {
                         </div>
                 
                         <div className="text-center mt-4 mb-2">
-                            {/* {addingContents ? (
+                            {loading ? (
                                 <LoadingSpinner />
-                            ) : ( */}
+                            ) : (
                                 <button className="button-submit" type="submit">
                                     Submit
                                 </button>
-                            {/* )} */}
+                            )}
                         </div>
                     </form>
                 </div>
