@@ -1,41 +1,19 @@
 import "../css/admin.css";
 import React, { useState, useEffect } from "react";
-// import { useMutation, useSubscription } from "@apollo/client";
-// import { GET_MEETING_LINKS_SUB, UPDATE_ONE } from "../../../graphql";
 import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpinner";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import api from "../../../api";
 
 export default function ManageMeetingLinks() {
 
+    const [loading, setLoading] = useState<boolean>(false);
     const [meetingLinks, setMeetingLinks] = useState<any>({});
     const [showEditForm, setShowEditForm] = useState<boolean>(false);
     const [editContent, setEditContent] = useState<any>({});
     const { register, handleSubmit, watch, formState, control, setError, setValue, reset} = useForm({});
     const { errors } = formState;
 
-    // const [updateMeetingLink, { loading: updatingMeetingLink }] = useMutation(
-    //     UPDATE_ONE("meetinglinks")
-    // );
-
-    // const {
-    //     data: _meetingLinks,
-    //     error: errorMeetingLinks,
-    //     loading: loadingmeetinglinks,
-    // } = useSubscription(GET_MEETING_LINKS_SUB, {
-    //     variables: {
-    //       where: {},
-    //       limit: 50,
-    //       order_by: {created_at: "desc" },
-    //       offset: 0
-    //     },
-    //     onData: ({ data }) => {
-    //         setMeetingLinks(data?.data?.objects);
-    //     },
-    //     onError(error: any) {
-    //       console.log("Error while subscription>>>>", error);
-    //     },
-    // });
 
     const performAction = (actiontype: any, linkdata: any) => {
         if(actiontype == "delete") {
@@ -48,6 +26,17 @@ export default function ManageMeetingLinks() {
     }
 
     const onSubmit = async (data: any) => {
+
+        setLoading(true);
+        const result = await api.post('/content', data);
+        if(result?.data?.status==="success"){
+            setLoading(false);
+            showToast("Successfully added.", true);
+        } else {
+            setLoading(false);
+            showToast("Error.", false);
+        }
+
         // updateMeetingLink({
         //     variables: {
         //       id: editContent?.id,
@@ -77,6 +66,15 @@ export default function ManageMeetingLinks() {
 
 
     useEffect(() => {
+        const getMeetingLinks = async () => {
+            const result = await api.get('/meeting-link');
+            console.log("Meeting links", result);
+            console.log(result);
+            if(result.data.status==="success"){
+                setMeetingLinks(result?.data?.payload);
+            }
+        };
+        getMeetingLinks();
     }, []);
 
     return (
@@ -138,7 +136,7 @@ export default function ManageMeetingLinks() {
                                 <b>Options</b>
                             </div>
                         </div>
-                        {meetingLinks.map((link: any, index: any) => (
+                        {meetingLinks && meetingLinks?.length > 0 && meetingLinks.map((link: any, index: any) => (
                             <div key={link?.id || index} className="row">
                                 <div className="col-6 meetings-content">
                                     {link?.link}

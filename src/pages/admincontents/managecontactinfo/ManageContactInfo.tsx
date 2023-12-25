@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpinner";
 import {isObjIsEmpty, showToast } from "../../../utils/utils";
 import { useForm } from "react-hook-form";
+import api from "../../../api";
 
 export default function ManageContactInfo() {
 
@@ -13,49 +14,37 @@ export default function ManageContactInfo() {
     const { errors } = formState;
     const [contactInfo, setContactInfo] = useState<any>({});
 
-    // const [updateContacts, { loading: updatingContacts }] = useMutation(
-    //     UPDATE_ONE("contacts")
-    // );
+    useEffect(() => {
+        const getContactInfo = async () => {
+            const result = await api.get('/contact-info');
+            console.log("Meeting links", result);
+            console.log(result);
+            if(result.data.status==="success"){
+                setContactInfo(result?.data?.payload[0]);
+            }
+        };
+        getContactInfo();
+    }, []);
 
-    // const { loading, error, data, refetch 
-    // } = useQuery(Q_GET_CONTACT_INFO, {
-    //     variables: {
-    //         id: "63864e09-07ee-47ad-b866-26afd68e31bd"
-    //     },
-    //     onCompleted: (result: any) => {
-    //         setContactInfo(result?.contacts_by_pk);
-    //     },
-    //     onError: (error: any) => {
-    //         console.log("Error While fetching", error);
-    //     },
-    // });
 
     const _updateContacts = (contacts: any) => {
         setShowForm(!showForm);
-        setValue("phone1", contactInfo?.phone1);
-        setValue("phone2", contactInfo?.phone2);
+        setValue("phone_number", contactInfo?.phone_number);
+        setValue("alternate_phone_number", contactInfo?.alternate_phone_number);
         setValue("email", contactInfo?.email);
         setValue("address", contactInfo?.address);
     }
 
     const onSubmit = async (data: any) => {
-        // updateContacts({
-        //     variables: {
-        //       id: contactInfo?.id,
-        //       object: data,
-        //     },
-        // }).then((resut: any) => {
-        //     refetch();
-        //     reset();
-        //     setShowForm(!showForm)
-        //     showToast("Successfully saved.", true);
-        // }).catch((error: any) => {
-        //     showToast(error?.message || "Error.", false);
-        // });
+        console.log(data);
+        const result = await api.put(`/contact-info?:id=${1}`);
+        console.log("Meeting links", result, data);
+        console.log(result);
+        if(result.data.status==="success"){
+            setContactInfo(result?.data?.payload[0]);
+        }
+        
     }
-
-    useEffect(() => {
-    }, [contactInfo]);
 
     return (
         <div>
@@ -83,13 +72,13 @@ export default function ManageContactInfo() {
                                 className="form-input input"
                                 type="text"
                                 {
-                                    ...register("phone1", 
+                                    ...register("phone_number", 
                                     { 
                                         required: true,
                                     })
                                 }
                             />
-                            {errors?.phone1 && <p className="error-message">This is required.</p>}
+                            {errors?.phone_number && <p className="error-message">This is required.</p>}
                         </div>
                         <div className="form-field">
                             <div className="label">Phone 2</div>
@@ -97,13 +86,13 @@ export default function ManageContactInfo() {
                                 className="form-input input"
                                 type="text"
                                 {
-                                    ...register("phone2", 
+                                    ...register("alternate_phone_number", 
                                     { 
                                         required: true,
                                     })
                                 }
                             />
-                            {errors?.phone2 && <p className="error-message">This is required.</p>}
+                            {errors?.alternate_phone_number && <p className="error-message">This is required.</p>}
                         </div>
                         <div className="form-field">
                             <div className="label">Email</div>
@@ -169,10 +158,10 @@ export default function ManageContactInfo() {
                             { !isObjIsEmpty(contactInfo) &&
                                 <div className="row">
                                     <div className="col meetings-content">
-                                        {contactInfo?.phone1}
+                                        {contactInfo?.phone_number}
                                     </div>
                                     <div className="col meetings-content">
-                                        {contactInfo?.phone2}
+                                        {contactInfo?.alternate_phone_number}
                                     </div>
                                     <div className="col meetings-content">
                                         {contactInfo?.email}
