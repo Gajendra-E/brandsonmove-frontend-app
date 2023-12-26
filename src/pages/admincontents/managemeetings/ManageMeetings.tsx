@@ -5,8 +5,23 @@ import React, { useEffect, useState } from "react";
 import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpinner";
 import { sendMail } from "../../../services/EmailService";
 import { constructEmailInviteProperties, convertoDate, isAllTimeSlotsDeclined, isAnyOneTimeSlotInvited, isSameStatus, isTimeSlotAlreadyInvitedOrDeclined, showToast } from "../../../utils/utils";
+import api from "../../../api";
+
 
 export default function ManageMeetings() {
+
+    const [meetings, setMeetings] = useState<any>([]);
+
+    useEffect(() => {
+        const getMeetingInfo = async () => {
+            const result = await api.get('/meeting-requested-user');
+            console.log(result)
+            if(result.data.status==="success"){
+                setMeetings(result?.data?.payload[0]);
+            }
+        };
+        getMeetingInfo();
+    }, []);
 
 
     return (
@@ -19,7 +34,8 @@ export default function ManageMeetings() {
                     <option value="msteams">MS Teams</option>
                 </select>
             </div>
-            {/* {(meetings && meetings?.length > 0 && !loading) ? ( */}
+
+            {(meetings && meetings?.length > 0 ) ? (
                 <div className="meetings-table">
                     <div className="row">
                         <div className="col-2 meetings-content">
@@ -41,7 +57,7 @@ export default function ManageMeetings() {
                             <b>Complete</b>
                         </div>
                     </div>
-                    {/* {meetings.map((meeting: any, index: any) => (
+                    {meetings.map((meeting: any, index: any) => (
                        <div key={meeting?.id || index}>
                             {(!meeting?.is_meeting_completed && !isAllTimeSlotsDeclined(meeting)) && 
                                 <div className="row">
@@ -90,7 +106,7 @@ export default function ManageMeetings() {
                                                 ) : (
                                                     <button
                                                         className={`${meeting?.timeslot1_is_accepted ? "button-approved" : "button-approve"}`}
-                                                        onClick={() => updateMeetingStatus(true, meeting, "slot1")}
+                                                        // onClick={() => updateMeetingStatus(true, meeting, "slot1")}
                                                     >
                                                         {meeting?.timeslot1_is_accepted ? "Invited" : "Invite"}
                                                     </button>
@@ -100,7 +116,7 @@ export default function ManageMeetings() {
                                                 ) : (
                                                     <button
                                                         className={`${meeting?.timeslot1_is_declined ? "button-declined" : "button-decline"}`}
-                                                        onClick={() => updateMeetingStatus(false, meeting, "slot1")}
+                                                        // onClick={() => updateMeetingStatus(false, meeting, "slot1")}
                                                     >
                                                         {meeting?.timeslot1_is_declined ? "Declined" : "Decline"}
                                                     </button>
@@ -114,7 +130,7 @@ export default function ManageMeetings() {
                                                 ): (
                                                     <button
                                                         className={`${meeting?.timeslot2_is_accepted ? "button-approved" : "button-approve"}`}
-                                                        onClick={() => updateMeetingStatus(true, meeting, "slot2")}
+                                                        // onClick={() => updateMeetingStatus(true, meeting, "slot2")}
                                                     >
                                                         {meeting?.timeslot2_is_accepted ? "Invited" : "Invite"}
                                                     </button>
@@ -124,7 +140,7 @@ export default function ManageMeetings() {
                                                 ) : (
                                                     <button
                                                         className={`${meeting?.timeslot2_is_declined ? "button-declined" : "button-decline"}`}
-                                                        onClick={() => updateMeetingStatus(false, meeting, "slot2")}
+                                                        // onClick={() => updateMeetingStatus(false, meeting, "slot2")}
                                                     >
                                                         {meeting?.timeslot2_is_declined ? "Declined" : "Decline"}
                                                     </button>
@@ -138,7 +154,7 @@ export default function ManageMeetings() {
                                                 ): (
                                                     <button
                                                         className={`${meeting?.timeslot3_is_accepted ? "button-approved" : "button-approve"}`}
-                                                        onClick={() => updateMeetingStatus(true, meeting, "slot3")}
+                                                        // onClick={() => updateMeetingStatus(true, meeting, "slot3")}
                                                     >
                                                         {meeting?.timeslot3_is_accepted ? "Invited" : "Invite"}
                                                     </button>
@@ -148,7 +164,7 @@ export default function ManageMeetings() {
                                                 ) : (
                                                     <button
                                                         className={`${meeting?.timeslot3_is_declined ? "button-declined" : "button-decline"}`}
-                                                        onClick={() => updateMeetingStatus(false, meeting, "slot3")}
+                                                        // onClick={() => updateMeetingStatus(false, meeting, "slot3")}
                                                     >
                                                         {meeting?.timeslot3_is_declined ? "Declined" : "Decline"}
                                                     </button>
@@ -162,7 +178,7 @@ export default function ManageMeetings() {
                                         ) : (
                                             <button
                                                 className={`${meeting?.is_meeting_completed ? "button-completed" : "button-complete"}`}
-                                                onClick={() => completeMeetingAndUpdateStatus(meeting, "slot1")}
+                                                // onClick={() => completeMeetingAndUpdateStatus(meeting, "slot1")}
                                             >
                                                 {meeting?.is_meeting_completed ? "Completed" : "Complete"}
                                             </button>
@@ -171,13 +187,13 @@ export default function ManageMeetings() {
                                 </div>
                             }
                         </div>
-                    ))} */}
+                    ))}
                 </div>
-            {/* ) : (
+            ) : (
                 <div className="page-loading-spinner-style">
                     <LoadingSpinner />
                 </div>
-            ) } */}
+            ) } 
         </div>
     );
 }

@@ -70,8 +70,8 @@ const CreateMeeting: React.FC<any> = () => {
   }
 
   const onSubmit = async (data: any) => {
-    let link = getMeetingLink(data?.meetingtye)?.link;
-    let passcode = getMeetingLink(data?.meetingtye)?.pass_code;
+    let link = getMeetingLink(data?.meetingtype)?.link;
+    let passcode = getMeetingLink(data?.meetingtype)?.pass_code;
     let preferedDateAndTimeslots = [];
     if(data?.preferreddatetime1) {
       preferedDateAndTimeslots.push({
@@ -102,7 +102,6 @@ const CreateMeeting: React.FC<any> = () => {
 
     const result = await api.post('/meeting-requested-user', payload);
     console.log("RESULT", result);
-    console.log(result);
     if(result.data.status==="success"){
       setMeetingLinks(result?.data?.payload);
     }
@@ -242,7 +241,7 @@ const CreateMeeting: React.FC<any> = () => {
                   className="meeting-type-radio-button"
                   type="radio"
                   value={"googlemeet"}
-                  {...register("meetingtye", { required: true, maxLength: 50 })}
+                  {...register("meetingtype", { required: true, maxLength: 50 })}
                 />
                 <span className="meeting-type-label">Google Meet</span>
               </div>
@@ -252,7 +251,7 @@ const CreateMeeting: React.FC<any> = () => {
                   className="meeting-type-radio-button"
                   type="radio"
                   value={"msteams"}
-                  {...register("meetingtye", { required: true, maxLength: 50 })}
+                  {...register("meetingtype", { required: true, maxLength: 50 })}
                 />
                 <span className="meeting-type-label">MS Team</span>
               </div>
@@ -262,13 +261,13 @@ const CreateMeeting: React.FC<any> = () => {
                   className="meeting-type-radio-button"
                   type="radio"
                   value={"zoom"}
-                  {...register("meetingtye", { required: true, maxLength: 50 })}
+                  {...register("meetingtype", { required: true, maxLength: 50 })}
                 />
                 <span className="meeting-type-label">Zoom</span>
               </div>
               
             </div>
-            {errors.meetingtye && <p className="error-message">This is required.</p>}
+            {errors.meetingtype && <p className="error-message">This is required.</p>}
           </div>
 
           <div className="prefered-date-time-container">
