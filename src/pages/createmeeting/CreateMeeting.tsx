@@ -100,13 +100,12 @@ const CreateMeeting: React.FC<any> = () => {
       preferedDateAndTimeslots: preferedDateAndTimeslots
     };
 
-
-    // const result = await api.post('/meeting-requested-user', payload);
-    // console.log("RESULT", result);
-    // console.log(result);
-    // if(result.data.status==="success"){
-    //   setMeetingLinks(result?.data?.payload);
-    // }
+    const result = await api.post('/meeting-requested-user', payload);
+    console.log("RESULT", result);
+    console.log(result);
+    if(result.data.status==="success"){
+      setMeetingLinks(result?.data?.payload);
+    }
 
   }
 
