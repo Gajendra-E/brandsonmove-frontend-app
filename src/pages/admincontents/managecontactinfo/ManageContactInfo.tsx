@@ -37,7 +37,12 @@ export default function ManageContactInfo() {
 
     const onSubmit = async (data: any) => {
         console.log(data);
-        const result = await api.put(`/contact-info?:id=${1}`);
+        const result = await api.post("/contact-info?", {
+            "phone_number": data.phone_number,
+            "alternate_phone_number": data.alternate_phone_number,
+            "email": data.email,
+            "address": data.address
+        });
         console.log("Meeting links", result, data);
         console.log(result);
         if(result.data.status==="success"){

@@ -118,7 +118,7 @@ export default function ManageContents() {
                             {errors?.document_link && <p className="error-message">This is required.</p>}
                         </div>
                 
-                        <div className="text-center mt-4 mb-2">
+                        <div className="text-center mt-3 mb-2">
                             {loading ? (
                                 <LoadingSpinner />
                             ) : (

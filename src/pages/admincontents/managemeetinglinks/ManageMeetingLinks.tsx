@@ -16,9 +16,9 @@ export default function ManageMeetingLinks() {
 
 
     const performAction = (actiontype: any, linkdata: any) => {
-        if(actiontype == "delete") {
-            showToast("Action not implemented yet.", false);
-        }
+        // if(actiontype == "delete") {
+        //     showToast("Action not implemented yet.", false);
+        // }
         if(actiontype == "edit") {
             setEditContent(linkdata)
             setShowEditForm(!showEditForm);
@@ -142,14 +142,14 @@ export default function ManageMeetingLinks() {
                                     {link?.link}
                                 </div>
                                 <div className="col meetings-content">
-                                    {link?.passcode}
+                                    {link?.pass_code}
                                 </div>
                                 <div className="col meetings-content">
-                                    <i
+                                    {/* <i
                                         className="bi bi-trash3 icon-delete"
                                         onClick={() => performAction("delete", link)}
                                     >   
-                                    </i>
+                                    </i> */}
                                     <i
                                         className="bi bi-pen icon-edit"
                                         onClick={() => performAction("edit", link)}

@@ -53,7 +53,7 @@ export default function ContentList() {
                             {content?.heading3}
                         </div>
                         <div className="col-3 meetings-content">
-                            {content?.paragraph}
+                            {content?.paragraph_content}
                         </div>
                         <div className="col-3 meetings-content">
                             {content?.document_link}

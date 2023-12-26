@@ -48,6 +48,28 @@
     padding: 1rem 5rem;
 }
 
+.dynamic-content-form form {
+    width: 45%;
+    margin: auto;
+}
+.dynamic-content-form form .form-field {
+    margin-bottom: 6px;
+}
+.dynamic-content-form form .label {
+    font-weight: bold;
+    margin-top: 3px;
+}
+
+.dynamic-content-form form .input {
+    width: 100%;
+    padding: 5px;
+}
+.dynamic-content-form form .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 2px;
+    margin-bottom: 0;
+}
 .switch-content-block {
     padding: 0rem 5rem;
     text-align: right;
@@ -68,10 +90,6 @@
     border: 1px solid #e5e5e5;
     padding: 10px;
     font-size: 17px;
-}
-
-.dynamic-content-form {
-    padding: 1rem 5rem;
 }
 
 .switch-content-block {
