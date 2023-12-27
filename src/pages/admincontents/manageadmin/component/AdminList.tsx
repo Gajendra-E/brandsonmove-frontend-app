@@ -1,32 +1,25 @@
 import "../../css/admin.css";
 // import { useMutation, useSubscription } from "@apollo/client";
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 // import { DELETE_ONE, GET_ADMINS } from "../../../../graphql";
 import LoadingSpinner from "../../../../components/common/loadingspinner/LoadingSpinner";
 import { showToast } from "../../../../utils/utils";
+import api from "../../../../api";
 
 export default function AdminList() {
 
     const [admins, setAdmins] = useState<any>([]);
-    // const [deleteAdmin, { loading: deletingAdmin }] = useMutation(DELETE_ONE("users"));
+
+    useEffect(() => {
+        const getAdminInfo = async () => {
+            const result = await api.get('/users');
+            if(result.data.status==="success"){
+                setAdmins(result?.data?.payload);
+            }
+        };
+        getAdminInfo();
+    }, []);
     
-    // const { data, error, loading } = useSubscription(GET_ADMINS, {
-    //     variables: {
-    //       where: {
-    //           user_type: {_eq: "admin"}
-    //       },
-    //       limit: 50,
-    //       order_by: {created_at: "desc" },
-    //       offset: 0
-    //     },
-    //     onData: ({ data }) => {
-    //       setAdmins(data?.data?.users);
-    //       console.log(admins);
-    //     },
-    //     onError(error: any) {
-    //       console.log("Error while subscription>>>>", error);
-    //     },
-    // });
 
     const performAction = (actiontype: any, admin: any) => {
         if(actiontype == "delete") {
@@ -45,10 +38,10 @@ export default function AdminList() {
                 // });
             }
         }
-        if(actiontype == "edit") {
-            console.log(actiontype);
-            showToast("Action not implemented yet", false);
-        }
+        // if(actiontype == "edit") {
+        //     console.log(actiontype);
+        //     showToast("Action not implemented yet", false);
+        // }
     }
 
     // if (loading) {
@@ -87,7 +80,7 @@ export default function AdminList() {
                             {admin?.name}
                         </div>
                         <div className="col meetings-content">
-                            {admin?.mobile_number}
+                            {admin?.phone_number}
                         </div>
                         <div className="col meetings-content">
                             <i
@@ -95,12 +88,11 @@ export default function AdminList() {
                                 onClick={() => performAction("delete", admin)}
                             >   
                             </i>
-                            <i
+                            {/* <i
                                 className="bi bi-pen icon-edit"
                                 onClick={() => performAction("edit", admin)}
                             >   
-                            </i>
-                            
+                            </i> */}
                         </div>
                     </div>
                 ))}

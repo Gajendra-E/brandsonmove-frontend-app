@@ -59,6 +59,11 @@ export const convertoDate = (date: any) => {
   const year = timestamp.getFullYear();
   return `${date1} - ${month} - ${year}`;
 }
+export const convertTime = (timeString: string): string => {
+  const time = new Date(`1970-01-01T${timeString}Z`);
+  return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit',hour12: true });
+}
+
 
 export const constructEmailInviteProperties = (meetinginfo: any, slot: any, emailtype: string) => {
   let _meetinginfo = {

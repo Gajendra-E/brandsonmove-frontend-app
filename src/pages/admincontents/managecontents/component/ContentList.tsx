@@ -1,5 +1,6 @@
 import "../../css/admin.css";
 import React, { useEffect, useState } from "react";
+import { showToast } from "../../../../utils/utils";
 import api from "../../../../api";
 
 export default function ContentList() {
@@ -15,6 +16,25 @@ export default function ContentList() {
         };
         getContentInfo();
     }, []);
+
+    const performAction = (actiontype: any, content: any) => {
+        if(actiontype == "delete") {
+            console.log(actiontype);
+            if(contents && contents?.length <= 1) {
+                showToast("Error, you can not delete super admin.", false);
+            } else {
+                // deleteAdmin({
+                //     variables: {
+                //         id: admin?.id
+                //     }
+                // }).then((result: any) => {
+                //     showToast("Deleted successfully.", true);
+                // }).catch((error: any) => {
+                //     showToast("Unable to delete user.", false);
+                // });
+            }
+        }
+    }
 
 
     if (!contents || contents?.length <= 0) {
@@ -37,9 +57,13 @@ export default function ContentList() {
                     <div className="col-3 meetings-content">
                         <b>Paragraph</b>
                     </div>
-                    <div className="col-3 meetings-content">
+                    <div className="col-2 meetings-content">
                         <b>Document</b>
                     </div>
+                    <div className="col-1 meetings-content">
+                        <b>options</b>
+                    </div>
+
                 </div>
                 {contents.map((content: any, index: any) => (
                     <div key={content?.id || index} className="row">
@@ -55,9 +79,15 @@ export default function ContentList() {
                         <div className="col-3 meetings-content">
                             {content?.paragraph_content}
                         </div>
-                        <div className="col-3 meetings-content">
+                        <div className="col-2 meetings-content">
                             {content?.document_link}
                         </div>
+                        <div className="col-1 meetings-content">
+                            <i className="bi bi-trash3 icon-delete"
+                                onClick={() => performAction("delete", content)}
+                            >   
+                            </i>
+                            </div>
                     </div>
                 ))}
             </div>

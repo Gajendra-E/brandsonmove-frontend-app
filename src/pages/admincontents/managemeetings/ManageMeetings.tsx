@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 //import { GET_ALL_MEETING_SCHEDULE_SUB, GET_CONTENT, GET_MEETING_INFO, UPDATE_ONE } from "../../../graphql";
 import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpinner";
 import { sendMail } from "../../../services/EmailService";
-import { constructEmailInviteProperties, convertoDate, isAllTimeSlotsDeclined, isAnyOneTimeSlotInvited, isSameStatus, isTimeSlotAlreadyInvitedOrDeclined, showToast } from "../../../utils/utils";
+import { constructEmailInviteProperties, convertoDate, convertTime, isAllTimeSlotsDeclined, isAnyOneTimeSlotInvited, isSameStatus, isTimeSlotAlreadyInvitedOrDeclined, showToast } from "../../../utils/utils";
 import api from "../../../api";
 
 
@@ -23,7 +23,14 @@ export default function ManageMeetings() {
         getMeetingInfo();
     }, []);
 
-// console.log(meetings)
+    const handleButtonClick = (status: string) => {
+        console.log('Status:', status);
+    };
+
+    const completeMeetingStatus = (status: string) => {
+        console.log('Status', status)
+    }
+
     return (
         <div>
             <div className="filter-options-container text-end">
@@ -84,12 +91,7 @@ export default function ManageMeetings() {
                                     <div className="col-2 meetings-content">
                                     {meeting.preferedDateAndTimeslots.map((item: any) =>
                                         <div>
-                                            <div>
-                                                {convertoDate(item?.date)}
-                                            </div>
-                                            <div>
-                                                {item?.time}
-                                            </div>
+                                            {convertoDate(item?.date)}, {convertTime(item?.time)}.
                                         </div>
                                     )}
                                         
@@ -98,99 +100,20 @@ export default function ManageMeetings() {
 
                                     {meeting.preferedDateAndTimeslots.map((item: any) =>
                                         <div>
-                                            <button className="button-approve">Invite</button>
-                                            <button className="button-decline">Decline</button>
+                                            <button className="button-approve" onClick={()=>handleButtonClick('invited')}>Invite</button>
+                                            <button className="button-decline" onClick={()=>handleButtonClick('declined')}>Decline</button>
                                         </div>
-                                    
                                     )}
 
-                                        {/* { meeting?.timeslot1 &&
-                                            <div>
-                                                { (meeting?.istimeslot1 && meeting?.isinvitingslot1) ? (
-                                                    // <LoadingSpinner />
-                                                    <div>invite</div>
-                                                ) : (
-                                                    <button
-                                                        className={`${meeting?.timeslot1_is_accepted ? "button-approved" : "button-approve"}`}
-                                                        // onClick={() => updateMeetingStatus(true, meeting, "slot1")}
-                                                    >
-                                                        {meeting?.timeslot1_is_accepted ? "Invited" : "Invite"}
-                                                    </button>
-                                                )}
-                                                { (meeting?.istimeslot1 && meeting?.isdecliningslot1) ? (
-                                                    // <LoadingSpinner />
-                                                    <div>decline</div>
-                                                ) : (
-                                                    <button
-                                                        className={`${meeting?.timeslot1_is_declined ? "button-declined" : "button-decline"}`}
-                                                        // onClick={() => updateMeetingStatus(false, meeting, "slot1")}
-                                                    >
-                                                        {meeting?.timeslot1_is_declined ? "Declined" : "Decline"}
-                                                    </button>
-                                                )}
-                                            </div>
-                                        }
-                                        { meeting?.timeslot2 &&
-                                            <div>
-                                                { (meeting?.istimeslot2 && meeting?.isinvitingslot2) ? (
-                                                    // <LoadingSpinner />
-                                                    <div>ts2</div>
-                                                ): (
-                                                    <button
-                                                        className={`${meeting?.timeslot2_is_accepted ? "button-approved" : "button-approve"}`}
-                                                        // onClick={() => updateMeetingStatus(true, meeting, "slot2")}
-                                                    >
-                                                        {meeting?.timeslot2_is_accepted ? "Invited" : "Invite"}
-                                                    </button>
-                                                )}
-                                                { (meeting?.istimeslot2 && meeting?.isdecliningslot2) ? (
-                                                    // <LoadingSpinner />
-                                                    <div>ts2</div>
-                                                ) : (
-                                                    <button
-                                                        className={`${meeting?.timeslot2_is_declined ? "button-declined" : "button-decline"}`}
-                                                        // onClick={() => updateMeetingStatus(false, meeting, "slot2")}
-                                                    >
-                                                        {meeting?.timeslot2_is_declined ? "Declined" : "Decline"}
-                                                    </button>
-                                                )}
-                                            </div>
-                                        }
-                                        { meeting?.timeslot3 &&
-                                            <div>
-                                                { (meeting?.istimeslot3 && meeting?.isinvitingslot3) ? (
-                                                    // <LoadingSpinner />
-                                                    <div>ts3</div>
-                                                ): (
-                                                    <button
-                                                        className={`${meeting?.timeslot3_is_accepted ? "button-approved" : "button-approve"}`}
-                                                        // onClick={() => updateMeetingStatus(true, meeting, "slot3")}
-                                                    >
-                                                        {meeting?.timeslot3_is_accepted ? "Invited" : "Invite"}
-                                                    </button>
-                                                )}
-                                                { (meeting?.istimeslot3 && meeting?.isdecliningslot3) ? (
-                                                    // <LoadingSpinner />
-                                                    <div>ts3</div>
-                                                ) : (
-                                                    <button
-                                                        className={`${meeting?.timeslot3_is_declined ? "button-declined" : "button-decline"}`}
-                                                        // onClick={() => updateMeetingStatus(false, meeting, "slot3")}
-                                                    >
-                                                        {meeting?.timeslot3_is_declined ? "Declined" : "Decline"}
-                                                    </button>
-                                                )}
-                                            </div>
-                                        } */}
+                                        
                                     </div>
                                     <div className="col-2 meetings-content">
                                         { (meeting?.iscompleting) ? (
-                                            // <LoadingSpinner />
-                                            <div>complete</div>
+                                            <LoadingSpinner />
                                         ) : (
                                             <button
                                                 className={`${meeting?.is_meeting_completed ? "button-completed" : "button-complete"}`}
-                                                // onClick={() => completeMeetingAndUpdateStatus(meeting, "slot1")}
+                                                onClick={() => completeMeetingStatus("ccompleted")}
                                             >
                                                 {meeting?.is_meeting_completed ? "Completed" : "Complete"}
                                             </button>

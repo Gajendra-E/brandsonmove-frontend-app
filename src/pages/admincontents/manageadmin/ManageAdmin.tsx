@@ -7,9 +7,10 @@ import "react-toastify/dist/ReactToastify.css";
 import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpinner";
 import AdminList from "./component/AdminList";
 import { showToast } from "../../../utils/utils";
+import api from "../../../api";
 
 export default function ManageAdmin() {
-
+    const [loading, setLoading] = useState<boolean>(false);
     const [showForm, setShowForm] = useState<boolean>(false);
     const { register, handleSubmit, formState, reset} = useForm({});
     const { errors } = formState;
@@ -17,19 +18,30 @@ export default function ManageAdmin() {
     // const [addAdmin, { loading: addingAdmin }] = useMutation(INSERT_ONE("users"));
 
     const onSubmit = async (data: any) => {
-        data.user_type = "admin";
+
+        let payload = {
+            name: data?.name,
+            email: data?.email,
+            phone_number: data?.phone_number,
+            password: data?.password,
+        };
+
+        // data.user_type = "admin";
         console.log(data);
-        // addAdmin({
-        //     variables: {
-        //         object: data
-        //     },
-        // }).then((resut) => {
-        //     reset();
-        //     showToast("Successfully saved.", true);
-        // }).catch((error: any) => {
-        //     console.log(error);
-        //     showToast(error?.message || "Error.", false);
-        // });
+        try {
+            const result = await api.post('/users', payload);
+            console.log(result)
+            if(result?.data?.status==="success"){
+                setLoading(false);
+                showToast("Successfully added.", true);
+            } else {
+                setLoading(false);
+                showToast("Error.", false);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
     }
     
     return (
@@ -72,7 +84,7 @@ export default function ManageAdmin() {
                                 className="form-input input"
                                 type="text"
                                 {
-                                    ...register("mobile_number", 
+                                    ...register("phone_number", 
                                     { 
                                         required: true,
                                     })
@@ -110,13 +122,13 @@ export default function ManageAdmin() {
                         </div>
                 
                         <div className="text-center mt-4 mb-2">
-                            {/* {addingAdmin ? (
+                            {loading ? (
                                 <LoadingSpinner />
-                            ) : ( */}
+                            ) : (
                                 <button className="button-submit" type="submit">
                                     Submit
                                 </button>
-                            {/* )} */}
+                            )}
                         </div>
                     </form>
                 </div>
