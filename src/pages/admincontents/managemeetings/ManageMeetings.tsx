@@ -17,13 +17,13 @@ export default function ManageMeetings() {
             const result = await api.get('/meeting-requested-user');
             console.log(result)
             if(result.data.status==="success"){
-                setMeetings(result?.data?.payload[0]);
+                setMeetings(result?.data?.payload);
             }
         };
         getMeetingInfo();
     }, []);
 
-
+// console.log(meetings)
     return (
         <div>
             <div className="filter-options-container text-end">
@@ -59,7 +59,7 @@ export default function ManageMeetings() {
                     </div>
                     {meetings.map((meeting: any, index: any) => (
                        <div key={meeting?.id || index}>
-                            {(!meeting?.is_meeting_completed && !isAllTimeSlotsDeclined(meeting)) && 
+                            {/* /{(!meeting?.is_meeting_completed && !isAllTimeSlotsDeclined(meeting)) && // */}
                                 <div className="row">
                                     <div className="col-2 meetings-content">
                                         {meeting?.name}
@@ -69,40 +69,46 @@ export default function ManageMeetings() {
                                     </div>
                                     <div className="col-1 meetings-content">
                                         {
-                                            meeting?.meeting_type == "googlemeet" &&
+                                            meeting?.type == "googlemeet" &&
                                             <div>Google Meet</div>
                                         }
                                         {
-                                            meeting?.meeting_type == "zoom" &&
+                                            meeting?.type == "zoom" &&
                                             <div>Zoom</div>
                                         }
                                         {
-                                            meeting?.meeting_type == "msteams" &&
+                                            meeting?.type == "msteams" &&
                                             <div>MS Teams</div>
                                         }
                                     </div>
                                     <div className="col-2 meetings-content">
-                                        { meeting?.timeslot1 &&
+                                    {meeting.preferedDateAndTimeslots.map((item: any) =>
+                                        <div>
                                             <div>
-                                                {convertoDate(meeting?.timeslot1)}
+                                                {convertoDate(item?.date)}
                                             </div>
-                                        }
-                                        { meeting?.timeslot2 &&
                                             <div>
-                                                {convertoDate(meeting?.timeslot2)}
+                                                {item?.time}
                                             </div>
-                                        }
-                                        { meeting?.timeslot3 &&
-                                            <div>
-                                                {convertoDate(meeting?.timeslot3)}
-                                            </div>
-                                        }
+                                        </div>
+                                    )}
+                                        
                                     </div>
                                     <div className="col-3 meetings-content">
-                                        { meeting?.timeslot1 &&
+
+                                    {meeting.preferedDateAndTimeslots.map((item: any) =>
+                                        <div>
+                                            <button className="button-approve">Invite</button>
+                                            <button className="button-decline">Decline</button>
+                                        </div>
+                                    
+                                    )}
+
+                                        {/* { meeting?.timeslot1 &&
                                             <div>
                                                 { (meeting?.istimeslot1 && meeting?.isinvitingslot1) ? (
-                                                    <LoadingSpinner />
+                                                    // <LoadingSpinner />
+                                                    <div>invite</div>
                                                 ) : (
                                                     <button
                                                         className={`${meeting?.timeslot1_is_accepted ? "button-approved" : "button-approve"}`}
@@ -112,7 +118,8 @@ export default function ManageMeetings() {
                                                     </button>
                                                 )}
                                                 { (meeting?.istimeslot1 && meeting?.isdecliningslot1) ? (
-                                                    <LoadingSpinner />
+                                                    // <LoadingSpinner />
+                                                    <div>decline</div>
                                                 ) : (
                                                     <button
                                                         className={`${meeting?.timeslot1_is_declined ? "button-declined" : "button-decline"}`}
@@ -126,7 +133,8 @@ export default function ManageMeetings() {
                                         { meeting?.timeslot2 &&
                                             <div>
                                                 { (meeting?.istimeslot2 && meeting?.isinvitingslot2) ? (
-                                                    <LoadingSpinner />
+                                                    // <LoadingSpinner />
+                                                    <div>ts2</div>
                                                 ): (
                                                     <button
                                                         className={`${meeting?.timeslot2_is_accepted ? "button-approved" : "button-approve"}`}
@@ -136,7 +144,8 @@ export default function ManageMeetings() {
                                                     </button>
                                                 )}
                                                 { (meeting?.istimeslot2 && meeting?.isdecliningslot2) ? (
-                                                    <LoadingSpinner />
+                                                    // <LoadingSpinner />
+                                                    <div>ts2</div>
                                                 ) : (
                                                     <button
                                                         className={`${meeting?.timeslot2_is_declined ? "button-declined" : "button-decline"}`}
@@ -150,7 +159,8 @@ export default function ManageMeetings() {
                                         { meeting?.timeslot3 &&
                                             <div>
                                                 { (meeting?.istimeslot3 && meeting?.isinvitingslot3) ? (
-                                                    <LoadingSpinner />
+                                                    // <LoadingSpinner />
+                                                    <div>ts3</div>
                                                 ): (
                                                     <button
                                                         className={`${meeting?.timeslot3_is_accepted ? "button-approved" : "button-approve"}`}
@@ -160,7 +170,8 @@ export default function ManageMeetings() {
                                                     </button>
                                                 )}
                                                 { (meeting?.istimeslot3 && meeting?.isdecliningslot3) ? (
-                                                    <LoadingSpinner />
+                                                    // <LoadingSpinner />
+                                                    <div>ts3</div>
                                                 ) : (
                                                     <button
                                                         className={`${meeting?.timeslot3_is_declined ? "button-declined" : "button-decline"}`}
@@ -170,11 +181,12 @@ export default function ManageMeetings() {
                                                     </button>
                                                 )}
                                             </div>
-                                        }
+                                        } */}
                                     </div>
                                     <div className="col-2 meetings-content">
                                         { (meeting?.iscompleting) ? (
-                                            <LoadingSpinner />
+                                            // <LoadingSpinner />
+                                            <div>complete</div>
                                         ) : (
                                             <button
                                                 className={`${meeting?.is_meeting_completed ? "button-completed" : "button-complete"}`}
@@ -185,7 +197,7 @@ export default function ManageMeetings() {
                                         )}
                                     </div>
                                 </div>
-                            }
+                            {/* } */}
                         </div>
                     ))}
                 </div>

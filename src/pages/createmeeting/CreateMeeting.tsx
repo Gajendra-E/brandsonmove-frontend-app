@@ -70,8 +70,8 @@ const CreateMeeting: React.FC<any> = () => {
   }
 
   const onSubmit = async (data: any) => {
-    let link = getMeetingLink(data?.meetingtype)?.link;
-    let passcode = getMeetingLink(data?.meetingtype)?.pass_code;
+    // let link = getMeetingLink(data?.meetingtype)?.link;
+    // let passcode = getMeetingLink(data?.meetingtype)?.pass_code;
     let preferedDateAndTimeslots = [];
     if(data?.preferreddatetime1) {
       preferedDateAndTimeslots.push({
