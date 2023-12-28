@@ -23,12 +23,42 @@ export default function ManageMeetings() {
         getMeetingInfo();
     }, []);
 
-    const handleButtonClick = (status: string) => {
+    const handleButtonClick = async(status: string,timeSlotId:number) => {
         console.log('Status:', status);
+
+        let payload = {
+            status: status,
+        
+        }
+        try {
+            const result = await api.put(`/meeting-time-slot/${timeSlotId}`,payload )
+                 if(result.data.status==="success"){
+                 alert("status updated")
+                 }
+            ;
+           } catch (e) {
+             
+             console.log(e)
+           }
+
     };
 
-    const completeMeetingStatus = (status: string) => {
+    const completeMeetingStatus = async(status: string,meetingRequestUserId:number) => {
         console.log('Status', status)
+        let payload = {
+            status: status,
+        
+        }
+        try {
+            const result = await api.put(`/meeting-requested-user/${meetingRequestUserId}`,payload )
+                 if(result.data.status==="success"){
+                 alert("status updated")
+                 }
+            ;
+           } catch (e) {
+             
+             console.log(e)
+           }
     }
 
     return (
@@ -100,8 +130,8 @@ export default function ManageMeetings() {
 
                                     {meeting.preferedDateAndTimeslots.map((item: any) =>
                                         <div>
-                                            <button className="button-approve" onClick={()=>handleButtonClick('invited')}>Invite</button>
-                                            <button className="button-decline" onClick={()=>handleButtonClick('declined')}>Decline</button>
+                                            <button className="button-approve" onClick={()=>handleButtonClick('Invited',item?.id)}>Invite</button>
+                                            <button className="button-decline" onClick={()=>handleButtonClick('Declined',item?.id)}>Decline</button>
                                         </div>
                                     )}
 
@@ -113,7 +143,7 @@ export default function ManageMeetings() {
                                         ) : (
                                             <button
                                                 className={`${meeting?.is_meeting_completed ? "button-completed" : "button-complete"}`}
-                                                onClick={() => completeMeetingStatus("ccompleted")}
+                                                onClick={() => completeMeetingStatus("Completed",meeting.id)}
                                             >
                                                 {meeting?.is_meeting_completed ? "Completed" : "Complete"}
                                             </button>
