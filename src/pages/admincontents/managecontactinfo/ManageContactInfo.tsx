@@ -43,12 +43,10 @@ export default function ManageContactInfo() {
             "email": data.email,
             "address": data.address
         });
-        console.log("Meeting links", result, data);
-        console.log(result);
         if(result.data.status==="success"){
             setContactInfo(result?.data?.payload[0]);
         }
-        
+        reset();
     }
 
     return (

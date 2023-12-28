@@ -33,8 +33,6 @@ const CreateMeeting: React.FC<any> = () => {
   const [selectedDate, setSelectedDate] = useState<any>(null);
   const [bookedTimeslots, setBookedTimeslots] = useState<any>([]);
 
-
-
   const [content, setContent] = useState<any>(null);
   const [meetingLinks, setMeetingLinks] = useState<any>([]);
 
@@ -42,22 +40,17 @@ const CreateMeeting: React.FC<any> = () => {
   useEffect(() => {
     const getContentInfo = async () => {
       const result = await api.get('/content');
-      console.log(result);
       if(result.data.status==="success"){
-          setContent(result?.data?.payload[0]);
+        setContent(result?.data?.payload[0]);
       }
     };
 
     const getMeetingLinks = async () => {
       const result = await api.get('/meeting-link');
-      console.log("Meeting links", result);
-      console.log(result);
       if(result.data.status==="success"){
         setMeetingLinks(result?.data?.payload);
       }
     };
-
-    console.log("Links", meetingLinks);
 
     getContentInfo();
     getMeetingLinks();
@@ -104,8 +97,11 @@ const CreateMeeting: React.FC<any> = () => {
     console.log("RESULT", result);
     if(result.data.status==="success"){
       setMeetingLinks(result?.data?.payload);
+      showToast("Notified to Brandsonmove.", true);
     }
 
+    reset();
+    
   }
 
   const sendAdminNotificationEmail = (meetinginfo: any) => {
@@ -118,7 +114,7 @@ const CreateMeeting: React.FC<any> = () => {
     sendMail(meetinginfo).then((result: any) => {
       showToast("Notified to Brandsonmove.", true);
     }).catch((error: any) => {
-      console.log("Error while sending inivitation", error);
+      console.log("Error while sending invitation", error);
       showToast(error?.message || "Error.", false);
     });
   }

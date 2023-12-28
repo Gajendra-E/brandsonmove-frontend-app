@@ -42,6 +42,8 @@ export default function ManageAdmin() {
             console.log(error);
         }
 
+        reset();
+
     }
     
     return (

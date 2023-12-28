@@ -24,6 +24,8 @@ export default function ManageContents() {
             setLoading(false);
             showToast("Error.", false);
         }
+
+        reset();
     }
 
     return (
