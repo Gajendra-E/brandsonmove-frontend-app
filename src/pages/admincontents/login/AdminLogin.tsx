@@ -14,20 +14,15 @@ export default function AdminLogin() {
     const { register, handleSubmit, formState } = useForm({});
     const { errors }: any = formState;
 
-  
-
-    
 
     const onSubmit = async(data: any) => {
-        
         type obj ={ email:string,password:string}
-
-         const dataObj : obj={email:data?.username,password:data?.password}
+        const dataObj : obj={email:data?.username,password:data?.password}
       
         try {
            const result = await api.post('/users/login',dataObj )
                 if(result.data.status==="success"){
-                navigate('/admin')
+                    navigate('/admin/managecontents')
                 }
            ;
           } catch (e) {

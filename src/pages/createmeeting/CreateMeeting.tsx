@@ -94,30 +94,27 @@ const CreateMeeting: React.FC<any> = () => {
     };
 
     const result = await api.post('/meeting-requested-user', payload);
-    console.log("RESULT", result);
     if(result.data.status==="success"){
       setMeetingLinks(result?.data?.payload);
       showToast("Notified to Brandsonmove.", true);
     }
-
     reset();
-    
   }
 
-  const sendAdminNotificationEmail = (meetinginfo: any) => {
-    meetinginfo.isadminnotificationemail = true;
-    meetinginfo.isusernotificationemail = false;
-    meetinginfo.isinvitedeclineemail = false;
-    meetinginfo.ismeetingcompleteemail = false;
-    meetinginfo.toemail = TO_MAILS
-    meetinginfo.ccemails = CC_MAILS
-    sendMail(meetinginfo).then((result: any) => {
-      showToast("Notified to Brandsonmove.", true);
-    }).catch((error: any) => {
-      console.log("Error while sending invitation", error);
-      showToast(error?.message || "Error.", false);
-    });
-  }
+  // const sendAdminNotificationEmail = (meetinginfo: any) => {
+  //   meetinginfo.isadminnotificationemail = true;
+  //   meetinginfo.isusernotificationemail = false;
+  //   meetinginfo.isinvitedeclineemail = false;
+  //   meetinginfo.ismeetingcompleteemail = false;
+  //   meetinginfo.toemail = TO_MAILS
+  //   meetinginfo.ccemails = CC_MAILS
+  //   sendMail(meetinginfo).then((result: any) => {
+  //     showToast("Notified to Brandsonmove.", true);
+  //   }).catch((error: any) => {
+  //     console.log("Error while sending invitation", error);
+  //     showToast(error?.message || "Error.", false);
+  //   });
+  // }
 
   const [screenSize, setScreenSize] = useState<any>({
     dynamicWidth: window.innerWidth,

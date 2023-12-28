@@ -19,9 +19,8 @@ export default function ContentList() {
 
     const performAction = (actiontype: any, content: any) => {
         if(actiontype == "delete") {
-            console.log(actiontype);
             if(contents && contents?.length <= 1) {
-                showToast("Error, you can not delete super admin.", false);
+                showToast("Error, Add new content before deleting this", false);
             } else {
                 // deleteAdmin({
                 //     variables: {

@@ -60,14 +60,17 @@ function App() {
 
   return (
     
-        <AdminDashboard />
-    
-        // <div className="App">
-        //   <ToastContainer />
-        //   <Header />
-        //   <Content />
-        //   <Footer />
-        // </div>
+    <div className="App">
+      {location.pathname.includes("/admin") ? 
+        <AdminDashboard />: 
+        <div>
+          <ToastContainer />
+          <Header />
+          <Content />
+          <Footer />
+        </div>
+      }      
+    </div>
   
   );
 }

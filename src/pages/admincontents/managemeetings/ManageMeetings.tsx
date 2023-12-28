@@ -23,41 +23,36 @@ export default function ManageMeetings() {
         getMeetingInfo();
     }, []);
 
-    const handleButtonClick = async(status: string,timeSlotId:number) => {
-        console.log('Status:', status);
+    const handleButtonClick = async(status: string, timeSlotId:number) => {
 
         let payload = {
             status: status,
-        
         }
         try {
             const result = await api.put(`/meeting-time-slot/${timeSlotId}`,payload )
-                 if(result.data.status==="success"){
-                 alert("status updated")
-                 }
+                if(result.data.status==="success"){
+                    console.log(payload.status)
+                }
             ;
-           } catch (e) {
-             
-             console.log(e)
-           }
+        } catch (e) {
+            console.log(e)
+        }
 
     };
 
-    const completeMeetingStatus = async(status: string,meetingRequestUserId:number) => {
+    const completeMeetingStatus = async(status: string, meetingRequestUserId:number) => {
         console.log('Status', status)
         let payload = {
             status: status,
-        
         }
         try {
             const result = await api.put(`/meeting-requested-user/${meetingRequestUserId}`,payload )
-                 if(result.data.status==="success"){
-                 alert("status updated")
-                 }
+                if(result.data.status==="success"){
+                    console.log(payload.status)
+                }
             ;
            } catch (e) {
-             
-             console.log(e)
+            console.log(e)
            }
     }
 
@@ -129,9 +124,13 @@ export default function ManageMeetings() {
                                     <div className="col-3 meetings-content">
 
                                     {meeting.preferedDateAndTimeslots.map((item: any) =>
-                                        <div>
-                                            <button className="button-approve" onClick={()=>handleButtonClick('Invited',item?.id)}>Invite</button>
-                                            <button className="button-decline" onClick={()=>handleButtonClick('Declined',item?.id)}>Decline</button>
+                                        <div key={item.id}>
+                                            <button className={item?.status === 'Invited'? "button-approved" : "button-approve"} onClick={()=>handleButtonClick('Invited',item?.id)}>
+                                                {item?.status === 'Invited'? "Invited" : "Invite"}
+                                            </button>
+                                            <button className={item?.status === 'Declined'? "button-declined" : "button-decline"} onClick={()=>handleButtonClick('Declined',item?.id)}>
+                                                {item?.status === 'Declined'? "Declined" : "decline"}
+                                            </button>
                                         </div>
                                     )}
 
@@ -142,10 +141,10 @@ export default function ManageMeetings() {
                                             <LoadingSpinner />
                                         ) : (
                                             <button
-                                                className={`${meeting?.is_meeting_completed ? "button-completed" : "button-complete"}`}
+                                                className={`${meeting?.status ? "button-completed" : "button-complete"}`}
                                                 onClick={() => completeMeetingStatus("Completed",meeting.id)}
                                             >
-                                                {meeting?.is_meeting_completed ? "Completed" : "Complete"}
+                                                {meeting?.status ? "Completed" : "Complete"}
                                             </button>
                                         )}
                                     </div>

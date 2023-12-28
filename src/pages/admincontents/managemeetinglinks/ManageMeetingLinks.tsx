@@ -14,7 +14,6 @@ export default function ManageMeetingLinks() {
     const { register, handleSubmit, watch, formState, control, setError, setValue, reset} = useForm({});
     const { errors } = formState;
 
-
     const performAction = (actiontype: any, linkdata: any) => {
         // if(actiontype == "delete") {
         //     showToast("Action not implemented yet.", false);
@@ -25,10 +24,10 @@ export default function ManageMeetingLinks() {
         }
     }
 
-    const onSubmit = async (data: any) => {
+    const onSubmit = async (id: number, data: any) => {
 
         setLoading(true);
-        const result = await api.post('/content', data);
+        const result = await api.put(`/meeting-link/${id}`, data);
         if(result?.data?.status==="success"){
             setLoading(false);
             showToast("Successfully added.", true);
@@ -36,19 +35,6 @@ export default function ManageMeetingLinks() {
             setLoading(false);
             showToast("Error.", false);
         }
-
-        // updateMeetingLink({
-        //     variables: {
-        //       id: editContent?.id,
-        //       object: data,
-        //     },
-        // }).then((resut: any) => {
-        //     reset();
-        //     showToast("Successfully saved.", true);
-        // }).catch((error: any) => {
-        //     console.log(error);
-        //     showToast(error?.message || "Error.", false);
-        // });
 
     }
 
@@ -65,11 +51,9 @@ export default function ManageMeetingLinks() {
         }
     }
 
-
     useEffect(() => {
         const getMeetingLinks = async () => {
             const result = await api.get('/meeting-link');
-            console.log("Meeting links", result);
             console.log(result);
             if(result.data.status==="success"){
                 setMeetingLinks(result?.data?.payload);
@@ -77,12 +61,12 @@ export default function ManageMeetingLinks() {
         };
         getMeetingLinks();
     }, []);
-
+   
     return (
         <div>
             {showEditForm && 
                 <div className="dynamic-content-form">
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={(e) => handleSubmit(onSubmit())}>
                         <div className="form-field">
                             <div className="label">Link</div>
                             <input
@@ -127,6 +111,9 @@ export default function ManageMeetingLinks() {
                 {/* {(meetingLinks && meetingLinks?.length > 0 && !loadingmeetinglinks) ? ( */}
                     <div className="meetings-table">
                         <div className="row">
+                            <div className="col meetings-content">
+                                <b>Meeting type</b>
+                            </div>
                             <div className="col-6 meetings-content">
                                 <b>Link</b>
                             </div>
@@ -139,6 +126,9 @@ export default function ManageMeetingLinks() {
                         </div>
                         {meetingLinks && meetingLinks?.length > 0 && meetingLinks.map((link: any, index: any) => (
                             <div key={link?.id || index} className="row">
+                                <div className="col meetings-content">
+                                    {link?.meeting_type}
+                                </div>
                                 <div className="col-6 meetings-content">
                                     {link?.link}
                                 </div>
