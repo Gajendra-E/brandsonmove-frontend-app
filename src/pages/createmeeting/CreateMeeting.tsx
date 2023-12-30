@@ -15,6 +15,7 @@ import api from "../../api";
 
 const CreateMeeting: React.FC<any> = () => {
 
+  const [ loading, setLoading ] = useState<boolean>(false);
   const [ showForm, setShowForm ] = useState<boolean>(false);
   const [ isMobile, setIsMobile ] = useState<boolean>(false);
   const [ipadMaxWidth] = useState<number>(MAX_IPAD_WIDTH);
@@ -66,6 +67,7 @@ const CreateMeeting: React.FC<any> = () => {
   const onSubmit = async (data: any) => {
     // let link = getMeetingLink(data?.meetingtype)?.link;
     // let passcode = getMeetingLink(data?.meetingtype)?.pass_code;
+    setLoading(true);
     let preferedDateAndTimeslots = [];
     if(data?.preferreddatetime1) {
       preferedDateAndTimeslots.push({
@@ -106,6 +108,7 @@ const CreateMeeting: React.FC<any> = () => {
         );
       }
     } catch (error: any) {
+      setLoading(false);
       console.log("Error while creating meeting", error);
     }
   }
@@ -115,11 +118,15 @@ const CreateMeeting: React.FC<any> = () => {
       const result: any = await sendEmail(meetinginfo);
       if(result?.data?.status === "success") {
         reset();
+        setLoading(false);
         showToast("Notified to Brandsonmove.", true);
       } else {
+        setLoading(false);
         showToast("Issue while creating meeting.", false);
       } 
     } catch (error: any) {
+      setLoading(false);
+      showToast("Issue while creating meeting.", false);
       console.log("Error while sending notification");
     }
   }
@@ -377,16 +384,13 @@ const CreateMeeting: React.FC<any> = () => {
                 errors?.preferreddatetime3) && <p className="error-message">Atlease one time slot required.</p>}
             </div>
           <div className="text-center mt-2 mb-2">
-            <button className="button-submit" type="submit">
-              Submit
-            </button>
-            {/* {addingMeetingDetails ? (
+            {loading ? (
               <LoadingSpinner />
             ) : (
               <button className="button-submit" type="submit">
                 Submit
               </button>
-            )} */}
+            )}
           </div>
         </form>
       </div>
