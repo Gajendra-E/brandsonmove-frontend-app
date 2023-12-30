@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { APP_CONFIG } from "../config/config";
-import { CC_MAILS } from "../constants/constants";
+import api from "../api";
 
 export const sendMail = async (meetinginfo: any) => {
     const response: AxiosResponse = await axios({
@@ -9,4 +9,8 @@ export const sendMail = async (meetinginfo: any) => {
         data: meetinginfo
     });
     return response;
+} 
+
+export const sendEmail = async (payload: any) => {
+    return await api.post('/users/send-email', payload);
 }

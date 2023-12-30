@@ -141,10 +141,10 @@ export default function ManageMeetings() {
                                             <LoadingSpinner />
                                         ) : (
                                             <button
-                                                className={`${meeting?.status ? "button-completed" : "button-complete"}`}
+                                                className={`${meeting?.status === "Completed" ? "button-completed" : "button-complete"}`}
                                                 onClick={() => completeMeetingStatus("Completed",meeting.id)}
                                             >
-                                                {meeting?.status ? "Completed" : "Complete"}
+                                                {meeting?.status === "Completed" ? "Completed" : "Complete"}
                                             </button>
                                         )}
                                     </div>

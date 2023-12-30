@@ -8,7 +8,7 @@ import { Controller, useForm } from "react-hook-form";
 // import { GET_ALL_MEETING_TIMINGS, GET_CONTENT, GET_MEETING_LINKS } from "../../graphql";
 import LoadingSpinner from "../../components/common/loadingspinner/LoadingSpinner";
 import { convetToTimeStamp, getFormatedDate, getOneMonthFromToday, getToday, isObjIsEmpty, showToast } from "../../utils/utils";
-import { sendMail } from "../../services/EmailService";
+import { sendEmail } from "../../services/EmailService";
 import { CC_MAILS, MAX_IPAD_WIDTH, TO_MAILS } from "../../constants/constants";
 import api from "../../api";
 // import { createGoogleMeet } from "../../services/MeetingService";
@@ -95,27 +95,26 @@ const CreateMeeting: React.FC<any> = () => {
     };
 
     const result = await api.post('/meeting-requested-user', payload);
-    if(result.data.status==="success"){
-      setMeetingLinks(result?.data?.payload);
-      showToast("Notified to Brandsonmove.", true);
+    if(result.data.status==="success") {
+      sendAdminNotificationEmail(
+        {
+          isusernotificationemail: true,
+          name: data?.name || payload?.name,
+          email: data?.email || payload?.email
+        }
+      );
     }
-    reset();
   }
 
-  // const sendAdminNotificationEmail = (meetinginfo: any) => {
-  //   meetinginfo.isadminnotificationemail = true;
-  //   meetinginfo.isusernotificationemail = false;
-  //   meetinginfo.isinvitedeclineemail = false;
-  //   meetinginfo.ismeetingcompleteemail = false;
-  //   meetinginfo.toemail = TO_MAILS
-  //   meetinginfo.ccemails = CC_MAILS
-  //   sendMail(meetinginfo).then((result: any) => {
-  //     showToast("Notified to Brandsonmove.", true);
-  //   }).catch((error: any) => {
-  //     console.log("Error while sending invitation", error);
-  //     showToast(error?.message || "Error.", false);
-  //   });
-  // }
+  const sendAdminNotificationEmail = (meetinginfo: any) => {
+    const result: any = sendEmail(meetinginfo);
+    if(result.data.status==="success") {
+      reset();
+      showToast("Notified to Brandsonmove.", true);
+    } else {
+      showToast("Issue while creating meeting.", false);
+    }
+  }
 
   const [screenSize, setScreenSize] = useState<any>({
     dynamicWidth: window.innerWidth,
