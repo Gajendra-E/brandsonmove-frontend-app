@@ -21,16 +21,14 @@ export default function ManageAdmin() {
 
         let payload = {
             name: data?.name,
-            email: data?.email,
             phone_number: data?.phone_number,
+            email: data?.email,
             password: data?.password,
         };
 
         // data.user_type = "admin";
-        console.log(data);
         try {
-            const result = await api.post('/users', payload);
-            console.log(result)
+            const result = await api.post('/users/create', payload);
             if(result?.data?.status==="success"){
                 setLoading(false);
                 showToast("Successfully added.", true);
@@ -43,7 +41,7 @@ export default function ManageAdmin() {
         }
 
         reset();
-
+        setShowForm(!showForm)
     }
     
     return (
@@ -84,21 +82,23 @@ export default function ManageAdmin() {
                             <div className="label">Mobile Number</div>
                             <input
                                 className="form-input input"
-                                type="text"
+                                type="tel"
                                 {
                                     ...register("phone_number", 
                                     { 
                                         required: true,
+                                        minLength: 10,
+                                        maxLength: 10
                                     })
                                 }
                             />
-                            {errors.mobile_number && <p className="error-message">This is required.</p>}
+                            {errors.phone_number && <p className="error-message">Provide valid phone number.</p>}
                         </div>
                         <div className="form-field">
                             <div className="label">Email</div>
                             <input
                                 className="form-input input"
-                                type="text"
+                                type="email"
                                 {
                                     ...register("email", 
                                     { 

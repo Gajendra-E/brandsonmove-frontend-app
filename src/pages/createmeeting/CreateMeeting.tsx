@@ -41,7 +41,8 @@ const CreateMeeting: React.FC<any> = () => {
     const getContentInfo = async () => {
       const result = await api.get('/content');
       if(result.data.status==="success"){
-        setContent(result?.data?.payload[0]);
+        let content = result?.data?.payload.reverse();
+        setContent(content[0]);
       }
     };
 

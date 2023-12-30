@@ -12,17 +12,17 @@ export default function ManageContactInfo() {
     const [showForm, setShowForm] = useState<boolean>(false);
     const { register, handleSubmit, watch, formState, control, setError, setValue, reset} = useForm({});
     const { errors } = formState;
-    const [contactInfo, setContactInfo] = useState<any>({});
+    const [contactInfo, setContactInfo] = useState<any>([]);
+
+
+    const getContactInfo = async () => {
+        const result = await api.get('/contact-info');
+        if(result.data.status==="success"){
+            setContactInfo(result?.data?.payload[0]);
+        }
+    };
 
     useEffect(() => {
-        const getContactInfo = async () => {
-            const result = await api.get('/contact-info');
-            console.log("Meeting links", result);
-            console.log(result);
-            if(result.data.status==="success"){
-                setContactInfo(result?.data?.payload[0]);
-            }
-        };
         getContactInfo();
     }, []);
 
@@ -36,15 +36,19 @@ export default function ManageContactInfo() {
     }
 
     const onSubmit = async (data: any) => {
-        console.log(data);
-        const result = await api.post("/contact-info?", {
+        console.log(contactInfo.id)
+        const result = await api.put(`/contact-info/${contactInfo?.id}`, {
             "phone_number": data.phone_number,
             "alternate_phone_number": data.alternate_phone_number,
             "email": data.email,
             "address": data.address
         });
+        console.log(result)
+
         if(result.data.status==="success"){
-            setContactInfo(result?.data?.payload[0]);
+            // setContactInfo(result?.data?.payload[0]);
+            getContactInfo();
+            setShowForm(false);
         }
         reset();
     }
@@ -73,29 +77,33 @@ export default function ManageContactInfo() {
                             <div className="label">Phone 1</div>
                             <input
                                 className="form-input input"
-                                type="text"
+                                type="tel"
                                 {
                                     ...register("phone_number", 
                                     { 
                                         required: true,
+                                        maxLength: 10,
+                                        minLength: 10
                                     })
                                 }
                             />
-                            {errors?.phone_number && <p className="error-message">This is required.</p>}
+                            {errors?.phone_number && <p className="error-message">Provide valid phone number.</p>}
                         </div>
                         <div className="form-field">
                             <div className="label">Phone 2</div>
                             <input
                                 className="form-input input"
-                                type="text"
+                                type="tel"
                                 {
                                     ...register("alternate_phone_number", 
                                     { 
                                         required: true,
+                                        maxLength: 10,
+                                        minLength: 10
                                     })
                                 }
                             />
-                            {errors?.alternate_phone_number && <p className="error-message">This is required.</p>}
+                            {errors?.alternate_phone_number && <p className="error-message">Provide valid phone number.</p>}
                         </div>
                         <div className="form-field">
                             <div className="label">Email</div>

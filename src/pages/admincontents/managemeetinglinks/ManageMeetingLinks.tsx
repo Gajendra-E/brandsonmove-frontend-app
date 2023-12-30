@@ -11,7 +11,7 @@ export default function ManageMeetingLinks() {
     const [meetingLinks, setMeetingLinks] = useState<any>({});
     const [showEditForm, setShowEditForm] = useState<boolean>(false);
     const [editContent, setEditContent] = useState<any>({});
-    const { register, handleSubmit, watch, formState, control, setError, setValue, reset} = useForm({});
+    const { register, watch, formState, handleSubmit, control, setError, setValue, reset} = useForm({});
     const { errors } = formState;
 
     const performAction = (actiontype: any, linkdata: any) => {
@@ -24,10 +24,9 @@ export default function ManageMeetingLinks() {
         }
     }
 
-    const onSubmit = async (id: number, data: any) => {
-
+    const onSubmit = async (data: any) => {
         setLoading(true);
-        const result = await api.put(`/meeting-link/${id}`, data);
+        const result = await api.put(`/meeting-link/${editContent?.id}`, data);
         if(result?.data?.status==="success"){
             setLoading(false);
             showToast("Successfully added.", true);
@@ -35,7 +34,7 @@ export default function ManageMeetingLinks() {
             setLoading(false);
             showToast("Error.", false);
         }
-
+        reset();
     }
 
     const showToast = (message: any, status: any) => {
@@ -66,7 +65,7 @@ export default function ManageMeetingLinks() {
         <div>
             {showEditForm && 
                 <div className="dynamic-content-form">
-                    <form onSubmit={(e) => handleSubmit(onSubmit())}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-field">
                             <div className="label">Link</div>
                             <input
