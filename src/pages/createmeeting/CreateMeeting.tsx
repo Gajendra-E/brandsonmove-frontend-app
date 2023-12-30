@@ -94,25 +94,33 @@ const CreateMeeting: React.FC<any> = () => {
       preferedDateAndTimeslots: preferedDateAndTimeslots
     };
 
-    const result = await api.post('/meeting-requested-user', payload);
-    if(result.data.status==="success") {
-      sendAdminNotificationEmail(
-        {
-          isusernotificationemail: true,
-          name: data?.name || payload?.name,
-          email: data?.email || payload?.email
-        }
-      );
+    try {
+      const result = await api.post('/meeting-requested-user', payload);
+      if(result.data.status==="success") {
+        sendAdminNotificationEmail(
+          {
+            isusernotificationemail: true,
+            name: data?.name || payload?.name,
+            email: data?.email || payload?.email
+          }
+        );
+      }
+    } catch (error: any) {
+      console.log("Error while creating meeting", error);
     }
   }
 
-  const sendAdminNotificationEmail = (meetinginfo: any) => {
-    const result: any = sendEmail(meetinginfo);
-    if(result.data.status==="success") {
-      reset();
-      showToast("Notified to Brandsonmove.", true);
-    } else {
-      showToast("Issue while creating meeting.", false);
+  const sendAdminNotificationEmail = async (meetinginfo: any) => {
+    try {
+      const result: any = await sendEmail(meetinginfo);
+      if(result?.data?.status === "success") {
+        reset();
+        showToast("Notified to Brandsonmove.", true);
+      } else {
+        showToast("Issue while creating meeting.", false);
+      } 
+    } catch (error: any) {
+      console.log("Error while sending notification");
     }
   }
 
