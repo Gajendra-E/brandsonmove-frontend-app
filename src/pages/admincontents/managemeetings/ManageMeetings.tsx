@@ -15,7 +15,7 @@ export default function ManageMeetings() {
     useEffect(() => {
         const getMeetingInfo = async () => {
             const result = await api.get('/meeting-requested-user');
-            console.log(result)
+            console.log(">>>>>>>>>>>>>>>>>>>>", result)
             if(result.data.status==="success"){
                 setMeetings(result?.data?.payload);
             }
@@ -56,6 +56,12 @@ export default function ManageMeetings() {
            }
     }
 
+
+    const showItemsBasedOncondition = () => {
+        return meetings.filter((meeting: any) => meeting?.status != "Completed" && 
+        meeting?.preferedDateAndTimeslots?.every((timeslot: any) => timeslot?.status != "Declined"));
+    }
+
     return (
         <div>
             <div className="filter-options-container text-end">
@@ -67,7 +73,7 @@ export default function ManageMeetings() {
                 </select>
             </div>
 
-            {(meetings && meetings?.length > 0 ) ? (
+            {(showItemsBasedOncondition() && showItemsBasedOncondition()?.length > 0 ) ? (
                 <div className="meetings-table">
                     <div className="row">
                         <div className="col-2 meetings-content">
@@ -89,7 +95,7 @@ export default function ManageMeetings() {
                             <b>Complete</b>
                         </div>
                     </div>
-                    {meetings.map((meeting: any, index: any) => (
+                    {showItemsBasedOncondition() && showItemsBasedOncondition()?.length > 0 &&  showItemsBasedOncondition().map((meeting: any, index: any) => (
                        <div key={meeting?.id || index}>
                             {/* /{(!meeting?.is_meeting_completed && !isAllTimeSlotsDeclined(meeting)) && // */}
                                 <div className="row">
@@ -114,8 +120,8 @@ export default function ManageMeetings() {
                                         }
                                     </div>
                                     <div className="col-2 meetings-content">
-                                    {meeting.preferedDateAndTimeslots.map((item: any) =>
-                                        <div>
+                                    {meeting.preferedDateAndTimeslots.map((item: any, index: any) =>
+                                        <div key={index}>
                                             {convertoDate(item?.date)}, {convertTime(item?.time)}.
                                         </div>
                                     )}

@@ -20,11 +20,10 @@ export default function AdminLogin() {
         const dataObj : obj={email:data?.username,password:data?.password}
       
         try {
-           const result = await api.post('/users/login',dataObj )
-                if(result.data.status==="success"){
-                    navigate('/admin/managecontents')
-                }
-           ;
+           const result = await api.post('/users/login', dataObj);
+            if(result.data.status==="success"){
+                navigate('/admin/managecontents')
+            };
           } catch (e) {
             
             console.log(e)
