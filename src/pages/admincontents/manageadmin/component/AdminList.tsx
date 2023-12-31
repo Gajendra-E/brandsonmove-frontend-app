@@ -1,7 +1,5 @@
 import "../../css/admin.css";
-// import { useMutation, useSubscription } from "@apollo/client";
 import React, { useEffect, useState } from "react"
-// import { DELETE_ONE, GET_ADMINS } from "../../../../graphql";
 import LoadingSpinner from "../../../../components/common/loadingspinner/LoadingSpinner";
 import { showToast } from "../../../../utils/utils";
 import api from "../../../../api";
@@ -9,52 +7,42 @@ import api from "../../../../api";
 export default function AdminList() {
 
     const [admins, setAdmins] = useState<any>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const getAdminInfo = async () => {
+        const result = await api.get('/users');
+        if(result.data.status==="success"){
+            setAdmins(result?.data?.payload);
+        }
+    };
 
     useEffect(() => {
-        const getAdminInfo = async () => {
-            const result = await api.get('/users');
-            if(result.data.status==="success"){
-                setAdmins(result?.data?.payload);
-            }
-        };
         getAdminInfo();
     }, []);
     
 
-    const performAction = (actiontype: any, admin: any) => {
-        if(actiontype == "delete") {
-            console.log(actiontype);
-            if(admins && admins?.length <= 1) {
-                showToast("Error, you can not delete super admin.", false);
-            } else {
-                // deleteAdmin({
-                //     variables: {
-                //         id: admin?.id
-                //     }
-                // }).then((result: any) => {
-                //     showToast("Deleted successfully.", true);
-                // }).catch((error: any) => {
-                //     showToast("Unable to delete user.", false);
-                // });
+    const performAction = async (actiontype: any, admin: any) => {
+        setLoading(true);
+        try {
+            if(actiontype == "delete") {
+                if(admins && admins?.length <= 1) {
+                    setLoading(false);
+                    showToast("Error, you can not delete super admin.", false);
+                } else {
+                    const result = await api.delete(`/users/${admin?.id}`);
+                    console.log(result);
+                    if(result.data.status==="success") {
+                        getAdminInfo();
+                        setLoading(false);
+                        showToast("Deleted successfully.", true);
+                    }
+                }
             }
+        } catch (error: any) {
+            setLoading(false);
+            console.log("Error while deleting.", error);
         }
-        // if(actiontype == "edit") {
-        //     console.log(actiontype);
-        //     showToast("Action not implemented yet", false);
-        // }
     }
-
-    // if (loading) {
-    //     return (
-    //         <div className="page-loading-spinner-style">
-    //             <LoadingSpinner />
-    //         </div>
-    //     );
-    // }
-
-    // if (error) {
-    //     return <p>Error: {error?.message || "Something went wrong."}</p>;
-    // }
 
     if (!admins || admins?.length <= 0) {
         return <p>No Admin created yet.</p>;
@@ -83,16 +71,15 @@ export default function AdminList() {
                             {admin?.phone_number}
                         </div>
                         <div className="col meetings-content">
-                            <i
-                                className="bi bi-trash3 icon-delete"
-                                onClick={() => performAction("delete", admin)}
-                            >   
-                            </i>
-                            {/* <i
-                                className="bi bi-pen icon-edit"
-                                onClick={() => performAction("edit", admin)}
-                            >   
-                            </i> */}
+                            {loading ? (
+                                <LoadingSpinner />
+                            ) : (
+                                <i
+                                    className="bi bi-trash3 icon-delete"
+                                    onClick={() => performAction("delete", admin)}
+                                >   
+                                </i>
+                            )}
                         </div>
                     </div>
                 ))}

@@ -2,36 +2,44 @@ import "../../css/admin.css";
 import React, { useEffect, useState } from "react";
 import { showToast } from "../../../../utils/utils";
 import api from "../../../../api";
+import LoadingSpinner from "../../../../components/common/loadingspinner/LoadingSpinner";
 
 export default function ContentList() {
 
+    const [loading, setLoading] = useState<boolean>(false);
     const [contents, setContents] = useState<any>([]);
 
+    const getContentInfo = async () => {
+        const result = await api.get('/content');
+        if(result.data.status==="success"){
+            setContents(result?.data?.payload);
+        }
+    };
+
     useEffect(() => {
-        const getContentInfo = async () => {
-            const result = await api.get('/content');
-            if(result.data.status==="success"){
-                setContents(result?.data?.payload);
-            }
-        };
         getContentInfo();
     }, []);
 
-    const performAction = (actiontype: any, content: any) => {
-        if(actiontype == "delete") {
-            if(contents && contents?.length <= 1) {
-                showToast("Error, Add new content before deleting this", false);
-            } else {
-                // deleteAdmin({
-                //     variables: {
-                //         id: admin?.id
-                //     }
-                // }).then((result: any) => {
-                //     showToast("Deleted successfully.", true);
-                // }).catch((error: any) => {
-                //     showToast("Unable to delete user.", false);
-                // });
+    const performAction = async (actiontype: any, content: any) => {
+        setLoading(true);
+        try {
+            if(actiontype == "delete") {
+                if(contents && contents?.length <= 1) {
+                    setLoading(false);
+                    showToast("Error, Add new content before deleting this", false);
+                } else {
+                    const result = await api.delete(`/content/${content?.id}`);
+                    console.log(result);
+                    if(result.data.status==="success") {
+                        getContentInfo();
+                        setLoading(false);
+                        showToast("Deleted successfully.", true);
+                    }
+                }
             }
+        } catch (error: any) {
+            setLoading(false);
+            console.log("Error while deleting.", error);
         }
     }
 
@@ -82,11 +90,15 @@ export default function ContentList() {
                             {content?.document_link}
                         </div>
                         <div className="col-1 meetings-content">
-                            <i className="bi bi-trash3 icon-delete"
-                                onClick={() => performAction("delete", content)}
-                            >   
-                            </i>
-                            </div>
+                            {loading ? (
+                                <LoadingSpinner />
+                            ) : (
+                                <i className="bi bi-trash3 icon-delete"
+                                    onClick={() => performAction("delete", content)}
+                                >   
+                                </i>
+                            )}
+                        </div>
                     </div>
                 ))}
             </div>
