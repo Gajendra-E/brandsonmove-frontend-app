@@ -103,7 +103,6 @@ const CreateMeeting: React.FC<any> = () => {
           {
             isusernotificationemail: true,
             name: data?.name || payload?.name,
-            email: data?.email || payload?.email,
             preferedDateAndTimeslots: preferedDateAndTimeslots || payload?.preferedDateAndTimeslots
           }
         );

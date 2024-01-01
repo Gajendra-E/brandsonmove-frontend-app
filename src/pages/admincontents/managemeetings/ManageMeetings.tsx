@@ -1,50 +1,120 @@
 import "../css/admin.css";
 import React, { useEffect, useState } from "react";
 import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpinner";
-import { sendMail } from "../../../services/EmailService";
-import { constructEmailInviteProperties, convertoDate, convertTime, isAllTimeSlotsDeclined, isAnyOneTimeSlotInvited, isSameStatus, isTimeSlotAlreadyInvitedOrDeclined, showToast } from "../../../utils/utils";
+import { constructEmailInviteProperties, convertoDate, convertTime, isAllTimeSlotDeclined, isAllTimeSlotsDeclined, isAnyOneTimeSlotInvited, isSameStatus, isTimeSlotAlreadyInvitedOrDeclined, showToast } from "../../../utils/utils";
 import api from "../../../api";
+import { sendEmail } from "../../../services/EmailService";
 
 
 export default function ManageMeetings() {
 
     const [meetings, setMeetings] = useState<any>([]);
+    const [content, setContent] = useState<any>(null);
 
-    const getMeetingInfo = async () => {
+    const fetchAllMeetings = async () => {
         const result = await api.get('/meeting-requested-user');
         if(result.data.status==="success"){
             setMeetings(result?.data?.payload.reverse());
-            console.log("Timeslots", result?.data?.payload.reverse());
         }
     };
-    useEffect(() => {  
-        getMeetingInfo();
-    }, []);
 
-    const handleButtonClick = async(status: string, timeSlotId:number) => {
-        console.log(status);
-        let payload = { status: status };
+    const fetchContents = async () => {
+        const result = await api.get('/content');
+        if(result.data.status==="success"){
+            let content = result?.data?.payload.reverse();
+            setContent(content[0]);
+        }
+    }
+
+    const sendEmailNotification = async (payload: any) => {
         try {
-            const result = await api.put(`/meeting-time-slot/${timeSlotId}`, payload);
-            console.log(result);
-            if(result.data.status==="success"){
-                console.log(payload.status)
-                getMeetingInfo();
-            }
+          const result: any = await sendEmail(payload);
+          if(result?.data?.status === "success") {
+            showToast("Notified to user.", true);
+          } else {
+            showToast("Issue while creating meeting.", false);
+          } 
         } catch (error: any) {
-            console.log(error)
+          showToast("Issue while creating meeting.", false);
         }
-    };
+    }
 
-    const completeMeetingStatus = async(status: string, meetingRequestUserId:number) => {
+    const updateMeetingStatus = async (status: string, meeting: any, 
+        _timeslot: any, sendEmail: boolean, completeMeeting: boolean) => {
         let payload = { status: status };
         try {
-            const result = await api.put(`/meeting-requested-user/${meetingRequestUserId}`, payload )
+            const result = await api.put(`/meeting-time-slot/${_timeslot?.id}`, payload);
+            if (completeMeeting) {
+                const result = await api.put(`/meeting-requested-user/${meeting?.id}`, payload )
+                if(result.data.status==="success") {
+                    console.log(payload.status);
+                    sendEmailNotification({
+                        isusernotificationemail: true,
+                        name: meeting?.name,
+                        email: meeting?.email
+                    });
+                }
+            }
             if(result.data.status==="success") {
-                console.log(payload.status)
+                if(sendEmail) {
+                    sendEmailNotification({
+                        isusernotificationemail: true,
+                        name: meeting?.name,
+                        email: meeting?.email
+                    });
+                }
+                fetchAllMeetings();
             }
         } catch (error: any) {
             console.log(error)
+        }
+    }
+
+    const handleInviteOrDecline = async(status: string, meeting: any, _timeslot: any) => {
+        // const selectedTimeSlot = meeting?.preferedDateAndTimeslots?.find((timeslot: any) => timeslot?.id == _timeslot?.id);
+        if(_timeslot?.status !== "ACTIVE") {
+            showToast("Already status update.", true);
+        } else {
+            if(status === "Invited") {
+                updateMeetingStatus(status, meeting, _timeslot, true, false);
+            }
+            if(status === "Declined" && isAllTimeSlotDeclined(meeting?.preferedDateAndTimeslots)) {
+                updateMeetingStatus(status, meeting, _timeslot, true, true);
+                showToast("Decline status updated to user.", true);
+            }
+            if(status === "Declined" && !isAllTimeSlotDeclined(meeting?.preferedDateAndTimeslots)) {
+                updateMeetingStatus(status, meeting, _timeslot, false, false);
+            }
+        }
+    };
+
+    const completeMeetingStatus = async(status: string, meeting: any) => {
+        let payload = { status: status };
+        if(meeting?.status === "Completed") {
+            showToast("Meeting already completed", true);
+        } else {
+            // if(isAllTimeSlotDeclined(meeting?.preferedDateAndTimeslots)) {
+            // } 
+            if (isAnyOneTimeSlotInvited(meeting?.preferedDateAndTimeslots)) {
+                try {
+                    const result = await api.put(`/meeting-requested-user/${meeting?.id}`, payload )
+                    if(result.data.status==="success") {
+                        console.log(meeting);
+                        sendEmailNotification({
+                            isusernotificationemail: true,
+                            name: meeting?.name,
+                            email: meeting?.email,
+                            document_link: content.document_link
+                        });
+
+                    }
+                    fetchAllMeetings();
+                } catch (error: any) {
+                    console.log(error)
+                }
+            } else {
+                showToast("You can not complete the meeting without invite or decline the time slot.", false);
+            }
         }
     }
 
@@ -52,6 +122,11 @@ export default function ManageMeetings() {
         return meetings.filter((meeting: any) => (meeting?.status != "Completed" && 
             meeting.preferedDateAndTimeslots.some((timeslot: any) => timeslot.status !== 'Declined')));
     }
+
+    useEffect(() => {  
+        fetchAllMeetings();
+        fetchContents();
+    }, []);
 
     return (
         <div>
@@ -120,10 +195,10 @@ export default function ManageMeetings() {
                                     <div className="col-3 meetings-content">
                                         {meeting.preferedDateAndTimeslots.map((item: any) =>
                                             <div key={item.id}>
-                                                <button className={item?.status === 'Invited'? "button-approved" : "button-approve"} onClick={()=>handleButtonClick('Invited',item?.id)}>
+                                                <button className={item?.status === 'Invited'? "button-approved" : "button-approve"} onClick={()=> handleInviteOrDecline('Invited', meeting, item)}>
                                                     {item?.status === 'Invited'? "Invited" : "Invite"}
                                                 </button>
-                                                <button className={item?.status === 'Declined'? "button-declined" : "button-decline"} onClick={()=>handleButtonClick('Declined',item?.id)}>
+                                                <button className={item?.status === 'Declined'? "button-declined" : "button-decline"} onClick={()=> handleInviteOrDecline('Declined', meeting, item)}>
                                                     {item?.status === 'Declined'? "Declined" : "decline"}
                                                 </button>
                                             </div>
@@ -135,7 +210,7 @@ export default function ManageMeetings() {
                                         ) : (
                                             <button
                                                 className={`${meeting?.status === "Completed" ? "button-completed" : "button-complete"}`}
-                                                onClick={() => completeMeetingStatus("Completed",meeting.id)}
+                                                onClick={() => completeMeetingStatus("Completed", meeting)}
                                             >
                                                 {meeting?.status === "Completed" ? "Completed" : "Complete"}
                                             </button>
@@ -148,7 +223,8 @@ export default function ManageMeetings() {
                 </div>
             ) : (
                 <div className="page-loading-spinner-style">
-                    <LoadingSpinner />
+                    {/* <LoadingSpinner /> */}
+                    <p>No request recived.</p>
                 </div>
             ) } 
         </div>

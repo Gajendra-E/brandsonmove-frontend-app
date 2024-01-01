@@ -109,7 +109,7 @@ export const constructEmailInviteProperties = (meetinginfo: any, slot: any, emai
 }
 
 
-export const isAllTimeSlotsDeclined = (meetinginfo: any) => {
+export const isAllTimeSlotsDeclined: any = (meetinginfo: any) => {
   let availableSlots = [];
   if(meetinginfo?.timeslot1) {
       availableSlots.push(
@@ -129,25 +129,25 @@ export const isAllTimeSlotsDeclined = (meetinginfo: any) => {
   return availableSlots.every((item: any) => item.status === true);
 }
 
-export const isAnyOneTimeSlotInvited = (meetinginfo: any) => {
-  let availableSlots = [];
-  if(meetinginfo?.timeslot1) {
-      availableSlots.push(
-          { id: meetinginfo?.id, timeslot: meetinginfo?.timeslot1, status: meetinginfo?.timeslot1_is_accepted },
-      );
-  }
-  if(meetinginfo?.timeslot2) {
-      availableSlots.push(
-          { id: meetinginfo?.id, timeslot: meetinginfo?.timeslot2, status: meetinginfo?.timeslot2_is_accepted },
-      );
-  }
-  if(meetinginfo?.timeslot3) {
-      availableSlots.push(
-          { id: meetinginfo?.id, timeslot: meetinginfo?.timeslot3, status: meetinginfo?.timeslot3_is_accepted },
-      );
-  }
-  return availableSlots.some((item: any) => item.status === true);
-}
+// export const isAnyOneTimeSlotInvited = (meetinginfo: any) => {
+//   let availableSlots = [];
+//   if(meetinginfo?.timeslot1) {
+//       availableSlots.push(
+//           { id: meetinginfo?.id, timeslot: meetinginfo?.timeslot1, status: meetinginfo?.timeslot1_is_accepted },
+//       );
+//   }
+//   if(meetinginfo?.timeslot2) {
+//       availableSlots.push(
+//           { id: meetinginfo?.id, timeslot: meetinginfo?.timeslot2, status: meetinginfo?.timeslot2_is_accepted },
+//       );
+//   }
+//   if(meetinginfo?.timeslot3) {
+//       availableSlots.push(
+//           { id: meetinginfo?.id, timeslot: meetinginfo?.timeslot3, status: meetinginfo?.timeslot3_is_accepted },
+//       );
+//   }
+//   return availableSlots.some((item: any) => item.status === true);
+// }
 
 export const isSameStatus = (status: boolean, meeting: any, slot: any) => {
   if(status && slot == "slot1") {
@@ -170,15 +170,29 @@ export const isSameStatus = (status: boolean, meeting: any, slot: any) => {
   }
 }
 
-export const isTimeSlotAlreadyInvitedOrDeclined = (meeting: any, slot: string) => {
-  if(slot == "slot1") {
-      return meeting?.timeslot1_is_accepted || meeting?.timeslot1_is_declined;
-  }
-  if(slot == "slot2") {
-      return meeting?.timeslot2_is_accepted || meeting?.timeslot2_is_declined;
-  }
-  if(slot == "slot3") {
-      return meeting?.timeslot3_is_accepted || meeting?.timeslot3_is_declined;
+// export const isTimeSlotAlreadyInvitedOrDeclined = (meeting: any, slot: string) => {
+//   if(slot == "slot1") {
+//       return meeting?.timeslot1_is_accepted || meeting?.timeslot1_is_declined;
+//   }
+//   if(slot == "slot2") {
+//       return meeting?.timeslot2_is_accepted || meeting?.timeslot2_is_declined;
+//   }
+//   if(slot == "slot3") {
+//       return meeting?.timeslot3_is_accepted || meeting?.timeslot3_is_declined;
+//   }
+// }
+
+
+export const isTimeSlotAlreadyInvitedOrDeclined = (type: any, timeslot: any) => {
+  if(type === "Invited" || "Declined") {
+    return type === timeslot?.status;
   }
 }
 
+export const isAllTimeSlotDeclined = (timeslots: any) => {
+  return timeslots.every((timeslot: any) => timeslot.status === "Declined");
+}
+
+export const isAnyOneTimeSlotInvited = (timeslots: any) => {
+  return timeslots.some((item: any) => item.status === "Invited");
+}

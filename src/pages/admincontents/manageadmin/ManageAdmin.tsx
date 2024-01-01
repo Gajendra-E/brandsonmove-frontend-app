@@ -36,8 +36,9 @@ export default function ManageAdmin() {
                 setLoading(false);
                 showToast("Error.", false);
             }
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            console.log("error", error);
+            showToast(error.response.data.message, false);
         }
 
         reset();
