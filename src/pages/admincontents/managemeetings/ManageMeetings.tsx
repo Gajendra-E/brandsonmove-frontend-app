@@ -4,12 +4,21 @@ import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpi
 import { constructEmailInviteProperties, convertoDate, convertTime, isAllTimeSlotDeclined, isAllTimeSlotsDeclined, isAnyOneTimeSlotInvited, isSameStatus, isTimeSlotAlreadyInvitedOrDeclined, showToast } from "../../../utils/utils";
 import api from "../../../api";
 import { sendEmail } from "../../../services/EmailService";
-
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://localhost:3000";
 
 export default function ManageMeetings() {
 
     const [meetings, setMeetings] = useState<any>([]);
     const [content, setContent] = useState<any>(null);
+    
+
+  useEffect(() => {
+    const socket = socketIOClient(ENDPOINT,{ transports: ['websocket'], withCredentials: true });
+    socket.on("meeting-requested-user", () => { 
+        fetchAllMeetings()
+    });
+  }, []);
 
     const fetchAllMeetings = async () => {
         const result = await api.get('/meeting-requested-user');
