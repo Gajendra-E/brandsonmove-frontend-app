@@ -5,7 +5,7 @@ import { constructEmailInviteProperties, convertoDate, convertTime, isAllTimeSlo
 import api from "../../../api";
 import { sendEmail } from "../../../services/EmailService";
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://localhost:3000";
+const BACKENDURL = "http://localhost:3000";
 
 export default function ManageMeetings() {
 
@@ -14,7 +14,8 @@ export default function ManageMeetings() {
     
 
   useEffect(() => {
-    const socket = socketIOClient(ENDPOINT,{ transports: ['websocket'], withCredentials: true });
+    fetchAllMeetings()
+    const socket = socketIOClient(BACKENDURL,{ transports: ['websocket'], withCredentials: true });
     socket.on("meeting-requested-user", () => { 
         fetchAllMeetings()
     });

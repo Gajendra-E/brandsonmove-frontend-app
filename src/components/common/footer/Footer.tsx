@@ -9,22 +9,30 @@ import IconCall from "../../../assets/icons/call.svg";
 import IconMailbox from "../../../assets/icons/msailbox.svg";
 import IconLocation from "../../../assets/icons/location.svg";
 import api from "../../../api/"
+import socketIOClient from "socket.io-client";
+
+const BACKENDURL = "http://localhost:3000";
 
 export default function Footer() {
 
     const location = useLocation();
     const [contactInfo, setContactInfo] = useState<any>({});
 
-    useEffect(() => {
-        const getContactInfo = async () => {
-            const result = await api.get('/contact-info');
-            if(result.data.status==="success"){
-                setContactInfo(result?.data?.payload[0])
-            }
-        };
+    useEffect(() => {  
         getContactInfo();
-        return () => {};
+const socket = socketIOClient(BACKENDURL,{ transports: ['websocket'], withCredentials: true });
+    socket.on("contact-info", () => { 
+        getContactInfo();
+    });
+       
     }, []);
+
+    const getContactInfo = async () => {
+        const result = await api.get('/contact-info');
+        if(result.data.status==="success"){
+            setContactInfo(result?.data?.payload[0])
+        }
+    };
 
     return (
         <div className="Footer">

@@ -101,7 +101,7 @@ const CreateMeeting: React.FC<any> = () => {
       if(result.data.status==="success") {
         sendAdminNotificationEmail(
           {
-            isusernotificationemail: true,
+            isadminnotificationemail: true,
             name: data?.name || payload?.name,
             preferedDateAndTimeslots: preferedDateAndTimeslots || payload?.preferedDateAndTimeslots
           }
