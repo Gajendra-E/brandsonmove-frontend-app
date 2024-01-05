@@ -18,14 +18,16 @@ export default function AdminLogin() {
     const onSubmit = async(data: any) => {
         type obj ={ email:string,password:string}
         const dataObj : obj={email:data?.username,password:data?.password}
-      
         try {
            const result = await api.post('/users/login', dataObj);
+           if(result.data.status==="failed") {
+                showToast(result.data.message, false);
+                return;
+            }
             if(result.data.status==="success"){
                 navigate('/admin/managecontents')
             };
           } catch (e) {
-            
             console.log(e)
           }
           
