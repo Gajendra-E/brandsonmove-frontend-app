@@ -23,26 +23,6 @@
     position: relative;
 }
 
-/* .admin-nav a::after{
-    content: '';
-    position: absolute;
-    width: 0; 
-    height: 4px;
-    display: block;
-    margin-top: 12px;
-    right: 0;
-    background: #75BA75;
-    transition: width .2s ease-in-out;
-    -webkit-transition: width .2s ease-in-out;
-    box-shadow: 0 0 5px #75BA75, 0 0 25px #75BA75, 0 0 50px #75BA75, 0 0 100px #75BA75;;
-}
-  
-.admin-nav a:hover:after{
-    width: 100%;
-    left: 0;
-    background: #75BA75;
-} */
-
 .dynamic-content-form {
     padding: 1rem 5rem;
 }
@@ -79,7 +59,6 @@
 }
 
 .meetings-table {
-    /* border: 1px solid #e5e5e5; */
     margin: 2rem 3rem;
     font-size: 1.5rem;
     overflow-wrap: break-word;
@@ -101,7 +80,6 @@
 }
 
 .meetings-table {
-    /* border: 1px solid #e5e5e5; */
     margin: 2rem 3rem;
     font-size: 1.5rem;
     overflow-wrap: break-word;
@@ -172,7 +150,6 @@
     text-align: center;
     margin: 2rem;
 }
-
 
 .filter-options-container {
     margin: 2rem 3rem;

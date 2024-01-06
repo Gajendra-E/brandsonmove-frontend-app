@@ -23,6 +23,7 @@ export default function ManageMeetings() {
 
     const fetchAllMeetings = async () => {
         const result = await api.get('/meeting-requested-user');
+        console.log("ReSULT", result);
         if(result.data.status==="success"){
             setMeetings(result?.data?.payload.reverse());
         }
@@ -37,8 +38,10 @@ export default function ManageMeetings() {
     }
 
     const sendEmailNotification = async (payload: any) => {
+        console.log("Email payload", payload);
         try {
           const result: any = await sendEmail(payload);
+          console.log("Email Status", result);
           if(result?.data?.status === "success") {
             showToast("Notified to user.", true);
           } else {
@@ -54,14 +57,17 @@ export default function ManageMeetings() {
         let payload = { status: status };
         try {
             const result = await api.put(`/meeting-time-slot/${_timeslot?.id}`, payload);
+            console.log("1", result);
+            console.log("MEETINGs", meetings);
             if (completeMeeting) {
                 const result = await api.put(`/meeting-requested-user/${meeting?.id}`, payload )
                 if(result.data.status==="success") {
                     console.log(payload.status);
                     sendEmailNotification({
-                        isusernotificationemail: true,
+                        ismeetingcompleteemail: true,
                         name: meeting?.name,
-                        email: meeting?.email
+                        email: meeting?.email,
+                        documentlink: "https://drive.google.com/dorument......"
                     });
                 }
             }
@@ -70,11 +76,16 @@ export default function ManageMeetings() {
                     sendEmailNotification({
                         isusernotificationemail: true,
                         name: meeting?.name,
-                        email: meeting?.email
+                        email: meeting?.email,
+                        // Need to decided
+                        meetinginvitelink: "https:www.google.com/meeting invitation link",
+                        passcode: "Passcode",
+                        approvedtimeslot:{date: "time", time: "time"}
+
                     });
                 }
-                fetchAllMeetings();
             }
+            fetchAllMeetings();
         } catch (error: any) {
             console.log(error)
         }
@@ -83,16 +94,19 @@ export default function ManageMeetings() {
     const handleInviteOrDecline = async(status: string, meeting: any, _timeslot: any) => {
         // const selectedTimeSlot = meeting?.preferedDateAndTimeslots?.find((timeslot: any) => timeslot?.id == _timeslot?.id);
         if(_timeslot?.status !== "ACTIVE") {
+            console.log("sadfsad", meeting?.preferedDateAndTimeslots);
             showToast("Already status update.", true);
         } else {
             if(status === "Invited") {
                 updateMeetingStatus(status, meeting, _timeslot, true, false);
             }
             if(status === "Declined" && isAllTimeSlotDeclined(meeting?.preferedDateAndTimeslots)) {
+                alert("declined all time slots declined...");
                 updateMeetingStatus(status, meeting, _timeslot, true, true);
                 showToast("Decline status updated to user.", true);
             }
             if(status === "Declined" && !isAllTimeSlotDeclined(meeting?.preferedDateAndTimeslots)) {
+                alert("declined !  not all time slots declined...");
                 updateMeetingStatus(status, meeting, _timeslot, false, false);
             }
         }
@@ -129,6 +143,7 @@ export default function ManageMeetings() {
     }
 
     const filteredMeetingsData = () => {
+        // return meetings;
         return meetings.filter((meeting: any) => (meeting?.status != "Completed" && 
             meeting.preferedDateAndTimeslots.some((timeslot: any) => timeslot.status !== 'Declined')));
     }

@@ -20,8 +20,8 @@ export default function Footer() {
 
     useEffect(() => {  
         getContactInfo();
-const socket = socketIOClient(BACKENDURL,{ transports: ['websocket'], withCredentials: true });
-    socket.on("contact-info", () => { 
+        const socket = socketIOClient(BACKENDURL,{ transports: ['websocket'], withCredentials: true });
+        socket.on("contact-info", () => { 
         getContactInfo();
     });
        

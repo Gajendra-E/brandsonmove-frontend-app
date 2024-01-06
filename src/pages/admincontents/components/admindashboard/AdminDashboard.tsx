@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import AppRouter from "../../../../components/common/approuter/AppRouter";
 import IconAppLogo from "../../../../assets/icons/applogo.png";
-// import "././css/admin.css";
 
 export default function AdminDashboard() {
 
