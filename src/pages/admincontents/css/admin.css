@@ -154,3 +154,9 @@
 .filter-options-container {
     margin: 2rem 3rem;
 }
+
+.logout {
+    padding: 10px;
+    font-size: 1.4rem;
+    color: red;
+}

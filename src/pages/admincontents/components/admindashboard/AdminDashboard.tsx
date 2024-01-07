@@ -1,5 +1,6 @@
+import "../../css/admin.css";
 import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import AppRouter from "../../../../components/common/approuter/AppRouter";
 import IconAppLogo from "../../../../assets/icons/applogo.png";
@@ -7,6 +8,12 @@ import IconAppLogo from "../../../../assets/icons/applogo.png";
 export default function AdminDashboard() {
 
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    navigate("/");
+  }
 
   useEffect(() => {
     
@@ -47,6 +54,12 @@ export default function AdminDashboard() {
                 className={location?.pathname == "/admin/managecontactinfo" ? "admin-menu-active" : ""}
                 to="/admin/managecontactinfo"
               >Manage Contact Info</Link>
+              <span
+                className="logout"
+                onClick={logout}
+              >
+                Logout
+              </span>
             </div>
           }
           <div>

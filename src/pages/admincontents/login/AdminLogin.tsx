@@ -24,13 +24,13 @@ export default function AdminLogin() {
                 showToast(result.data.message, false);
                 return;
             }
-            if(result.data.status==="success"){
+            if(result.data.status==="success") {
+                localStorage.setItem("accessToken", result?.data?.token);
                 navigate('/admin/managecontents')
             };
-          } catch (e) {
+        } catch (e) {
             console.log(e)
-          }
-          
+        }
     };
 
     const showToast = (message: any, status: any) => {

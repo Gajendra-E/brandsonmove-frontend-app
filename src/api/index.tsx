@@ -9,13 +9,26 @@ interface AxiosConfig {
   };
 }
 
+const headers: any = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json'
+}
+
+if(localStorage.getItem("accessToken")) {
+  headers["Authorization"] = `Bearer ${localStorage.getItem("accessToken")}`
+}
+
 // Create an Axios instance with the specified configuration
 const api: AxiosInstance = axios.create({
   baseURL: 'http://localhost:3000',
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  }
+  headers: headers
 });
 
 export default api;
+
+
+
+
+
+
+
