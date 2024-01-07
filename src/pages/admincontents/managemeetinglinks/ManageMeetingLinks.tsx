@@ -18,22 +18,29 @@ export default function ManageMeetingLinks() {
         // if(actiontype == "delete") {
         //     showToast("Action not implemented yet.", false);
         // }
+        console.log(linkdata);
+
         if(actiontype == "edit") {
-            setEditContent(linkdata)
+            setEditContent(linkdata);
+            setValue("link", editContent?.link || linkdata?.link);
+            setValue("pass_code", editContent?.pass_code || linkdata?.pass_code);
             setShowEditForm(!showEditForm);
         }
     }
 
     const onSubmit = async (data: any) => {
+        console.log(data);
         setLoading(true);
         const result = await api.put(`/meeting-link/${editContent?.id}`, data);
         if(result?.data?.status==="success"){
             setLoading(false);
+            setShowEditForm(!showEditForm);
             showToast("Successfully added.", true);
         } else {
             setLoading(false);
             showToast("Error.", false);
         }
+        getMeetingLinks();
         reset();
     }
 
@@ -50,14 +57,15 @@ export default function ManageMeetingLinks() {
         }
     }
 
+    const getMeetingLinks = async () => {
+        const result = await api.get('/meeting-link');
+        console.log(result);
+        if(result.data.status==="success"){
+            setMeetingLinks(result?.data?.payload);
+        }
+    };
+
     useEffect(() => {
-        const getMeetingLinks = async () => {
-            const result = await api.get('/meeting-link');
-            console.log(result);
-            if(result.data.status==="success"){
-                setMeetingLinks(result?.data?.payload);
-            }
-        };
         getMeetingLinks();
     }, []);
    
@@ -86,13 +94,13 @@ export default function ManageMeetingLinks() {
                                 className="form-input input"
                                 type="text"
                                 {
-                                    ...register("passcode", 
+                                    ...register("pass_code", 
                                     { 
                                         required: false,
                                     })
                                 }
                             />
-                            {errors.passcode && <p className="error-message">This is required.</p>}
+                            {errors.pass_code && <p className="error-message">This is required.</p>}
                         </div>
                         <div className="text-center mt-4 mb-2">
                             {/* {updatingMeetingLink ? (
