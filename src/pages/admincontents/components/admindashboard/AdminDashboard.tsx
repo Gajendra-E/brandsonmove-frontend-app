@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import AppRouter from "../../../../components/common/approuter/AppRouter";
-import IconAppLogo from "../../../../assets/icons/applogo.png";
 
 export default function AdminDashboard() {
 
@@ -25,11 +24,6 @@ export default function AdminDashboard() {
 
           {!location.pathname.includes("/admin/login") &&
             <div className="admin-nav">
-
-              <Link to="/" >
-                <img className="navbar-logo" src={IconAppLogo} />
-              </Link>
-
               <Link
                 className={location?.pathname == "/admin/managecontents" ? "admin-menu-active" : ""}
                 to="/admin/managecontents"

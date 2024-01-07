@@ -14,7 +14,7 @@ export default function ManageMeetings() {
     
 
   useEffect(() => {
-    fetchAllMeetings()
+    fetchAllMeetings();
     const socket = socketIOClient(BACKENDURL,{ transports: ['websocket'], withCredentials: true });
     socket.on("meeting-requested-user", () => { 
         fetchAllMeetings()
@@ -67,7 +67,7 @@ export default function ManageMeetings() {
                         ismeetingcompleteemail: true,
                         name: meeting?.name,
                         email: meeting?.email,
-                        documentlink: "https://drive.google.com/dorument......"
+                        documentlink: content?.document_link
                     });
                 }
             }
