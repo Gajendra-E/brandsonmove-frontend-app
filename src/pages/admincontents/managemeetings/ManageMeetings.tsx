@@ -110,12 +110,10 @@ export default function ManageMeetings() {
                 updateMeetingStatus(status, meeting, _timeslot, true, false);
             }
             if(status === "Declined" && isAllTimeSlotDeclined(meeting?.preferedDateAndTimeslots)) {
-                alert("declined all time slots declined...");
                 updateMeetingStatus(status, meeting, _timeslot, true, true);
                 showToast("Decline status updated to user.", true);
             }
             if(status === "Declined" && !isAllTimeSlotDeclined(meeting?.preferedDateAndTimeslots)) {
-                alert("declined !  not all time slots declined...");
                 updateMeetingStatus(status, meeting, _timeslot, false, false);
             }
         }
