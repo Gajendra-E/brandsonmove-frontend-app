@@ -10,9 +10,14 @@ export default function ContentList() {
     const [contents, setContents] = useState<any>([]);
 
     const getContentInfo = async () => {
-        const result = await api.get('/content');
-        if(result.data.status==="success"){
-            setContents(result?.data?.payload);
+        try {
+            const result = await api.get('/content');
+            console.log("content result", result);
+            if(result.data.status==="success"){
+                setContents(result?.data?.payload);
+            }
+        } catch (error: any) {
+            console.log("Error content list", error);
         }
     };
 

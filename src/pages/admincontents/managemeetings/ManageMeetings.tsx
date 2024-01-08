@@ -22,19 +22,28 @@ export default function ManageMeetings() {
   }, []);
 
     const fetchAllMeetings = async () => {
-        const result = await api.get('/meeting-requested-user');
-        console.log("ReSULT", result);
-        if(result.data.status==="success"){
-            setMeetings(result?.data?.payload.reverse());
+        try {
+            const result = await api.get('/meeting-requested-user');
+            console.log("ReSULT", result);
+            if(result.data.status==="success"){
+                setMeetings(result?.data?.payload.reverse());
+            }   
+        } catch (error: any) {
+            console.log("Error fetch meetings", error);
         }
     };
 
     const fetchContents = async () => {
-        const result = await api.get('/content');
-        if(result.data.status==="success"){
-            let content = result?.data?.payload.reverse();
-            setContent(content[0]);
+        try {
+            const result = await api.get('/content');
+            if(result.data.status==="success"){
+                let content = result?.data?.payload.reverse();
+                setContent(content[0]);
+            }
+        } catch (error: any) {
+            console.log("Error fetch contents", error);
         }
+
     }
 
     const sendEmailNotification = async (payload: any) => {

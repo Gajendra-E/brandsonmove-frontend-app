@@ -15,17 +15,21 @@ export default function ManageContents() {
     const { errors } = formState;
 
     const onSubmit = async (data: any) => {
-        setLoading(true);
-        const result = await api.post('/content', data);
-        if(result?.data?.status==="success"){
+        try {
+            setLoading(true);
+            const result = await api.post('/content', data);
+            if(result?.data?.status==="success"){
+                setLoading(false);
+                showToast("Successfully added.", true);
+                reset();
+            } else {
+                setLoading(false);
+                showToast("Error.", false);
+            }
+        } catch (error: any) {
             setLoading(false);
-            showToast("Successfully added.", true);
-        } else {
-            setLoading(false);
-            showToast("Error.", false);
+            console.log("Error while saving", error);
         }
-
-        reset();
     }
 
     return (
@@ -118,6 +122,21 @@ export default function ManageContents() {
                                 }
                             />
                             {errors?.document_link && <p className="error-message">This is required.</p>}
+                        </div>
+
+                        <div className="form-field">
+                            <div className="label">Document Link</div>
+                            <input
+                                className="form-input input"
+                                type="file"
+                                {
+                                    ...register("attachment_file", 
+                                    { 
+                                        required: true,
+                                    })
+                                }
+                            />
+                            {errors?.attachment_file && <p className="error-message">This is required.</p>}
                         </div>
                 
                         <div className="text-center mt-3 mb-2">

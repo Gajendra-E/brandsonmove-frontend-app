@@ -40,17 +40,27 @@ const CreateMeeting: React.FC<any> = () => {
 
   useEffect(() => {
     const getContentInfo = async () => {
-      const result = await api.get('/content');
-      if(result.data.status==="success"){
-        let content = result?.data?.payload.reverse();
-        setContent(content[0]);
+      try {
+        const result = await api.get('/content');
+        console.log("Content result>>>>>",result);
+        if(result.data.status==="success") {
+          let content = result?.data?.payload.reverse();
+          setContent(content[0]);
+        }
+      } catch (error: any) {
+        console.log("Content error", error);
       }
     };
 
     const getMeetingLinks = async () => {
-      const result = await api.get('/meeting-link');
-      if(result.data.status==="success"){
-        setMeetingLinks(result?.data?.payload);
+      try {
+        const result = await api.get('/meeting-link');
+        console.log("Links result", result);
+        if(result.data.status==="success") {
+          setMeetingLinks(result?.data?.payload);
+        }
+      } catch (error: any) {
+        console.log("Meeting links error", error);
       }
     };
 
@@ -175,7 +185,7 @@ const CreateMeeting: React.FC<any> = () => {
       });
     }
 
-    console.log(errors);
+    // console.log(errors);
 
     return () => {
       window.removeEventListener("resize", setDimension);
