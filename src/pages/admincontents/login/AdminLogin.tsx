@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../css/admin.css";
+import "../css/admin.scss";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpinner";

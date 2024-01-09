@@ -1,4 +1,4 @@
-import "../../css/admin.css";
+import "../../css/admin.scss";
 import React, { useEffect, useState } from "react";
 import { showToast } from "../../../../utils/utils";
 import api from "../../../../api";
@@ -12,7 +12,6 @@ export default function ContentList() {
     const getContentInfo = async () => {
         try {
             const result = await api.get('/content');
-            console.log("content result", result);
             if(result.data.status==="success"){
                 setContents(result?.data?.payload);
             }
@@ -34,7 +33,6 @@ export default function ContentList() {
                     showToast("Error, Add new content before deleting this", false);
                 } else {
                     const result = await api.delete(`/content/${content?.id}`);
-                    console.log(result);
                     if(result.data.status==="success") {
                         getContentInfo();
                         setLoading(false);

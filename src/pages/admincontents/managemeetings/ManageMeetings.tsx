@@ -1,7 +1,7 @@
-import "../css/admin.css";
+import "../css/admin.scss";
 import React, { useEffect, useState } from "react";
 import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpinner";
-import { constructEmailInviteProperties, convertoDate, convertTime, isAllTimeSlotDeclined, isAllTimeSlotsDeclined, isAnyOneTimeSlotInvited, isSameStatus, isTimeSlotAlreadyInvitedOrDeclined, showToast } from "../../../utils/utils";
+import { convertoDate, convertTime, isAllTimeSlotDeclined, isAnyOneTimeSlotInvited, showToast } from "../../../utils/utils";
 import api from "../../../api";
 import { sendEmail } from "../../../services/EmailService";
 import socketIOClient from "socket.io-client";
@@ -11,46 +11,21 @@ export default function ManageMeetings() {
 
     const [meetings, setMeetings] = useState<any>([]);
     const [content, setContent] = useState<any>(null);
+    const [meetingLinks, setMeetingLinks] = useState<any>([]);
     
+    useEffect(() => {
+        const socket = socketIOClient(BACKENDURL,{ transports: ['websocket'], withCredentials: true });
+        socket.on("meeting-requested-user", () => { 
+            fetchAllMeetings()
+        });
 
-  useEffect(() => {
-    fetchAllMeetings();
-    const socket = socketIOClient(BACKENDURL,{ transports: ['websocket'], withCredentials: true });
-    socket.on("meeting-requested-user", () => { 
-        fetchAllMeetings()
-    });
-  }, []);
-
-    const fetchAllMeetings = async () => {
-        try {
-            const result = await api.get('/meeting-requested-user');
-            console.log("ReSULT", result);
-            if(result.data.status==="success"){
-                setMeetings(result?.data?.payload.reverse());
-            }   
-        } catch (error: any) {
-            console.log("Error fetch meetings", error);
-        }
-    };
-
-    const fetchContents = async () => {
-        try {
-            const result = await api.get('/content');
-            if(result.data.status==="success"){
-                let content = result?.data?.payload.reverse();
-                setContent(content[0]);
-            }
-        } catch (error: any) {
-            console.log("Error fetch contents", error);
-        }
-
-    }
+        fetchAllMeetings();
+        fetchContentAndMeetingLinks();
+    }, []);
 
     const sendEmailNotification = async (payload: any) => {
-        console.log("Email payload", payload);
         try {
           const result: any = await sendEmail(payload);
-          console.log("Email Status", result);
           if(result?.data?.status === "success") {
             showToast("Notified to user.", true);
           } else {
@@ -61,49 +36,46 @@ export default function ManageMeetings() {
         }
     }
 
-    const updateMeetingStatus = async (status: string, meeting: any, 
-        _timeslot: any, sendEmail: boolean, completeMeeting: boolean) => {
+    const updateMeetingStatus = async (status: string, meeting: any, _timeslot: any, sendEmail: boolean, completeMeeting: boolean) => {
         let payload = { status: status };
+
         try {
             const result = await api.put(`/meeting-time-slot/${_timeslot?.id}`, payload);
-            console.log("1", result);
-            console.log("MEETINGs", meetings);
-            if (completeMeeting) {
-                const result = await api.put(`/meeting-requested-user/${meeting?.id}`, payload )
-                if(result.data.status==="success") {
-                    console.log(payload.status);
-                    sendEmailNotification({
-                        ismeetingcompleteemail: true,
-                        name: meeting?.name,
-                        email: meeting?.email,
-                        documentlink: content?.document_link
-                    });
-                }
-            }
             if(result.data.status==="success") {
                 if(sendEmail) {
                     sendEmailNotification({
                         isusernotificationemail: true,
                         name: meeting?.name,
-                        email: meeting?.email,
-                        // Need to decided
-                        meetinginvitelink: "https:www.google.com/meeting invitation link",
-                        passcode: "Passcode",
-                        approvedtimeslot:{date: "time", time: "time"}
-
+                        toemail: meeting?.email,
+                        meetinginvitelink: getMeetingLink(meeting?.type)?.link,
+                        passcode: getMeetingLink(meeting?.type)?.pass_code,
+                        approvedtimeslot: {
+                            date: _timeslot?.date,
+                            time: _timeslot?.time
+                        }
                     });
+                }
+                if (completeMeeting) {
+                    const result = await api.put(`/meeting-requested-user/${meeting?.id}`, payload )
+                    if(result.data.status==="success") {
+                        sendEmailNotification({
+                            isinvitedeclineemails: true,
+                            name: meeting?.name,
+                            toemail: meeting?.email,
+                            documentlink: content?.document_link
+                        });
+                    }
                 }
             }
             fetchAllMeetings();
         } catch (error: any) {
-            console.log(error)
+            console.log("Error while updating status", error);
         }
     }
 
     const handleInviteOrDecline = async(status: string, meeting: any, _timeslot: any) => {
         // const selectedTimeSlot = meeting?.preferedDateAndTimeslots?.find((timeslot: any) => timeslot?.id == _timeslot?.id);
         if(_timeslot?.status !== "ACTIVE") {
-            console.log("sadfsad", meeting?.preferedDateAndTimeslots);
             showToast("Already status update.", true);
         } else {
             if(status === "Invited") {
@@ -130,12 +102,11 @@ export default function ManageMeetings() {
                 try {
                     const result = await api.put(`/meeting-requested-user/${meeting?.id}`, payload )
                     if(result.data.status==="success") {
-                        console.log(meeting);
                         sendEmailNotification({
-                            isusernotificationemail: true,
+                            ismeetingcompleteemail: true,
                             name: meeting?.name,
-                            email: meeting?.email,
-                            document_link: content.document_link
+                            toemail: meeting?.email,
+                            // documentlink: content?.document_link
                         });
 
                     }
@@ -155,10 +126,33 @@ export default function ManageMeetings() {
             meeting.preferedDateAndTimeslots.some((timeslot: any) => timeslot.status !== 'Declined')));
     }
 
-    useEffect(() => {  
-        fetchAllMeetings();
-        fetchContents();
-    }, []);
+    const getMeetingLink = (type: string) => {
+        return meetingLinks.find((link: any) => link?.meeting_type == type);
+    }
+
+    const fetchAllMeetings = async () => {
+        try {
+            const result = await api.get('/meeting-requested-user');
+            if(result.data.status==="success"){
+                setMeetings(result?.data?.payload.reverse());
+            }  
+        } catch (error: any) {
+            console.log("Error fetch meetings", error);
+        }
+    };
+
+    const fetchContentAndMeetingLinks = async () => {
+        try {
+          const [result1, result2] = await Promise.all([
+            api.get("/content"),
+            api.get("/meeting-link"),
+          ]);
+          setContent(result1?.data?.payload[0]);
+          setMeetingLinks(result2?.data?.payload);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+    };
 
     return (
         <div>
@@ -220,7 +214,7 @@ export default function ManageMeetings() {
                                     <div className="col-2 meetings-content">
                                         {meeting.preferedDateAndTimeslots.map((item: any, index: any) =>
                                             <div key={index}>
-                                                {convertoDate(item?.date)}, {convertTime(item?.time)}.
+                                                {convertoDate(item?.date)}, {(item?.time)}.
                                             </div>
                                         )}
                                     </div>

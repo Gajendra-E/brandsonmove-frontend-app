@@ -1,4 +1,4 @@
-import "../css/admin.css";
+import "../css/admin.scss";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";

@@ -42,7 +42,6 @@ const CreateMeeting: React.FC<any> = () => {
     const getContentInfo = async () => {
       try {
         const result = await api.get('/content');
-        console.log("Content result>>>>>",result);
         if(result.data.status==="success") {
           let content = result?.data?.payload.reverse();
           setContent(content[0]);
@@ -55,7 +54,6 @@ const CreateMeeting: React.FC<any> = () => {
     const getMeetingLinks = async () => {
       try {
         const result = await api.get('/meeting-link');
-        console.log("Links result", result);
         if(result.data.status==="success") {
           setMeetingLinks(result?.data?.payload);
         }
@@ -184,8 +182,6 @@ const CreateMeeting: React.FC<any> = () => {
         }
       });
     }
-
-    // console.log(errors);
 
     return () => {
       window.removeEventListener("resize", setDimension);

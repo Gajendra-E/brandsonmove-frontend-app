@@ -1,4 +1,4 @@
-import "../css/admin.css";
+import "../css/admin.scss";
 
 export default function SyndicateRoom() {
   return (

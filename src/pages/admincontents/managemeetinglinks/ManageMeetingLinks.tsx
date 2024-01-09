@@ -1,4 +1,4 @@
-import "../css/admin.css";
+import "../css/admin.scss";
 import React, { useState, useEffect } from "react";
 import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpinner";
 import { toast } from "react-toastify";
@@ -18,8 +18,6 @@ export default function ManageMeetingLinks() {
         // if(actiontype == "delete") {
         //     showToast("Action not implemented yet.", false);
         // }
-        console.log(linkdata);
-
         if(actiontype == "edit") {
             setEditContent(linkdata);
             setValue("link", editContent?.link || linkdata?.link);
@@ -29,7 +27,6 @@ export default function ManageMeetingLinks() {
     }
 
     const onSubmit = async (data: any) => {
-        console.log(data);
         setLoading(true);
         const result = await api.put(`/meeting-link/${editContent?.id}`, data);
         if(result?.data?.status==="success"){
@@ -58,10 +55,13 @@ export default function ManageMeetingLinks() {
     }
 
     const getMeetingLinks = async () => {
-        const result = await api.get('/meeting-link');
-        console.log(result);
-        if(result.data.status==="success"){
-            setMeetingLinks(result?.data?.payload);
+        try {
+            const result = await api.get('/meeting-link');
+            if(result.data.status==="success"){
+                setMeetingLinks(result?.data?.payload);
+            }
+        } catch (error: any) {
+            console.log("Error while getting meeting links", error);   
         }
     };
 

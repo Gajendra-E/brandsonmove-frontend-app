@@ -1,4 +1,4 @@
-import "../css/admin.css";
+import "../css/admin.scss";
 import React, { useState } from "react";
 // import { useMutation } from "@apollo/client";
 // import { INSERT_ONE } from "../../../graphql";

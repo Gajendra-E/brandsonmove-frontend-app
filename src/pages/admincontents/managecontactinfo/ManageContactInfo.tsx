@@ -1,4 +1,4 @@
-import "../css/admin.css";
+import "../css/admin.scss";
 import React, { useEffect, useState } from "react";
 // import { useMutation, useQuery } from "@apollo/client";
 // import { Q_GET_CONTACT_INFO, UPDATE_ONE } from "../../../graphql";
@@ -36,14 +36,12 @@ export default function ManageContactInfo() {
     }
 
     const onSubmit = async (data: any) => {
-        console.log(contactInfo.id)
         const result = await api.put(`/contact-info/${contactInfo?.id}`, {
             "phone_number": data.phone_number,
             "alternate_phone_number": data.alternate_phone_number,
             "email": data.email,
             "address": data.address
         });
-        console.log(result)
 
         if(result.data.status==="success"){
             // setContactInfo(result?.data?.payload[0]);

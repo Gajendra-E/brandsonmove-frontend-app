@@ -1,4 +1,4 @@
-import "../../css/admin.css";
+import "../../css/admin.scss";
 import React, { useEffect, useState } from "react"
 import LoadingSpinner from "../../../../components/common/loadingspinner/LoadingSpinner";
 import { showToast } from "../../../../utils/utils";
@@ -30,7 +30,6 @@ export default function AdminList() {
                     showToast("Error, you can not delete super admin.", false);
                 } else {
                     const result = await api.delete(`/users/${admin?.id}`);
-                    console.log(result);
                     if(result.data.status==="success") {
                         getAdminInfo();
                         setLoading(false);

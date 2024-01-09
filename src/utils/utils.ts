@@ -190,8 +190,6 @@ export const isTimeSlotAlreadyInvitedOrDeclined = (type: any, timeslot: any) => 
 }
 
 export const isAllTimeSlotDeclined = (timeslots: any) => {
-  console.log("timeslots", timeslots);
-  console.log("evERY", timeslots.every((timeslot: any) => timeslot.status === "Declined"));
   return timeslots.every((timeslot: any) => timeslot.status === "Declined");
 }
 
