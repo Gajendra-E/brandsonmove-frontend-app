@@ -78,9 +78,22 @@ export default function ManageMeetings() {
         if(_timeslot?.status !== "ACTIVE") {
             showToast("Already status update.", true);
         } else {
-            if(status === "Invited") {
+            // if(status === "Invited") {
+            //     updateMeetingStatus(status, meeting, _timeslot, true, false);
+            // }
+            if (status === "Invited" && isAnyOneTimeSlotInvited(meeting?.preferedDateAndTimeslots)) {
+                showToast("Meeting already schudled.", true);
+                return;
+            }
+            if (status === "Invited" && !isAnyOneTimeSlotInvited(meeting?.preferedDateAndTimeslots)) {
                 updateMeetingStatus(status, meeting, _timeslot, true, false);
             }
+
+            if(status === "Declined" && isAnyOneTimeSlotInvited(meeting?.preferedDateAndTimeslots)) {
+                showToast("Meeting already schudled.", true);
+                return;
+            }
+
             if(status === "Declined" && isAllTimeSlotDeclined(meeting?.preferedDateAndTimeslots)) {
                 updateMeetingStatus(status, meeting, _timeslot, true, true);
                 showToast("Decline status updated to user.", true);
