@@ -30,6 +30,7 @@ export default function ManageContents() {
             setLoading(false);
             console.log("Error while saving", error);
         }
+        setShowForm(!showForm)
     }
 
     return (
