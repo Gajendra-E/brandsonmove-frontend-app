@@ -125,20 +125,20 @@ export default function ManageContents() {
                             {errors?.document_link && <p className="error-message">This is required.</p>}
                         </div>
 
-                        <div className="form-field">
+                        {/* <div className="form-field">
                             <div className="label">Document Link</div>
                             <input
                                 className="form-input input"
                                 type="file"
                                 {
-                                    ...register("attachment_file", 
+                                    ...register("file", 
                                     { 
                                         required: true,
                                     })
                                 }
                             />
-                            {errors?.attachment_file && <p className="error-message">This is required.</p>}
-                        </div>
+                            {errors?.file && <p className="error-message">This is required.</p>}
+                        </div> */}
                 
                         <div className="text-center mt-3 mb-2">
                             {loading ? (
