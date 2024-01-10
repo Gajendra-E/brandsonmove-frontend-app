@@ -21,7 +21,7 @@ export default function ManageMeetings() {
 
         fetchAllMeetings();
         fetchContentAndMeetingLinks();
-    }, []);
+    }, [meetings]);
 
     const sendEmailNotification = async (payload: any) => {
         try {
@@ -38,62 +38,71 @@ export default function ManageMeetings() {
 
     const updateMeetingStatus = async (status: string, meeting: any, _timeslot: any, sendEmail: boolean, completeMeeting: boolean) => {
         let payload = { status: status };
-
-        try {
-            const result = await api.put(`/meeting-time-slot/${_timeslot?.id}`, payload);
-            if(result.data.status==="success") {
-                if(sendEmail) {
-                    sendEmailNotification({
-                        isusernotificationemail: true,
-                        name: meeting?.name,
-                        toemail: meeting?.email,
-                        meetinginvitelink: getMeetingLink(meeting?.type)?.link,
-                        passcode: getMeetingLink(meeting?.type)?.pass_code,
-                        approvedtimeslot: {
-                            date: _timeslot?.date,
-                            time: _timeslot?.time
-                        }
-                    });
-                }
-                if (completeMeeting) {
-                    const result = await api.put(`/meeting-requested-user/${meeting?.id}`, payload )
-                    if(result.data.status==="success") {
+       
+            try {
+                const result = await api.put(`/meeting-time-slot/${_timeslot?.id}`, payload);
+                if(result.data.status==="success") {
+                  
+                    if(sendEmail) {
                         sendEmailNotification({
-                            isinvitedeclineemails: true,
+                            isusernotificationemail: true,
                             name: meeting?.name,
                             toemail: meeting?.email,
-                            documentlink: content?.document_link
+                            meetinginvitelink: getMeetingLink(meeting?.type)?.link,
+                            passcode: getMeetingLink(meeting?.type)?.pass_code,
+                            approvedtimeslot: {
+                                date: _timeslot?.date,
+                                time: _timeslot?.time
+                            }
                         });
                     }
+                   
+                   
+                    if (completeMeeting) {
+                        const result = await api.put(`/meeting-requested-user/${meeting?.id}`, payload )
+                        if(result.data.status==="success") {
+                            sendEmailNotification({
+                                isinvitedeclineemails: true,
+                                name: meeting?.name,
+                                toemail: meeting?.email,
+                                documentlink: content?.document_link
+                            });
+                        }
+                    }
+    
+                    if(status==="Declined"){
+                        const allTimeSlatsDecliened =  result?.data?.payload.every((obj:any) => obj.status === 'Declined')
+                        if(allTimeSlatsDecliened){
+                           sendEmailNotification({
+                               isinvitedeclineemail: true,
+                               name: meeting?.name,
+                               toemail: meeting?.email
+                           });
+                        }
+                    }
+    
                 }
+                
+            } catch (error: any) {
+                console.log("Error while updating status", error);
             }
-            fetchAllMeetings();
-        } catch (error: any) {
-            console.log("Error while updating status", error);
-        }
+   
+
+       
     }
 
     const handleInviteOrDecline = async(status: string, meeting: any, _timeslot: any) => {
         // const selectedTimeSlot = meeting?.preferedDateAndTimeslots?.find((timeslot: any) => timeslot?.id == _timeslot?.id);
         if(_timeslot?.status !== "ACTIVE") {
-            showToast("Already status update.", true);
-        } else {
-            // if(status === "Invited") {
-            //     updateMeetingStatus(status, meeting, _timeslot, true, false);
-            // }
-            if (status === "Invited" && isAnyOneTimeSlotInvited(meeting?.preferedDateAndTimeslots)) {
-                showToast("Meeting already schudled.", true);
-                return;
+            showToast("Already status updated", false);
+        } 
+        else if(status==="Invited"&&meeting?.preferedDateAndTimeslots.some((item:any)=>item.status==="Invited")) {
+                showToast("This user request one time slot Already Invited", false);
             }
-            if (status === "Invited" && !isAnyOneTimeSlotInvited(meeting?.preferedDateAndTimeslots)) {
+        else {
+            if(status === "Invited") {
                 updateMeetingStatus(status, meeting, _timeslot, true, false);
             }
-
-            if(status === "Declined" && isAnyOneTimeSlotInvited(meeting?.preferedDateAndTimeslots)) {
-                showToast("Meeting already schudled.", true);
-                return;
-            }
-
             if(status === "Declined" && isAllTimeSlotDeclined(meeting?.preferedDateAndTimeslots)) {
                 updateMeetingStatus(status, meeting, _timeslot, true, true);
                 showToast("Decline status updated to user.", true);
@@ -138,7 +147,7 @@ export default function ManageMeetings() {
         return meetings.filter((meeting: any) => (meeting?.status != "Completed" && 
             meeting.preferedDateAndTimeslots.some((timeslot: any) => timeslot.status !== 'Declined')));
     }
-
+  
     const getMeetingLink = (type: string) => {
         return meetingLinks.find((link: any) => link?.meeting_type == type);
     }
