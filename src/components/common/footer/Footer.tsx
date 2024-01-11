@@ -20,11 +20,16 @@ export default function Footer() {
 
     useEffect(() => {  
         getContactInfo();
-        const socket = socketIOClient(BACKENDURL,{ transports: ['websocket'], withCredentials: true });
-        socket.on("contact-info", () => { 
+        const newSocket = socketIOClient(BACKENDURL,{ transports: ['websocket'], withCredentials: true });
+        newSocket.on("contact-info", () => { 
         getContactInfo();
     });
        
+    return () => {
+        if (newSocket) {
+            newSocket.disconnect();
+        }
+      };
     }, []);
 
     const getContactInfo = async () => {

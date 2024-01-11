@@ -20,8 +20,8 @@ export default function ManageMeetingLinks() {
         // }
         if(actiontype == "edit") {
             setEditContent(linkdata);
-            setValue("link", editContent?.link || linkdata?.link);
-            setValue("pass_code", editContent?.pass_code || linkdata?.pass_code);
+            setValue("link",  linkdata?.link);
+            setValue("pass_code",  linkdata?.pass_code);
             setShowEditForm(!showEditForm);
         }
     }
@@ -37,7 +37,7 @@ export default function ManageMeetingLinks() {
             setLoading(false);
             showToast("Error.", false);
         }
-        getMeetingLinks();
+        getMeetingLink();
         reset();
     }
 
@@ -54,11 +54,11 @@ export default function ManageMeetingLinks() {
         }
     }
 
-    const getMeetingLinks = async () => {
+    const getMeetingLink = async () => {
         try {
             const result = await api.get('/meeting-link');
             if(result.data.status==="success"){
-                setMeetingLinks(result?.data?.payload);
+                setMeetingLinks(result?.data?.payload || []);
             }
         } catch (error: any) {
             console.log("Error while getting meeting links", error);   
@@ -66,6 +66,16 @@ export default function ManageMeetingLinks() {
     };
 
     useEffect(() => {
+        const getMeetingLinks = async () => {
+            try {
+                const result = await api.get('/meeting-link');
+                if(result.data.status==="success"){
+                    setMeetingLinks(result?.data?.payload || []);
+                }
+            } catch (error: any) {
+                console.log("Error while getting meeting links", error);   
+            }
+        };
         getMeetingLinks();
     }, []);
    

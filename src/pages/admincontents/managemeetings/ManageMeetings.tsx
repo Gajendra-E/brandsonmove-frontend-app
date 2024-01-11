@@ -12,16 +12,42 @@ export default function ManageMeetings() {
     const [meetings, setMeetings] = useState<any>([]);
     const [content, setContent] = useState<any>(null);
     const [meetingLinks, setMeetingLinks] = useState<any>([]);
-    
+  
     useEffect(() => {
-        const socket = socketIOClient(BACKENDURL,{ transports: ['websocket'], withCredentials: true });
-        socket.on("meeting-requested-user", () => { 
+
+        const fetchAllMeetings = async () => {
+            try {
+                const result = await api.get('/meeting-requested-user');
+                if(result.data.status==="success"){
+                    setMeetings(result?.data?.payload.reverse()  || []);
+                }   
+            } catch (error: any) {
+                console.log("Error fetch meetings", error);
+            }
+        };
+    
+        const fetchContentAndMeetingLinks = async () => {
+            try {
+              const [result1, result2] = await Promise.all([
+                api.get("/content"),
+                api.get("/meeting-link"),
+              ]);
+              setContent(result1?.data?.payload[0]);
+              setMeetingLinks(result2?.data?.payload);
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            }
+        };
+        const newSocket = socketIOClient(BACKENDURL,{ transports: ['websocket'], withCredentials: true });
+       
+        newSocket.on("meeting-requested-user", () => { 
             fetchAllMeetings()
         });
 
         fetchAllMeetings();
         fetchContentAndMeetingLinks();
-    }, [meetings]);
+
+    }, []);
 
     const sendEmailNotification = async (payload: any) => {
         try {
@@ -42,9 +68,9 @@ export default function ManageMeetings() {
             try {
                 const result = await api.put(`/meeting-time-slot/${_timeslot?.id}`, payload);
                 if(result.data.status==="success") {
-                  
+                   await fetchAllMeeting()
                     if(sendEmail) {
-                        sendEmailNotification({
+                     await sendEmailNotification({
                             isusernotificationemail: true,
                             name: meeting?.name,
                             toemail: meeting?.email,
@@ -61,7 +87,8 @@ export default function ManageMeetings() {
                     if (completeMeeting) {
                         const result = await api.put(`/meeting-requested-user/${meeting?.id}`, payload )
                         if(result.data.status==="success") {
-                            sendEmailNotification({
+                            await fetchAllMeeting()
+                           await  sendEmailNotification({
                                 isinvitedeclineemails: true,
                                 name: meeting?.name,
                                 toemail: meeting?.email,
@@ -73,7 +100,7 @@ export default function ManageMeetings() {
                     if(status==="Declined"){
                         const allTimeSlatsDecliened =  result?.data?.payload.every((obj:any) => obj.status === 'Declined')
                         if(allTimeSlatsDecliened){
-                           sendEmailNotification({
+                         await sendEmailNotification({
                                isinvitedeclineemail: true,
                                name: meeting?.name,
                                toemail: meeting?.email
@@ -124,7 +151,8 @@ export default function ManageMeetings() {
                 try {
                     const result = await api.put(`/meeting-requested-user/${meeting?.id}`, payload )
                     if(result.data.status==="success") {
-                        sendEmailNotification({
+                       await fetchAllMeeting()
+                       await sendEmailNotification({
                             ismeetingcompleteemail: true,
                             name: meeting?.name,
                             toemail: meeting?.email,
@@ -132,7 +160,7 @@ export default function ManageMeetings() {
                         });
 
                     }
-                    fetchAllMeetings();
+                    fetchAllMeeting();
                 } catch (error: any) {
                     console.log(error)
                 }
@@ -152,29 +180,29 @@ export default function ManageMeetings() {
         return meetingLinks.find((link: any) => link?.meeting_type == type);
     }
 
-    const fetchAllMeetings = async () => {
+    const fetchAllMeeting = async () => {
         try {
             const result = await api.get('/meeting-requested-user');
             if(result.data.status==="success"){
-                setMeetings(result?.data?.payload.reverse());
+                setMeetings(result?.data?.payload.reverse() || []);
             }  
         } catch (error: any) {
             console.log("Error fetch meetings", error);
         }
     };
 
-    const fetchContentAndMeetingLinks = async () => {
-        try {
-          const [result1, result2] = await Promise.all([
-            api.get("/content"),
-            api.get("/meeting-link"),
-          ]);
-          setContent(result1?.data?.payload[0]);
-          setMeetingLinks(result2?.data?.payload);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-    };
+    // const fetchContentAndMeetingLinks = async () => {
+    //     try {
+    //       const [result1, result2] = await Promise.all([
+    //         api.get("/content"),
+    //         api.get("/meeting-link"),
+    //       ]);
+    //       setContent(result1?.data?.payload[0]);
+    //       setMeetingLinks(result2?.data?.payload);
+    //     } catch (error) {
+    //       console.error("Error fetching data:", error);
+    //     }
+    // };
 
     return (
         <div>

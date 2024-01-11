@@ -27,7 +27,7 @@ export default function ManageContactInfo() {
     }, []);
 
 
-    const _updateContacts = (contacts: any) => {
+    const _updateContacts = (contactInfo: any) => {
         setShowForm(!showForm);
         setValue("phone_number", contactInfo?.phone_number);
         setValue("alternate_phone_number", contactInfo?.alternate_phone_number);
