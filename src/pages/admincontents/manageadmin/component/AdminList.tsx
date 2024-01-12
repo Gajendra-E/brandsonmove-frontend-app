@@ -10,9 +10,13 @@ export default function AdminList() {
     const [loading, setLoading] = useState<boolean>(false);
 
     const getAdminInfo = async () => {
-        const result = await api.get('/users');
-        if(result.data.status==="success"){
-            setAdmins(result?.data?.payload);
+        try {
+            const result = await api.get('/users');
+            if(result.data.status==="success"){
+                setAdmins(result?.data?.payload);
+            }
+        } catch (error: any) {
+            console.log("Error while fetching admin info", error);   
         }
     };
 

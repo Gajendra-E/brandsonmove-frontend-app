@@ -33,9 +33,13 @@ export default function Footer() {
     }, []);
 
     const getContactInfo = async () => {
-        const result = await api.get('/contact-info');
-        if(result.data.status==="success"){
-            setContactInfo(result?.data?.payload[0])
+        try {
+            const result = await api.get('/contact-info');
+            if(result.data.status==="success"){
+                setContactInfo(result?.data?.payload[0])
+            }
+        } catch (error: any) {
+         console.log("Error while fetching contact info", error);   
         }
     };
 
