@@ -1,7 +1,6 @@
 import "./Navbar.scss";
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import {  } from 'react-router-dom';
 import IconAppLogo from "../../../assets/icons/applogo.png";
 import IconMenu from "../../../assets/icons/menu.svg";
 import IconCloseMenu from "../../../assets/icons/closemenu.svg";
@@ -26,7 +25,12 @@ function Navbar() {
 
   const reloadPage = () => {
     setClick(false);
-    navigate("/customerbrandsinsights");
+  if(location?.pathname==="/customerbrandsinsights"){
+    window.location.replace('/customerbrandsinsights');
+  }
+  else{
+    navigate('/customerbrandsinsights');
+  }
   }
 
   useEffect(() => {
