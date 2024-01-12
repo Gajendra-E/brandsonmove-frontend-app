@@ -92,7 +92,8 @@ export default function ManageMeetings() {
                                 isinvitedeclineemails: true,
                                 name: meeting?.name,
                                 toemail: meeting?.email,
-                                documentlink: content?.document_link
+                                documentlink: content?.document_link,
+                                attachment_file:content?.attachment_file
                             });
                         }
                     }
@@ -156,7 +157,8 @@ export default function ManageMeetings() {
                             ismeetingcompleteemail: true,
                             name: meeting?.name,
                             toemail: meeting?.email,
-                            documentlink: content?.document_link
+                            documentlink: content?.document_link,
+                            attachment_file:content?.attachment_file
                         });
 
                     }
