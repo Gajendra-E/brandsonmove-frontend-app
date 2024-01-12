@@ -6,7 +6,7 @@ import ContentList from "./component/ContentList";
 import { showToast } from "../../../utils/utils";
 import api from "../../../api";
 import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpinner";
-
+import axios from 'axios';
 export default function ManageContents() {
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -15,9 +15,24 @@ export default function ManageContents() {
     const { errors } = formState;
 
     const onSubmit = async (data: any) => {
+
+        let formData = new FormData();
+        const file =data.file[0];
+        formData.append("heading1", data.heading1);
+        formData.append("heading2", data.heading2);
+        formData.append("heading3", data.heading3);
+        formData.append("paragraph_content", data.paragraph_content);
+        formData.append("document_link", data.document_link);
+        formData.append("file", file);
+            
         try {
             setLoading(true);
-            const result = await api.post('/content', data);
+            const result = await axios({
+                method: "post",
+                url: "http://localhost:3000/content",
+                data: formData,
+                headers: { "Content-Type": "multipart/form-data" },
+              });
             if(result?.data?.status==="success"){
                 setLoading(false);
                 showToast("Successfully added.", true);
