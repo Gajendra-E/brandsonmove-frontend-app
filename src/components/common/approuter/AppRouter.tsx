@@ -14,69 +14,36 @@ import SalesConsumptionAnalytics from "../../../pages/salesconsumptionanalytics/
 import TrueasureTrove from "../../../pages/trueasureTrove/TrueasureTrove";
 
 const AppRouter = () => {
+  useEffect(() => {}, []);
 
-    useEffect(() => {
-        
-    }, []);
+  return (
+    <Routes>
+      <Route path="/" element={true ? <HomePage /> : <HomePage />} />
 
-    return (
-        <Routes>
-            <Route
-                path="/"
-                element={ true ? <HomePage />: <HomePage /> }
-            />
+      <Route path="/createmeeting" element={<CreateMeeting />} />
 
-            <Route
-                path="/createmeeting"
-                element={ <CreateMeeting /> }
-            />
-            
-            <Route
-                path="/createmeeting"
-                element={ <CreateMeeting /> }
-            />
-            <Route
-                path="/trueasuretrove"
-                element={ <TrueasureTrove /> }
-            />
-            <Route
-                path="/customerbrandsinsights"
-                element={ <CustomerBrandsInsights /> }
-            />
-            <Route
-                path="/salesconsumptionanalytics"
-                element={ <SalesConsumptionAnalytics /> }
-            />
-            <Route
-                path="/admin/login"
-                element={ <AdminLogin /> }
-            />
-            <Route
-                path="/admin/managemeetings"
-                element={ <ManageMeetings /> }
-            />
-            <Route
-                path="/admin/managecontents"
-                element={ <ManageContents /> }
-            />
-            <Route
-                path="/admin/managemeetinglinks"
-                element={ <ManageMeetingLinks /> }
-            />
-            <Route
-                path="/admin/manageadmin"
-                element={ <ManageAdmin /> }
-            />
-            <Route
-                path="/admin/syndicateroom"
-                element={ <SyndicateRoom /> }
-            />
-            <Route
-                path="/admin/managecontactinfo"
-                element={ <ManageContactInfo /> }
-            />
-        </Routes>
-    );
-}
+      <Route path="/createmeeting" element={<CreateMeeting />} />
+      <Route path="/trueasuretrove" element={<TrueasureTrove />} />
+      <Route
+        path="/customerbrandsinsights"
+        element={<CustomerBrandsInsights />}
+      />
+      <Route
+        path="/salesconsumptionanalytics"
+        element={<SalesConsumptionAnalytics />}
+      />
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/managemeetings" element={<ManageMeetings />} />
+      <Route path="/admin/managecontents" element={<ManageContents />} />
+      <Route
+        path="/admin/managemeetinglinks"
+        element={<ManageMeetingLinks />}
+      />
+      <Route path="/admin/manageadmin" element={<ManageAdmin />} />
+      <Route path="/admin/syndicateroom" element={<SyndicateRoom />} />
+      <Route path="/admin/managecontactinfo" element={<ManageContactInfo />} />
+    </Routes>
+  );
+};
 
 export default AppRouter;

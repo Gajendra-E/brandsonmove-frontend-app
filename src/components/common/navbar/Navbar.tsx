@@ -6,7 +6,6 @@ import IconMenu from "../../../assets/icons/menu.svg";
 import IconCloseMenu from "../../../assets/icons/closemenu.svg";
 
 function Navbar() {
-
   const location = useLocation();
   let navigate = useNavigate();
   const [click, setClick] = useState(false);
@@ -25,13 +24,12 @@ function Navbar() {
 
   const reloadPage = () => {
     setClick(false);
-  if(location?.pathname==="/customerbrandsinsights"){
-    window.location.replace('/customerbrandsinsights');
-  }
-  else{
-    navigate('/customerbrandsinsights');
-  }
-  }
+    if (location?.pathname === "/customerbrandsinsights") {
+      window.location.replace("/customerbrandsinsights");
+    } else {
+      navigate("/customerbrandsinsights");
+    }
+  };
 
   useEffect(() => {
     window.addEventListener("resize", showButton);
@@ -45,13 +43,17 @@ function Navbar() {
           <img className="navbar-logo" src={IconAppLogo} />
         </Link>
         <div className="menu-icon" onClick={handleClick}>
-          { click ? <img src={IconCloseMenu} /> : <img src={IconMenu} /> }
+          {click ? <img src={IconCloseMenu} /> : <img src={IconMenu} />}
         </div>
       </div>
       <div className="navbar-menu-container">
         <ul className={click ? "nav-menu active" : "nav-menu"}>
-          <li 
-            className={`nav-item ${location?.pathname == "/customerbrandsinsights" ? "menu-active" : ""}`}
+          <li
+            className={`nav-item ${
+              location?.pathname == "/customerbrandsinsights"
+                ? "menu-active"
+                : ""
+            }`}
           >
             <Link
               to="/customerbrandsinsights"
@@ -61,8 +63,12 @@ function Navbar() {
               CONSUMER & BRAND INSIGHTS
             </Link>
           </li>
-          <li 
-            className={`nav-item ${location?.pathname == "/salesconsumptionanalytics" ? "menu-active" : ""}`}
+          <li
+            className={`nav-item ${
+              location?.pathname == "/salesconsumptionanalytics"
+                ? "menu-active"
+                : ""
+            }`}
           >
             <Link
               to="/salesconsumptionanalytics"
@@ -73,7 +79,9 @@ function Navbar() {
             </Link>
           </li>
           <li
-            className={`nav-item ${location?.pathname == "/trueasuretrove" ? "menu-active" : ""}`}
+            className={`nav-item ${
+              location?.pathname == "/trueasuretrove" ? "menu-active" : ""
+            }`}
           >
             <Link
               to="/trueasuretrove"
@@ -84,19 +92,19 @@ function Navbar() {
             </Link>
           </li>
           <li
-            className={`nav-item ${location?.pathname == "" ? "menu-active" : ""}`}
+            className={`nav-item ${
+              location?.pathname == "" ? "menu-active" : ""
+            }`}
           >
-            <Link
-              to=""
-              className="nav-links"
-              onClick={closeMobileMenu}
-            >
+            <Link to="" className="nav-links" onClick={closeMobileMenu}>
               CONTACT US
             </Link>
           </li>
 
           <li
-            className={`nav-item ${location?.pathname == "/createmeeting" ? "menu-active" : ""}`}
+            className={`nav-item ${
+              location?.pathname == "/createmeeting" ? "menu-active" : ""
+            }`}
           >
             <Link
               to="/createmeeting"

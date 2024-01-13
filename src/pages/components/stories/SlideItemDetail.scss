@@ -1,5 +1,4 @@
 .info-animation-container {
-    // padding: 1rem 3rem 1rem;
     padding: 0.7rem 2rem 0rem;
     display: inline-block;
     width: 100%;
@@ -25,7 +24,6 @@
 }
 .story-paragraph {
     text-align: justify;
-    // font-size: var(--font-xs);
     font-size: clamp(0.8rem, 5vw + 0.9rem, 1.12rem);
     margin-bottom: 0.5rem;
     line-height: 1.35;
@@ -76,7 +74,6 @@
 }
 
 .animation-image-container {
-    // width: 45% !important;
     width: 40% !important;
     float: right;
     margin-left: 2rem;

@@ -25,10 +25,3 @@ const api: AxiosInstance = axios.create({
 });
 
 export default api;
-
-
-
-
-
-
-
