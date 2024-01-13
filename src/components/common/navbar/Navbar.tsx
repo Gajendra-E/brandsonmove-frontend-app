@@ -96,7 +96,7 @@ function Navbar() {
               location?.pathname == "" ? "menu-active" : ""
             }`}
           >
-            <Link to="" className="nav-links" onClick={closeMobileMenu}>
+            <Link to="#" className="nav-links" onClick={closeMobileMenu}>
               CONTACT US
             </Link>
           </li>

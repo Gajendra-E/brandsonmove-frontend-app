@@ -9,7 +9,7 @@ interface SlideItemProps {
 const SlideItem: React.FC<SlideItemProps> = ({ story, onClcikOfSlideItem }) => {
   useEffect(() => {
     if (story?.isSelected) {
-      console.log("STORY>>>", story);
+      // console.log("STORY>>>", story);
     }
   }, []);
 
