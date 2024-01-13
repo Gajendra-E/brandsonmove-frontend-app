@@ -7,7 +7,7 @@ import { showToast } from "../../../utils/utils";
 import api from "../../../api";
 import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpinner";
 import axios from "axios";
-import {BACKEND_APP_URL} from "../../../constants/constants"
+import {BACKEND_APP_URL} from "../../../config/config"
 
 
 export default function ManageContents() {

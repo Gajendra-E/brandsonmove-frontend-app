@@ -10,7 +10,7 @@ import IconMailbox from "../../../assets/icons/msailbox.svg";
 import IconLocation from "../../../assets/icons/location.svg";
 import api from "../../../api/";
 import socketIOClient from "socket.io-client";
-import {BACKEND_APP_URL} from "../../../constants/constants"
+import {BACKEND_APP_URL} from "../../../config/config"
 
 
 

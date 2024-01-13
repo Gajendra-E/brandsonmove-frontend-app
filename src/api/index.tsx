@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import {BACKEND_APP_URL} from "../constants/constants"
+import {BACKEND_APP_URL} from "../config/config"
 
 // Define a type for the Axios instance configuration
 interface AxiosConfig {

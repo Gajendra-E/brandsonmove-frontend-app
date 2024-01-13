@@ -10,7 +10,7 @@ import {
 import api from "../../../api";
 import { sendEmail } from "../../../services/EmailService";
 import socketIOClient from "socket.io-client";
-import { BACKEND_APP_URL } from "../../../constants/constants"
+import { BACKEND_APP_URL } from "../../../config/config"
 
 export default function ManageMeetings() {
   const [meetings, setMeetings] = useState<any>([]);
