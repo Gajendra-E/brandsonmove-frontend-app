@@ -340,3 +340,5 @@ export const SALESCONSUMPTIONANALYTICS = [
         duration: 11,
     }
 ];
+
+export const BACKEND_APP_URL = "http://localhost:3000"

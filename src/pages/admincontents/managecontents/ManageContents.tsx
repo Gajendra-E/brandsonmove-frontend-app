@@ -7,6 +7,9 @@ import { showToast } from "../../../utils/utils";
 import api from "../../../api";
 import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpinner";
 import axios from "axios";
+import {BACKEND_APP_URL} from "../../../constants/constants"
+
+
 export default function ManageContents() {
   const [loading, setLoading] = useState<boolean>(false);
   const [showForm, setShowForm] = useState<boolean>(false);
@@ -31,7 +34,7 @@ export default function ManageContents() {
       setLoading(true);
       const result = await axios({
         method: "post",
-        url: `${api}/content`,
+        url: `${BACKEND_APP_URL}/content`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });

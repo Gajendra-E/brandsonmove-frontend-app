@@ -10,8 +10,9 @@ import IconMailbox from "../../../assets/icons/msailbox.svg";
 import IconLocation from "../../../assets/icons/location.svg";
 import api from "../../../api/";
 import socketIOClient from "socket.io-client";
+import {BACKEND_APP_URL} from "../../../constants/constants"
 
-const BACKENDURL = "http://localhost:3000";
+
 
 export default function Footer() {
   const location = useLocation();
@@ -19,7 +20,7 @@ export default function Footer() {
 
   useEffect(() => {
     getContactInfo();
-    const newSocket = socketIOClient(BACKENDURL, {
+    const newSocket = socketIOClient(BACKEND_APP_URL, {
       transports: ["websocket"],
       withCredentials: true,
     });

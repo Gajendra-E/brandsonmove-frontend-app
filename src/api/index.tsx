@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import {BACKEND_APP_URL} from "../constants/constants"
 
 // Define a type for the Axios instance configuration
 interface AxiosConfig {
@@ -20,7 +21,7 @@ if(localStorage.getItem("accessToken")) {
 
 // Create an Axios instance with the specified configuration
 const api: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: BACKEND_APP_URL,
   headers: headers
 });
 

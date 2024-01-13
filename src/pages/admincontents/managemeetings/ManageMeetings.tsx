@@ -10,7 +10,7 @@ import {
 import api from "../../../api";
 import { sendEmail } from "../../../services/EmailService";
 import socketIOClient from "socket.io-client";
-const BACKENDURL = "http://localhost:3000";
+import { BACKEND_APP_URL } from "../../../constants/constants"
 
 export default function ManageMeetings() {
   const [meetings, setMeetings] = useState<any>([]);
@@ -41,7 +41,7 @@ export default function ManageMeetings() {
         console.error("Error fetching data:", error);
       }
     };
-    const newSocket = socketIOClient(BACKENDURL, {
+    const newSocket = socketIOClient(BACKEND_APP_URL, {
       transports: ["websocket"],
       withCredentials: true,
     });
