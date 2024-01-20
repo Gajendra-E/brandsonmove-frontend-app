@@ -41,7 +41,7 @@ export default function ManageMeetings() {
         console.error("Error fetching data:", error);
       }
     };
-    const newSocket = socketIOClient(BACKEND_APP_URL, {
+    const newSocket = socketIOClient("/", {
       transports: ["websocket"],
       withCredentials: true,
     });

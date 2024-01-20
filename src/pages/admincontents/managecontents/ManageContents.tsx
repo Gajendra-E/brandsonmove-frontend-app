@@ -34,7 +34,7 @@ export default function ManageContents() {
       setLoading(true);
       const result = await axios({
         method: "post",
-        url: `${BACKEND_APP_URL}/content`,
+        url: `/content`,
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
