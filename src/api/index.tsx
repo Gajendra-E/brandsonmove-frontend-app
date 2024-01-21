@@ -21,7 +21,7 @@ if(localStorage.getItem("accessToken")) {
 
 // Create an Axios instance with the specified configuration
 const api: AxiosInstance = axios.create({
-  baseURL: "/",
+  baseURL: BACKEND_APP_URL,
   headers: headers
 });
 
