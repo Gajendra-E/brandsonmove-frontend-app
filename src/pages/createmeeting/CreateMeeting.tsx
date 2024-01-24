@@ -19,6 +19,7 @@ import api from "../../api";
 
 const CreateMeeting: React.FC<any> = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [contentLoading, setContentLoading] = useState<boolean>(false);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [ipadMaxWidth] = useState<number>(MAX_IPAD_WIDTH);
   const { register, handleSubmit, formState, control, reset } = useForm({});
@@ -40,9 +41,9 @@ const CreateMeeting: React.FC<any> = () => {
     const getContentInfo = async () => {
       try {
         const result = await api.get("/content");
-        setLoading(true);
+        setContentLoading(true);
         if (result.data.status === "success") {
-          setLoading(false);
+          setContentLoading(false);
           let content = result?.data?.payload.reverse();
           setContent(content[0]);
         }
@@ -408,7 +409,7 @@ const CreateMeeting: React.FC<any> = () => {
             {(errors.preferreddatetime1 ||
               errors?.preferreddatetime2 ||
               errors?.preferreddatetime3) && (
-              <p className="error-message">Atlease one time slot required.</p>
+              <p className="error-message">Atlease one time slot required (Slot 1 is mandatory).</p>
             )}
           </div>
           <div className="text-center mt-2 mb-2">
@@ -427,7 +428,7 @@ const CreateMeeting: React.FC<any> = () => {
 
   return (
     <div className="Create-meeting-page-container">
-      {loading ? (
+      {contentLoading ? (
         <div className="text-center">
           <LoadingSpinner />
         </div>

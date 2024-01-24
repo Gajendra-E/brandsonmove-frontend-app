@@ -187,7 +187,32 @@
     .paragraph-container {
         padding: 4rem 3rem !important;
     }
-    
+}
+
+@media screen and (min-width: 820px) and (max-width: 1180px) {
+    .Create-meeting-page-container {
+        .form-mobile-design, .form-desktop-design {
+            .form-container {
+                padding: 1rem 1.6rem;
+                margin: 1rem 2rem 1rem 2rem;
+            }
+        }
+        .form-mobile-design, .form-desktop-design {
+            .form-container {
+                .prefered-date-time-container {
+                    .time-slots-picker-item {
+                        .time-slot-label {
+                            padding-right: 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .react-datepicker-wrapper {
+        width: 76%;
+    }
+
 }
 
 @media screen and (min-width:541px) and (max-width: 820px) {
