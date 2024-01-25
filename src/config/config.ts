@@ -4,4 +4,4 @@ export const CC_EMAILS = [
   "rayikaur@rediffmail.com"
 ];
 
-export const BACKEND_APP_URL = "http://13.235.212.125:3001"
+export const BACKEND_APP_URL = "https://brandsonmove-api-34ffd7d71b42.herokuapp.com"
