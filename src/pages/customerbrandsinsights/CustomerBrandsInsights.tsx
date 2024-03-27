@@ -9,7 +9,6 @@ import {
   CONSUMERBRANDANDINSIGHTS_DEFAULTCONTENT,
 } from "../../constants/constants";
 import SlideItem from "./components/slideitem/SlideItem";
-import FullViewAnimationImage from "./components/modalwindow/FullViewAnimationImage";
 import SlideItemDetail from "../components/stories/SlideItemDetail";
 
 function NewCustomerBrandsInsights() {

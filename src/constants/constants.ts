@@ -8,6 +8,13 @@ import AnimationImg7 from '../assets/animations/7.gif';
 import AnimationImg8 from '../assets/animations/8.gif';
 import defaultAnimationImage from "../assets/animations/defaultimage.gif";
 
+import salesAnimation1 from "../assets/animations/sales_1.gif";
+import salesAnimation2 from "../assets/animations/sales_2.gif";
+import salesAnimation3 from '../assets/animations/sales_3.gif';
+import salesAnimation4 from '../assets/animations/sales_4.gif';
+import salesAnimation5 from '../assets/animations/sales_5.gif';
+import salesAnimation6 from '../assets/animations/sales_6.gif';
+import salesDefaultAnimation from "../assets/animations/defaultimage.gif";
 
 import growth from '../assets/images/Growth.svg';
 import growthLeft from '../assets/images/Growth-left.svg';
@@ -286,57 +293,97 @@ export const CONSUMERBRANDANDINSIGHTS = [
 
 
 
+export const SALESCONSUMPTIONANALYTICS_DEFAULTCONTENT = {
+    id: "100",
+    name: "",
+    description: "",
+    title: "Sales and Consumption Analytics",
+    paragraph1: "Discovering genomes of upbeat customer segments as they evolve in real time is now made more precise than ever before.",
+    paragraph2: "Our deep market analytics deliver immediate visibility far beyond current market landscape. And our action packed dashboards create the excitement by blending insights gleaned from consumer off-takes, ecosystem and competitive market dynamics. Brands who partner with us find no better way to reward customers than fulfilling their needs while aligning with their shopping habits.",
+    textcolor: "#75BA75",
+    bgcolor: "#E8FFE8",
+    isSelected: false,
+    animationurl: defaultAnimationImage,
+    duration: 7,
+}
+
 export const SALESCONSUMPTIONANALYTICS = [
     {
-        id: "1",
+        id: "0",
         name: "HeatMaps",
         description: "Distribution & Growth Opportunities",
-        title: "A product distribution plan built on past sales or historical demand can be quickly out of alignment with fast developing consumption trends, product innovation and demographic shifts.",
+        title: "A product distribution plan built on past sales or historical demand can be quickly out of alignment with fast developing consumption trends, product innovation and demographic shifts across markets.",
         paragraph1: "Discovering where and how consumers are buying from competitive brands helps a brand focusing on markets and consumer cohorts, looking at loss of share on one hand and growth opportunities on the other.",
         paragraph2: "Turn up the heat on competition. We explore POS data using powerful data mining processes to turn up real factors shaping the consumption dynamics in different markets. Fuelled by these precise markers, brands quickly meet local market demands by priority and with high returns from activation plan.",
         textcolor: "#E0695E",
         bgcolor: "#FFEBEA",
         isSelected: true,
-        animationurl: AnimationImg1,
+        animationurl: salesAnimation1,
         duration: 7,
     },
     {
-        id: "2",
+        id: "1",
         name: "Forging Brand Potential",
         description: "Maximised Value per Share Point",
         title: "A brand having leading market share enjoys bandwagon effect in distribution and merchandizing plan.",
         paragraph1: "Retaining leadership in market is however, always challenged by rapid change in competitive scenarios in different markets, causing disruptions without any alert.",
-        paragraph2: "Get a facelift to your sales and distribution network. By capturing compelling visibility of early market trends, we tone up brands to make priorities for trending segments, variants and pack sizes and to seize local market opportunities across geographies.",
+        paragraph2: "Get a facelift to your sales and distribution network. Distribution efficiency in sales helps in capturing markets and rapid turn overs. We make pathways to leverage portfolio velocity for making high sale density in select markets and bring down distribution costs.",
         textcolor: "#D78E52",
         bgcolor: "#FFF3EA",
         isSelected: false,
-        animationurl: AnimationImg2,
+        animationurl: salesAnimation2,
+        duration: 11,
+    },
+    {
+        id: "2",
+        name: "Category Management",
+        description: "Dynamics for Share Growth",
+        title: "Our category analytics are designed to ingest transaction databases at different layers of distribution chain, down to POS scanners at outlets.",
+        paragraph1: "Transforming invoiced transactions to distinct market characteristics at aggregated levels across market and drilling rapidly back into any targeted discrete level is our hallmark.",
+        paragraph2: "Turn your brand into a show stopper. Brands across categories can use our lenses on transaction data to draw out markets and outlets where high visibility makes magical impact on sales. We make seamless optimization of shelf assortment and shelf space analysis for high value returns at retailers where it really matters.",
+        textcolor: "#70AD70",
+        bgcolor: "#EFFFEF",
+        isSelected: false,
+        animationurl: salesAnimation3,
         duration: 11,
     },
     {
         id: "3",
-        name: "Category Management",
-        description: "Dynamics for Share Growth",
-        title: "The bouquets of product features or benefits are mapped with price elasticity to measure preference shares within multiple target segments.",
-        paragraph1: "Fusing the preference shares for part elements we project market share estimates. Controlled locations tests are conducted in high volume user sites and at select customer touch points to fine tune the estimates. Strong communication story boards can be crafted with powerful triggers for switching buying habits.",
-        paragraph2: "",
-        textcolor: "#70AD70",
-        bgcolor: "#EFFFEF",
+        name: "Customer Baskets", 
+        description: "Cohorts for Shopping Channels",
+        title: "Consumers and households are often classified by pre-defined criteria.",
+        paragraph1: "Marking such groups however, drops the visibility of emerging opportunities in an evolving market. Instead, we turn up trending cohorts by diving into the composition of consumer baskets in terms of repertoire of brands and categories.",
+        paragraph2: "Get up close to spread the smile. We explore consumer basket data using powerful machine learning techniques to uncover real factors and big buyers in the consumption matrix across markets. Powered by precise markers on consumer spends and their likes, brands quickly meet trending demands and leverage associative buying patterns and events.",
+        textcolor: "#6BAAAE",
+        bgcolor: "#E4FDFF",
         isSelected: false,
-        animationurl: AnimationImg3,
+        animationurl: salesAnimation4,
         duration: 11,
     },
     {
         id: "4",
-        name: "Customer Baskets", 
-        description: "Cohorts for Shopping Channels",
-        title: "The bouquets of product features or benefits are mapped with price elasticity to measure preference shares within multiple target segments.",
-        paragraph1: "Fusing the preference shares for part elements we project market share estimates. Controlled locations tests are conducted in high volume user sites and at select customer touch points to fine tune the estimates. Strong communication story boards can be crafted with powerful triggers for switching buying habits.",
-        paragraph2: "",
-        textcolor: "#6BAAAE",
+        name: "Hyper Local Trends", 
+        description: "Decoding Competitive Shifts in Buying",
+        title: "Purchase intentions gathered by consumer research and real buying are not same.",
+        paragraph1: "We decode competitive shifts in consumption trends from aggregated basket compositions of dynamically classified consumer cohorts. Diving deep into changing preferences, we mark out emerging opportunities for strong brands to climb up the charts.",
+        paragraph2: "Climb the waves, skip over the swirls. We explore the brand switching by consumers, with priority on impactful competitive interactions within targeted product segments. Powered by clarity in precise and real shift in sales within competition, leading brands can rapidly maximize market share by riding on the tide or holding out by counter activation.",
+        textcolor: "#84BE24",
         bgcolor: "#E4FDFF",
         isSelected: false,
-        animationurl: AnimationImg1,
+        animationurl: salesAnimation5,
+        duration: 11,
+    },
+    {
+        id: "5",
+        name: "Gaining Share of Wallet", 
+        description: "Upselling & Cross Selling to Cohorts",
+        title: "Selling more to an existing  is cheaper and faster than finding more customers.",
+        paragraph1: "We turn up the unfolding opportunities for up selling and cross selling to customers buying products of a brand.",
+        paragraph2: "Pull your brand equity, get a bigger pie at check out. Unmasking the invisible association of products and brands across categories in consumer baskets, we find pathways for transcending brand equity. Use our trailblazer analytics to multiply shares in consumer wallet, make brand equity stronger and optimize costs of brand building.",
+        textcolor: "#47C6A0",
+        bgcolor: "#E4FDFF",
+        isSelected: false,
+        animationurl: salesAnimation6,
         duration: 11,
     }
 ];

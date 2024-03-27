@@ -1,0 +1,32 @@
+// CusomerBrandInsights css
+.Slider-flex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.slider-customer-brands-insights { 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0rem 3rem;
+    .next-prev-button-section {
+        display: flex;
+        align-items: center;
+    }
+    .slider-section {
+        text-align: center;
+        .slick-slider {
+            position: relative;
+            display: inline-grid !important;
+            .slick-list {
+                padding: 1rem 0rem !important;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .slider-customer-brands-insights {
+        padding: 0rem 0.5rem;
+    }
+}
