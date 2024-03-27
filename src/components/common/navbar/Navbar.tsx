@@ -31,6 +31,15 @@ function Navbar() {
     }
   };
 
+  const reloadSalesPage = () => {
+    setClick(false);
+    if (location?.pathname === "/salesconsumptionanalytics") {
+      window.location.replace("/salesconsumptionanalytics");
+    } else {
+      navigate("/salesconsumptionanalytics");
+    }
+  };
+
   useEffect(() => {
     window.addEventListener("resize", showButton);
     showButton();
@@ -73,7 +82,7 @@ function Navbar() {
             <Link
               to="/salesconsumptionanalytics"
               className="nav-links"
-              onClick={closeMobileMenu}
+              onClick={reloadSalesPage}
             >
               SALES & CONSUMPTION ANALYTICS
             </Link>
