@@ -14,7 +14,7 @@ import salesAnimation3 from '../assets/animations/sales_3.gif';
 import salesAnimation4 from '../assets/animations/sales_4.gif';
 import salesAnimation5 from '../assets/animations/sales_5.gif';
 import salesAnimation6 from '../assets/animations/sales_6.gif';
-import salesDefaultAnimation from "../assets/animations/defaultimage.gif";
+import salesDefaultAnimation from "../assets/animations/salesdefaultimage.gif";
 
 import growth from '../assets/images/Growth.svg';
 import growthLeft from '../assets/images/Growth-left.svg';
@@ -303,7 +303,7 @@ export const SALESCONSUMPTIONANALYTICS_DEFAULTCONTENT = {
     textcolor: "#75BA75",
     bgcolor: "#E8FFE8",
     isSelected: false,
-    animationurl: defaultAnimationImage,
+    animationurl: salesDefaultAnimation,
     duration: 7,
 }
 
