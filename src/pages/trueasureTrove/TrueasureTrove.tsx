@@ -1,11 +1,16 @@
 import "./TrueasureTrove.scss";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GROUPS, USECASESANDSTORIES } from "../../constants/constants";
 
 export default function TrueasureTrove() {
   const [groups] = useState<any>(GROUPS);
   const [usecaseAndStories] = useState<any>(USECASESANDSTORIES);
+  let navigate = useNavigate();
+
+  // const goToPage = (usecase: any) => {
+  //   navigate(usecase.link);
+  // }
 
   return (
     <div>
@@ -58,12 +63,13 @@ export default function TrueasureTrove() {
             <div
               key={group?.id || index}
               className="w-18 d-flex align-items-center justify-content-center position-relative growth-items"
+              // onClick={() => goToPage(group)}
             >
               <img src={group?.imageurl2} alt="" />
 
               <div className="w-100 text-center position-absolute trueasure-link">
                 <Link
-                  to=""
+                  to={group?.link}
                   className="d-flex align-items-center justify-content-center flex-column"
                 >
                   <img

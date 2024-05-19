@@ -12,6 +12,11 @@ import ManageMeetings from "../../../pages/admincontents/managemeetings/ManageMe
 import SyndicateRoom from "../../../pages/admincontents/syndicateroom/SyndicateRoom";
 import SalesConsumptionAnalytics from "../../../pages/salesconsumptionanalytics/SalesConsumptionAnalytics";
 import TrueasureTrove from "../../../pages/trueasureTrove/TrueasureTrove";
+import Growth from "../../../pages/trueasureTrove/growth/Growth";
+import Promotion from "../../../pages/trueasureTrove/promotion/Promotion";
+import CustomerExperience from "../../../pages/trueasureTrove/customerExperience/CustomerExperience";
+import ReadyBrandLaunch from "../../../pages/trueasureTrove/readyBrandLaunch/ReadyBrandLaunch";
+import TrendForecast from "../../../pages/trueasureTrove/trendForecast/TrendForecast";
 
 const AppRouter = () => {
   useEffect(() => {}, []);
@@ -42,6 +47,14 @@ const AppRouter = () => {
       <Route path="/admin/manageadmin" element={<ManageAdmin />} />
       <Route path="/admin/syndicateroom" element={<SyndicateRoom />} />
       <Route path="/admin/managecontactinfo" element={<ManageContactInfo />} />
+
+      <Route path="/trueasuretrove/growth" element={ <Growth/> } />
+      <Route path="/trueasuretrove/promotion" element={ <Promotion/> } />
+      <Route path="/trueasuretrove/customer_experience" element={ <CustomerExperience/> } />
+      <Route path="/trueasuretrove/ready_brand_launch" element={ <ReadyBrandLaunch/> } />
+      <Route path="/trueasuretrove/trend_forecast" element={ <TrendForecast/> } />
+
+
     </Routes>
   );
 };

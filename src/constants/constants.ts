@@ -127,6 +127,7 @@ export const GROUPS = [
         imageurl2: growth,
         imageurl3: growthIcon,
         color: "#52C652",
+        link: '/trueasuretrove/growth'
     },
     {
         id: 2,
@@ -137,6 +138,7 @@ export const GROUPS = [
         imageurl2: promotion,
         imageurl3: promotionIcon,
         color: "#E79757",
+        link: '/trueasuretrove/promotion'
     },
     {
         id: 3,
@@ -147,6 +149,7 @@ export const GROUPS = [
         imageurl2: customerExperience,
         imageurl3: customerIcon,
         color: "#4CBAC1",
+        link: '/trueasuretrove/customer_experience'
     },
     {
         id: 4,
@@ -157,6 +160,7 @@ export const GROUPS = [
         imageurl2: ready,
         imageurl3: readyIcon,
         color: "#FF7367",
+        link: '/trueasuretrove/ready_brand_launch'
     },
     {
         id: 5,
@@ -167,6 +171,7 @@ export const GROUPS = [
         imageurl2: trend,
         imageurl3: trendIcon,
         color: "#F06AFF",
+        link: '/trueasuretrove/trend_forecast'
     },
 ];
 
