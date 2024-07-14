@@ -56,9 +56,9 @@ export default function Footer() {
               About Us
             </Link>{" "}
             <br />
-            <Link className="footer-links" to="#">
+            {/* <Link className="footer-links" to="#">
               Team
-            </Link>
+            </Link> */}
           </div>
         </div>
         <div className="footer-navigation-item">
@@ -77,8 +77,8 @@ export default function Footer() {
             <img className="footer-icons" src={IconCall} />
             <div>
               <p className="m-0">
-                T: +91 {contactInfo?.phone_number || "9987123429"} <br />
-                F: +91 {contactInfo?.alternate_phone_number || "8890762231"}
+                T: +91 {contactInfo?.phone_number || "9092010216"} <br />
+                {/* F: +91 {contactInfo?.alternate_phone_number || "8890762231"} */}
               </p>
             </div>
           </div>
@@ -86,13 +86,13 @@ export default function Footer() {
         <div className="footer-navigation-item">
           <div className="footer-contact-mail">
             <img className="footer-icons" src={IconMailbox} />
-            <Link className="footer-links" to="">
-              {contactInfo?.email || "info@mysite.com"}
+            <Link className="footer-links" to={`mailto:${contactInfo?.email || "brandlytics@brandsonmove.com"}`}>
+              {contactInfo?.email || "brandlytics@brandsonmove.com"}
             </Link>
           </div>
         </div>
         <div className="footer-navigation-item">
-          <div className="footer-share-options">
+          {/* <div className="footer-share-options">
             <Link to="">
               <img className="footer-icons" src={IconFacebook} />
             </Link>
@@ -102,7 +102,7 @@ export default function Footer() {
             <Link to="">
               <img className="footer-icons" src={IconTwitter} />
             </Link>
-          </div>
+          </div> */}
           {location?.pathname == "/" && (
             <div className="only-home-page-content">
               <a

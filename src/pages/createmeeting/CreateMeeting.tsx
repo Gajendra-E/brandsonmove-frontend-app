@@ -274,7 +274,7 @@ const CreateMeeting: React.FC<any> = () => {
                 <span className="meeting-type-label">Google Meet</span>
               </div>
 
-              <div className="meeting-type-item">
+              <div className="meeting-type-item disabled">
                 <input
                   className="meeting-type-radio-button"
                   type="radio"
@@ -283,11 +283,12 @@ const CreateMeeting: React.FC<any> = () => {
                     required: true,
                     maxLength: 50,
                   })}
+                  disabled
                 />
                 <span className="meeting-type-label">MS Team</span>
               </div>
 
-              <div className="meeting-type-item">
+              <div className="meeting-type-item disabled">
                 <input
                   className="meeting-type-radio-button"
                   type="radio"
@@ -296,6 +297,7 @@ const CreateMeeting: React.FC<any> = () => {
                     required: true,
                     maxLength: 50,
                   })}
+                  disabled
                 />
                 <span className="meeting-type-label">Zoom</span>
               </div>

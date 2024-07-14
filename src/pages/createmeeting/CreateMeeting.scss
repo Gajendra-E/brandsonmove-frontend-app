@@ -132,6 +132,13 @@
                         background: #75BA75;
                     }
                 }
+                .disabled {
+                    color: gray;
+                    .meeting-type-radio-button {
+                        border: 1px solid #d9d9d9;
+                        background: #d9d9d9;
+                    }
+                }
             }
             .prefered-date-time-container {
                 padding: 6px 0px;
