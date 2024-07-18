@@ -14,23 +14,51 @@ function Navbar() {
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
+  // const handleContactClick = () => {
+  //   const mailIdElement = document.querySelector('#mail-id');
+  //   if (mailIdElement) {
+  //     mailIdElement.scrollIntoView({ behavior: 'smooth' });
+  //     const range = document.createRange();
+  //     // Ensure the selection is not null
+  //     const selection = window.getSelection();
+  //     if (selection) {
+  //       const range = document.createRange();
+  //       range.setStart(mailIdElement, 0);
+  //       range.setEnd(mailIdElement, 1);
+  //       selection.removeAllRanges();
+  //       selection.addRange(range);
+  //     }
+  //   }
+  //   closeMobileMenu()
+  // };
+
+
   const handleContactClick = () => {
     const mailIdElement = document.querySelector('#mail-id');
     if (mailIdElement) {
       mailIdElement.scrollIntoView({ behavior: 'smooth' });
-      const range = document.createRange();
-      // Ensure the selection is not null
-      const selection = window.getSelection();
-      if (selection) {
+  
+      const linkElement = mailIdElement.querySelector('a');
+      if (linkElement) {
         const range = document.createRange();
-        range.setStart(mailIdElement, 0);
-        range.setEnd(mailIdElement, 1);
-        selection.removeAllRanges();
-        selection.addRange(range);
+        const selection = window.getSelection();
+  
+        // Ensure the selection is not null
+        if (selection) {
+          range.selectNodeContents(linkElement);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+  
+        // Optionally, focus the linkElement to make it the active element
+        linkElement.focus();
       }
     }
-    closeMobileMenu()
+    closeMobileMenu();
   };
+  
+  
+  
 
   const showButton = () => {
     if (window.innerWidth <= 960) {

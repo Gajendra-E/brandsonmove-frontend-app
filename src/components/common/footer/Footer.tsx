@@ -1,6 +1,6 @@
 import "./Footer.scss";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate  } from "react-router-dom";
 import Advertisement from "../advertisement/Advertisement";
 import IconInstagram from "../../../assets/icons/instagram.svg";
 import IconTwitter from "../../../assets/icons/twitter.svg";
@@ -15,6 +15,8 @@ import {BACKEND_APP_URL} from "../../../config/config"
 
 
 export default function Footer() {
+
+  const navigate = useNavigate();
   const location = useLocation();
   const [contactInfo, setContactInfo] = useState<any>({});
 
@@ -46,13 +48,45 @@ export default function Footer() {
     }
   };
 
+
+  const handleAboutClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    event.preventDefault(); // Prevent default link behavior
+
+    // If not on /createmeeting page, navigate there
+    if (location.pathname !== '/createmeeting') {
+      navigate('/createmeeting');
+    }
+
+    // After navigating (or if already on /createmeeting), highlight the content
+    setTimeout(() => {
+      const paragraphElement = document.querySelector('#get-report-text') as HTMLElement;
+      if (paragraphElement) {
+        const range = document.createRange();
+        const selection = window.getSelection();
+
+        const firstChild = paragraphElement.firstChild;
+        if (firstChild instanceof HTMLElement || firstChild instanceof Text) {
+          range.setStart(firstChild, 0);
+          range.setEnd(firstChild, 1);
+
+          if (selection) {
+            selection.removeAllRanges();
+            selection.addRange(range);
+          }
+
+          paragraphElement.focus();
+        }
+      }
+    }, 0); // Use setTimeout to ensure highlighting occurs after navigation
+  };
+
   return (
     <div className="Footer">
       <Advertisement />
       <div className="footer-navigation">
         <div className="footer-navigation-item">
           <div className="footer-about-teams">
-            <Link className="footer-links" to="#">
+            <Link className="footer-links" to="#" onClick={handleAboutClick}>
               About Us
             </Link>{" "}
             <br />
@@ -83,7 +117,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="footer-navigati on-item">
+        <div className="footer-navigation-item">
           <div id="mail-id" className="footer-contact-mail">
             <img className="footer-icons" src={IconMailbox} />
             <Link className="footer-links" to={`mailto:${contactInfo?.email || "brandlytics@brandsonmove.com"}`}>
