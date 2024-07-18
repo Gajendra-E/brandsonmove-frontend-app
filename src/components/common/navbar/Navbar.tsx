@@ -14,6 +14,24 @@ function Navbar() {
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
+  const handleContactClick = () => {
+    const mailIdElement = document.querySelector('#mail-id');
+    if (mailIdElement) {
+      mailIdElement.scrollIntoView({ behavior: 'smooth' });
+      const range = document.createRange();
+      // Ensure the selection is not null
+      const selection = window.getSelection();
+      if (selection) {
+        const range = document.createRange();
+        range.setStart(mailIdElement, 0);
+        range.setEnd(mailIdElement, 1);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+    }
+    closeMobileMenu()
+  };
+
   const showButton = () => {
     if (window.innerWidth <= 960) {
       setButton(false);
@@ -105,7 +123,7 @@ function Navbar() {
               location?.pathname == "" ? "menu-active" : ""
             }`}
           >
-            <Link to="#" className="nav-links" onClick={closeMobileMenu}>
+            <Link to="#" className="nav-links" onClick={handleContactClick}>
               CONTACT US
             </Link>
           </li>

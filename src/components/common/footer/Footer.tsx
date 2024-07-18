@@ -83,8 +83,8 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="footer-navigation-item">
-          <div className="footer-contact-mail">
+        <div className="footer-navigati on-item">
+          <div id="mail-id" className="footer-contact-mail">
             <img className="footer-icons" src={IconMailbox} />
             <Link className="footer-links" to={`mailto:${contactInfo?.email || "brandlytics@brandsonmove.com"}`}>
               {contactInfo?.email || "brandlytics@brandsonmove.com"}
