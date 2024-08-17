@@ -1,7 +1,7 @@
 import "./Navbar.scss";
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import IconAppLogo from "../../../assets/icons/applogo.png";
+import IconAppLogo from "../../../assets/icons/logo.jpg";
 import IconMenu from "../../../assets/icons/menu.svg";
 import IconCloseMenu from "../../../assets/icons/closemenu.svg";
 
