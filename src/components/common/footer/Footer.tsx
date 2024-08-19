@@ -10,8 +10,10 @@ import IconMailbox from "../../../assets/icons/msailbox.svg";
 import IconLocation from "../../../assets/icons/location.svg";
 import api from "../../../api/";
 import socketIOClient from "socket.io-client";
-import {BACKEND_APP_URL} from "../../../config/config"
+import {BACKEND_APP_URL} from "../../../config/config";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLinkedin } from '@fortawesome/free-brands-svg-icons'; // Import the specific icon you need
 
 
 export default function Footer() {
@@ -61,6 +63,9 @@ export default function Footer() {
     setTimeout(() => {
       const paragraphElement = document.querySelector('#get-report-text') as HTMLElement;
       if (paragraphElement) {
+
+        paragraphElement.classList.remove('no-select');
+
         const range = document.createRange();
         const selection = window.getSelection();
 
@@ -76,6 +81,11 @@ export default function Footer() {
 
           paragraphElement.focus();
         }
+
+        setTimeout(() => {
+          paragraphElement.classList.add('no-select');
+        }, 1000);
+        
       }
     }, 0); // Use setTimeout to ensure highlighting occurs after navigation
   };
@@ -126,17 +136,18 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer-navigation-item">
-          {/* <div className="footer-share-options">
-            <Link to="">
+          <div className="footer-share-options">
+            {/* <Link to="">
               <img className="footer-icons" src={IconFacebook} />
             </Link>
             <Link to="">
               <img className="footer-icons" src={IconInstagram} />
+            </Link> */}
+            <Link to="https://www.linkedin.com/in/brands-on-move-3a0a54323" target="_blank">
+              {/* <img className="footer-icons" src={IconTwitter} /> */}
+              <FontAwesomeIcon icon={faLinkedin} />
             </Link>
-            <Link to="">
-              <img className="footer-icons" src={IconTwitter} />
-            </Link>
-          </div> */}
+          </div>
           {location?.pathname == "/" && (
             <div className="only-home-page-content">
               <a

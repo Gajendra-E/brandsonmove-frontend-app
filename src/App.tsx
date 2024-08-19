@@ -17,9 +17,13 @@ function App() {
   useEffect(() => {
   }, [location]);
 
+  const handleContextMenu = (e:any) => {
+    e.preventDefault();
+  };
+
   return (
     
-    <div className="App">
+    <div className="App" onContextMenu={handleContextMenu}>
       {location.pathname.includes("/admin") ? 
         <AdminDashboard />: 
         <div>
