@@ -116,7 +116,13 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="footer-navigation-item">
+        <div className="footer-navigation-item mail-contact">
+          <div id="mail-id" className="footer-contact-mail">
+            <img className="footer-icons" src={IconMailbox} />
+            <Link className="footer-links" to={`mailto:${contactInfo?.email || "brandlytics@brandsonmove.com"}`}>
+              {contactInfo?.email || "brandlytics@brandsonmove.com"}
+            </Link>
+          </div>
           <div className="footer-contact-info">
             <img className="footer-icons" src={IconCall} />
             <div>
@@ -125,14 +131,6 @@ export default function Footer() {
                 {/* F: +91 {contactInfo?.alternate_phone_number || "8890762231"} */}
               </p>
             </div>
-          </div>
-        </div>
-        <div className="footer-navigation-item">
-          <div id="mail-id" className="footer-contact-mail">
-            <img className="footer-icons" src={IconMailbox} />
-            <Link className="footer-links" to={`mailto:${contactInfo?.email || "brandlytics@brandsonmove.com"}`}>
-              {contactInfo?.email || "brandlytics@brandsonmove.com"}
-            </Link>
           </div>
         </div>
         <div className="footer-navigation-item">

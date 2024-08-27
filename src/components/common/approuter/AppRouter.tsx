@@ -18,8 +18,6 @@ import CustomerExperience from "../../../pages/trueasureTrove/customerExperience
 import ReadyBrandLaunch from "../../../pages/trueasureTrove/readyBrandLaunch/ReadyBrandLaunch";
 import TrendForecast from "../../../pages/trueasureTrove/trendForecast/TrendForecast";
 
-import NotFound from "../../../pages/NotFound.js";
-
 
 const AppRouter = () => {
   useEffect(() => {}, []);
@@ -56,8 +54,6 @@ const AppRouter = () => {
       <Route path="/trueasuretrove/customer_experience" element={ <CustomerExperience/> } />
       <Route path="/trueasuretrove/ready_brand_launch" element={ <ReadyBrandLaunch/> } />
       <Route path="/trueasuretrove/trend_forecast" element={ <TrendForecast/> } />
-
-      <Route path="*" element={<NotFound />} /> {/* Catch-all route */}
 
     </Routes>
   );
