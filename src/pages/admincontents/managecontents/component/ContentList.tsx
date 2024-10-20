@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { showToast } from "../../../../utils/utils";
 import api from "../../../../api";
 import LoadingSpinner from "../../../../components/common/loadingspinner/LoadingSpinner";
+import { BACKEND_APP_URL } from "../../../../config/config";
 
 export default function ContentList() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -81,7 +82,7 @@ export default function ContentList() {
               {content?.paragraph_content}
             </div>
             <div className="col-2 meetings-content">
-              {content?.attachment_file}
+            {`${BACKEND_APP_URL}/uploads/${content?.attachment_file}`}
             </div>
             <div className="col-1 meetings-content">
               {loading ? (
