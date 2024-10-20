@@ -68,19 +68,43 @@ function Navbar() {
     }
   };
 
+  // const reloadPage = () => {
+  //   setClick(false);
+  //   if (location?.pathname === "/customerbrandsinsights") {
+  //     window.location.replace("/customerbrandsinsights");
+  //   } else {
+  //     navigate("/customerbrandsinsights");
+  //   }
+  // };
+
+  // const reloadSalesPage = () => {
+  //   setClick(false);
+  //   if (location?.pathname === "/salesconsumptionanalytics") {
+  //     window.location.replace("/salesconsumptionanalytics");
+  //   } else {
+  //     navigate("/salesconsumptionanalytics");
+  //   }
+  // };
+
+
   const reloadPage = () => {
-    setClick(false);
-    if (location?.pathname === "/customerbrandsinsights") {
-      window.location.replace("/customerbrandsinsights");
+    setClick(false); 
+    const { pathname } = location; // Destructure pathname for readability
+  
+    if (pathname === "/customerbrandsinsights") {
+      // Use replace to avoid breaking SPA behavior
+      navigate("/customerbrandsinsights", { replace: true, state: { reload: new Date().getTime() } });
     } else {
       navigate("/customerbrandsinsights");
     }
   };
-
+  
   const reloadSalesPage = () => {
     setClick(false);
-    if (location?.pathname === "/salesconsumptionanalytics") {
-      window.location.replace("/salesconsumptionanalytics");
+    const { pathname } = location;
+  
+    if (pathname === "/salesconsumptionanalytics") {
+      navigate("/salesconsumptionanalytics", { replace: true, state: { reload: new Date().getTime() } });
     } else {
       navigate("/salesconsumptionanalytics");
     }
