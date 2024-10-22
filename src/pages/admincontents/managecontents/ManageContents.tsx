@@ -10,10 +10,10 @@ import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpi
 
 // Character limits for the input fields
 const CHAR_LIMITS = {
-  heading1: 30,
-  heading2: 120,
-  heading3: 65,
-  paragraph_content: 2000,
+  heading1: 27,
+  heading2: 180,
+  heading3: 63,
+  paragraph_content: 1800,
 };
 
 interface ContentForm {
