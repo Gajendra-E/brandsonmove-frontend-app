@@ -5,7 +5,7 @@ import IconAppLogo from "../../../assets/icons/logo.jpg";
 import IconMenu from "../../../assets/icons/menu.svg";
 import IconCloseMenu from "../../../assets/icons/closemenu.svg";
 
-function Navbar() {
+function Navbar({ onTabChange }: { onTabChange: () => void }) {
   const location = useLocation();
   let navigate = useNavigate();
   const [click, setClick] = useState(false);
@@ -90,6 +90,7 @@ function Navbar() {
   const reloadPage = () => {
     setClick(false); 
     const { pathname } = location; // Destructure pathname for readability
+    onTabChange(); // Trigger slider reset
   
     if (pathname === "/customerbrandsinsights") {
       // Use replace to avoid breaking SPA behavior
@@ -102,7 +103,7 @@ function Navbar() {
   const reloadSalesPage = () => {
     setClick(false);
     const { pathname } = location;
-  
+    onTabChange(); // Trigger slider reset
     if (pathname === "/salesconsumptionanalytics") {
       navigate("/salesconsumptionanalytics", { replace: true, state: { reload: new Date().getTime() } });
     } else {

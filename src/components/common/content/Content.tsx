@@ -1,7 +1,7 @@
 import AppRouter from "../approuter/AppRouter";
 
-export default function Content() {
+export default function Content({ resetSlider }: { resetSlider: boolean }) {
   return (
-    <AppRouter />
+    <AppRouter resetSlider={resetSlider}/>
   );
 }

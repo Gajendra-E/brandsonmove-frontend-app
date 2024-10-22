@@ -1,9 +1,11 @@
 import Navbar from "../navbar/Navbar";
 
-export default function Header() {
+
+
+export default function Header({ onTabChange }: { onTabChange: () => void }) {
   return (
     <header>
-      <Navbar />
+      <Navbar onTabChange={onTabChange} />
     </header>
   );
 }

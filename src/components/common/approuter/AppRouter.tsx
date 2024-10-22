@@ -19,7 +19,7 @@ import ReadyBrandLaunch from "../../../pages/trueasureTrove/readyBrandLaunch/Rea
 import TrendForecast from "../../../pages/trueasureTrove/trendForecast/TrendForecast";
 
 
-const AppRouter = () => {
+const AppRouter = ({ resetSlider }: { resetSlider: boolean }) => {
   useEffect(() => {}, []);
 
   return (
@@ -32,11 +32,11 @@ const AppRouter = () => {
       <Route path="/trueasuretrove" element={<TrueasureTrove />} />
       <Route
         path="/customerbrandsinsights"
-        element={<CustomerBrandsInsights />}
+        element={<CustomerBrandsInsights resetSlider={resetSlider}/>}
       />
       <Route
         path="/salesconsumptionanalytics"
-        element={<SalesConsumptionAnalytics />}
+        element={<SalesConsumptionAnalytics resetSlider={resetSlider}/>}
       />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/managemeetings" element={<ManageMeetings />} />

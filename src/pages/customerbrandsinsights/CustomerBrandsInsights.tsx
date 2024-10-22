@@ -11,7 +11,7 @@ import {
 import SlideItem from "./components/slideitem/SlideItem";
 import SlideItemDetail from "../components/stories/SlideItemDetail";
 
-function NewCustomerBrandsInsights() {
+function NewCustomerBrandsInsights({ resetSlider }: { resetSlider: boolean }) {
   const sliderRef: any = useRef(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [playLeft, setPlayLeft] = useState<boolean>(true);
@@ -96,6 +96,16 @@ function NewCustomerBrandsInsights() {
     }
   };
 
+  // Effect to reset the slider when resetSlider prop changes
+  useEffect(() => {
+    if (resetSlider) {
+      setShowDefaultContent(true);
+      setActiveSlide(0); // Reset to default content
+      setSelectedItem(CONSUMERBRANDANDINSIGHTS_DEFAULTCONTENT); // Set selected item to default content
+      sliderRef.current.slickGoTo(0); // Go to the first slide
+    }
+  }, [resetSlider]);
+
   useEffect(() => {
     window.addEventListener("resize", setDimension);
     _setSlidePreviewCount();
@@ -163,6 +173,10 @@ function NewCustomerBrandsInsights() {
     slideCenterMode,
     slidePreviewCount,
   ]);
+
+
+  
+  
 
   const closeModal = () => {
     setShowFullViewImage((showFullViewImage: boolean) => !showFullViewImage);

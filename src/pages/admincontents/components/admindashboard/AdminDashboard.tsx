@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import AppRouter from "../../../../components/common/approuter/AppRouter";
 
-export default function AdminDashboard() {
+export default function AdminDashboard({ resetSlider }: { resetSlider: boolean }) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -87,7 +87,7 @@ export default function AdminDashboard() {
         )}
         <div>
           <ToastContainer />
-          <AppRouter />
+          <AppRouter  resetSlider ={resetSlider}/>
         </div>
       </div>
     </div>
