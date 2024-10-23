@@ -10,9 +10,9 @@ import LoadingSpinner from "../../../components/common/loadingspinner/LoadingSpi
 
 // Character limits for the input fields
 const CHAR_LIMITS = {
-  heading1: 27,
+  heading1: 72,
   heading2: 180,
-  heading3: 63,
+  heading3: 72,
   paragraph_content: 1800,
 };
 
