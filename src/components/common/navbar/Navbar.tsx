@@ -181,6 +181,16 @@ function Navbar({ onTabChange }: { onTabChange: () => void }) {
             </Link>
           </li>
 
+          {/* <li
+            className={`nav-item ${
+              location?.pathname == "" ? "menu-active" : ""
+            }`}
+          >
+            <Link to="/translationpage" className="nav-links">
+              TRANSLATION
+            </Link>
+          </li> */}
+
           <li
             className={`nav-item ${
               location?.pathname == "/createmeeting" ? "menu-active" : ""
