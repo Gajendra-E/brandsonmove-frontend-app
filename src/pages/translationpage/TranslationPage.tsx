@@ -47,39 +47,84 @@ const TranslationPage = () => {
         reader.readAsArrayBuffer(file);
     };
 
-    const handleTranslate1 = async () => {
-        if (!excelData.length) return;
-        setLoading(true);
+    // const handleTranslate1 = async () => {
+    //     if (!excelData.length) return;
+    //     setLoading(true);
       
-        const apiKey = "AIzaSyB2VXeL_GSmaalWxiCtzrrhE_KnFiCRAgo";
+    //     const apiKey = "AIzaSyB2VXeL_GSmaalWxiCtzrrhE_KnFiCRAgo";
       
-        const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
+    //     const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
       
-        const translated: any[] = [];
+    //     const translated: any[] = [];
       
-        for (const row of excelData) {
-          const sentence = row.join(" ");
-          try {
-            const res = await axios.post(url, {
-              q: sentence,
-              target: "en",
-              format: "text",
-            });
+    //     for (const row of excelData) {
+    //       const sentence = row.join(" ");
+    //       try {
+    //         const res = await axios.post(url, {
+    //           q: sentence,
+    //           target: "en",
+    //           format: "text",
+    //         });
       
-            translated.push({
-              original: row,
-              translated: res.data.data.translations[0].translatedText,
-            });
-          } catch (error) {
-            console.error("Row translation error:", error);
-            translated.push({ original: row, translated: "❌ Error translating" });
-          }
-        }
+    //         translated.push({
+    //           original: row,
+    //           translated: res.data.data.translations[0].translatedText,
+    //         });
+    //       } catch (error) {
+    //         console.error("Row translation error:", error);
+    //         translated.push({ original: row, translated: "❌ Error translating" });
+    //       }
+    //     }
       
-        setTranslatedRows(translated);
-        setLoading(false);
-      };
+    //     setTranslatedRows(translated);
+    //     setLoading(false);
+    // };
       
+
+
+   const handleTranslate1 = async () => {
+  if (!excelData.length) return;
+  setLoading(true);
+
+  const apiKey = "AIzaSyB2VXeL_GSmaalWxiCtzrrhE_KnFiCRAgo";
+  const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
+
+  const translated: any[] = [];
+
+  for (const row of excelData) {
+    const sentence = row.join(" ").trim();
+    if (!sentence) continue;
+
+    try {
+      const res = await axios.post(url, {
+        q: sentence,
+        target: "en",
+        format: "text",
+      });
+
+      const { translatedText, detectedSourceLanguage } = res.data.data.translations[0];
+
+      // Only include rows not originally in English
+      if (detectedSourceLanguage !== "en") {
+        translated.push({
+          original: row,
+          translated: translatedText,
+        });
+      }
+
+    } catch (error) {
+      console.error("Row translation error:", error);
+      translated.push({
+        original: row,
+        translated: "❌ Error translating",
+      });
+    }
+  }
+
+  setTranslatedRows(translated);
+  setLoading(false);
+};
+
 
     return (
         <div className="translation-page">
