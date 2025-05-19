@@ -79,16 +79,17 @@ const TranslationPage = () => {
     //     setTranslatedRows(translated);
     //     setLoading(false);
     // };
-      
 
 
-   const handleTranslate1 = async () => {
+ const handleTranslate1 = async () => {
   if (!excelData.length) return;
   setLoading(true);
 
-  const apiKey = "AIzaSyB2VXeL_GSmaalWxiCtzrrhE_KnFiCRAgo";
-  const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
+  const googleApiKey = "AIzaSyB2VXeL_GSmaalWxiCtzrrhE_KnFiCRAgo";
+  const geminiApiKey = "AIzaSyCVljqhFeEXMrKDIizvaDfpRd1qQ5WAnCs";
+  
 
+  const url = `https://translation.googleapis.com/language/translate/v2?key=${googleApiKey}`;
   const translated: any[] = [];
 
   for (const row of excelData) {
@@ -104,19 +105,42 @@ const TranslationPage = () => {
 
       const { translatedText, detectedSourceLanguage } = res.data.data.translations[0];
 
-      // Only include rows not originally in English
       if (detectedSourceLanguage !== "en") {
+        // Refine with Gemini
+        const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key${geminiApiKey}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  {
+                    text: `Please polish this English text for grammar, clarity, and naturalness:\n\n"${translatedText}"`
+                  }
+                ]
+              }
+            ]
+          })
+        });
+
+        const geminiData = await geminiResponse.json();
+        const refinedText = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || "❌ Failed to refine";
+
         translated.push({
           original: row,
           translated: translatedText,
+          refined: refinedText
         });
       }
 
     } catch (error) {
-      console.error("Row translation error:", error);
+      console.error("Translation or refinement error:", error);
       translated.push({
         original: row,
         translated: "❌ Error translating",
+        refined: "❌ Skipped"
       });
     }
   }
@@ -151,6 +175,7 @@ const TranslationPage = () => {
                             <strong>Row {idx + 1}:</strong>
                             <div>🗒️ Original: {row.original.join(" | ")}</div>
                             <div>🌐 Translated: {row.translated}</div>
+                            <div>✨ Refined: {row.refined}</div>
                         </div>
                         ))}
                     </div>
